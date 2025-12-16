@@ -68,10 +68,7 @@ async function searchAddress(query, resultContainerId) {
         const response = await fetch(`https://proxy.sn0wman.kr/api/kakao/geocode?query=${encodeURIComponent(query)}`);
         
         if (!response.ok) {
-            if (response.status === 0 || !navigator.onLine) {
-                throw new Error('네트워크 연결을 확인해주세요');
-            }
-            throw new Error('API 서버와 연결이 실패했습니다');
+            throw new Error('API_CONNECTION_FAILED');
         }
         
         const data = await response.json();
@@ -98,9 +95,13 @@ async function searchAddress(query, resultContainerId) {
         
     } catch (error) {
         console.error('Address search error:', error.message || 'Unknown error');
-        const errorMessage = error.message === '네트워크 연결을 확인해주세요' || error.message === 'API 서버와 연결이 실패했습니다' 
-            ? error.message 
-            : 'API 서버와 연결이 실패했습니다';
+        
+        // Determine user-friendly error message
+        let errorMessage = 'API 서버와 연결이 실패했습니다';
+        if (error.name === 'TypeError' || error.message.includes('fetch')) {
+            errorMessage = '네트워크 연결을 확인해주세요';
+        }
+        
         resultsContainer.innerHTML = `<div class="search-results-empty">${errorMessage}</div>`;
         showNotification(errorMessage, 'error');
     }
