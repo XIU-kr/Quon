@@ -2,6 +2,76 @@
 let qrCode = null;
 let currentType = 'url';
 let logoImage = null;
+let map = null;
+let marker = null;
+let geocoder = null;
+let mapInitialized = false;
+
+// Initialize Google Maps
+function initMap() {
+    // Default to San Francisco
+    const defaultLocation = { lat: 37.7749, lng: -122.4194 };
+    
+    map = new google.maps.Map(document.getElementById('geo-map'), {
+        center: defaultLocation,
+        zoom: 13,
+        mapTypeControl: false,
+        streetViewControl: false
+    });
+    
+    geocoder = new google.maps.Geocoder();
+    
+    // Add marker
+    marker = new google.maps.Marker({
+        position: defaultLocation,
+        map: map,
+        draggable: true
+    });
+    
+    // Update coordinates when marker is dragged
+    marker.addListener('dragend', function(event) {
+        updateLocationFromLatLng(event.latLng.lat(), event.latLng.lng());
+    });
+    
+    // Add click listener to map
+    map.addListener('click', function(event) {
+        updateLocationFromLatLng(event.latLng.lat(), event.latLng.lng());
+        marker.setPosition(event.latLng);
+    });
+    
+    // Initialize Places Autocomplete
+    const searchInput = document.getElementById('geo-search');
+    const autocomplete = new google.maps.places.Autocomplete(searchInput);
+    autocomplete.bindTo('bounds', map);
+    
+    autocomplete.addListener('place_changed', function() {
+        const place = autocomplete.getPlace();
+        
+        if (!place.geometry) {
+            showNotification('No location found for this search', 'error');
+            return;
+        }
+        
+        // Update map and marker
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+        }
+        
+        marker.setPosition(place.geometry.location);
+        updateLocationFromLatLng(place.geometry.location.lat(), place.geometry.location.lng());
+    });
+    
+    mapInitialized = true;
+}
+
+// Update location fields from lat/lng
+function updateLocationFromLatLng(lat, lng) {
+    document.getElementById('geo-lat').value = lat.toFixed(6);
+    document.getElementById('geo-lon').value = lng.toFixed(6);
+}
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -74,6 +144,15 @@ function switchQRType(type) {
         form.classList.remove('active');
     });
     document.getElementById(`form-${type}`).classList.add('active');
+    
+    // Initialize map when geo type is selected
+    if (type === 'geo' && mapInitialized && map) {
+        // Trigger resize to ensure map displays correctly
+        setTimeout(() => {
+            google.maps.event.trigger(map, 'resize');
+            map.setCenter(marker.getPosition());
+        }, 100);
+    }
 }
 
 // Handle logo upload
@@ -116,13 +195,27 @@ function getQRContent() {
             const url = document.getElementById('vcard-url').value.trim();
             const address = document.getElementById('vcard-address').value.trim();
 
-            content = 'BEGIN:VCARD\nVERSION:3.0\n';
-            if (name) content += `FN:${escapeVCard(name)}\n`;
-            if (org) content += `ORG:${escapeVCard(org)}\n`;
-            if (tel) content += `TEL:${tel}\n`;
-            if (email) content += `EMAIL:${email}\n`;
-            if (url) content += `URL:${url}\n`;
-            if (address) content += `ADR:;;${escapeVCard(address)}\n`;
+            // iOS-compatible vCard format with CRLF line endings
+            content = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
+            if (name) {
+                const nameParts = name.split(' ');
+                const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+                const firstName = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : name;
+                content += `N:${escapeVCard(lastName)};${escapeVCard(firstName)};;;\r\n`;
+                content += `FN:${escapeVCard(name)}\r\n`;
+            }
+            if (org) content += `ORG:${escapeVCard(org)}\r\n`;
+            if (tel) content += `TEL;TYPE=CELL:${tel}\r\n`;
+            if (email) content += `EMAIL;TYPE=INTERNET:${email}\r\n`;
+            if (url) content += `URL:${url}\r\n`;
+            if (address) {
+                // ADR format: ;;street;city;state;postal;country
+                const addrParts = address.split(',').map(p => p.trim());
+                const street = addrParts[0] || '';
+                const city = addrParts[1] || '';
+                const country = addrParts[2] || '';
+                content += `ADR;TYPE=HOME:;;${escapeVCard(street)};${escapeVCard(city)};;${escapeVCard(country)}\r\n`;
+            }
             content += 'END:VCARD';
             break;
 
@@ -161,10 +254,16 @@ function getQRContent() {
             const ssid = document.getElementById('wifi-ssid').value.trim();
             const password = document.getElementById('wifi-password').value.trim();
             const encryption = document.getElementById('wifi-encryption').value;
-            const hidden = document.getElementById('wifi-hidden').checked ? 'true' : 'false';
+            const hidden = document.getElementById('wifi-hidden').checked;
 
             if (ssid) {
-                content = `WIFI:T:${encryption};S:${ssid};P:${password};H:${hidden};;`;
+                // Escape special characters for Wi-Fi QR code
+                const escapedSsid = escapeWiFi(ssid);
+                const escapedPassword = escapeWiFi(password);
+                const hiddenValue = hidden ? 'true' : '';
+                
+                // iOS-compatible Wi-Fi format
+                content = `WIFI:T:${encryption};S:${escapedSsid};P:${escapedPassword};${hidden ? 'H:true;' : ''};`;
             }
             break;
     }
@@ -295,4 +394,14 @@ function downloadQR(format) {
 function escapeVCard(str) {
     // Escape backslashes first, then other special characters
     return str.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+}
+
+// Utility function to escape special characters in Wi-Fi QR code
+function escapeWiFi(str) {
+    // Escape special characters: backslash, semicolon, comma, colon, double quote
+    return str.replace(/\\/g, '\\\\')
+              .replace(/;/g, '\\;')
+              .replace(/,/g, '\\,')
+              .replace(/:/g, '\\:')
+              .replace(/"/g, '\\"');
 }

@@ -127,12 +127,20 @@
                         <!-- Geo Form -->
                         <div class="form-container" id="form-geo">
                             <div class="form-group">
+                                <label for="geo-search">Search Location</label>
+                                <input type="text" id="geo-search" placeholder="Search for a place..." class="input-field">
+                                <small>Search for a location or click on the map</small>
+                            </div>
+                            <div class="form-group">
+                                <div id="geo-map" style="height: 300px; width: 100%; border-radius: 8px; margin-bottom: 10px;"></div>
+                            </div>
+                            <div class="form-group">
                                 <label for="geo-lat">Latitude</label>
-                                <input type="text" id="geo-lat" placeholder="37.7749" class="input-field">
+                                <input type="text" id="geo-lat" placeholder="37.7749" class="input-field" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="geo-lon">Longitude</label>
-                                <input type="text" id="geo-lon" placeholder="-122.4194" class="input-field">
+                                <input type="text" id="geo-lon" placeholder="-122.4194" class="input-field" readonly>
                             </div>
                         </div>
 
@@ -240,6 +248,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&libraries=places&callback=initMap" async defer></script>
     <script src="script.js"></script>
 </body>
 </html>
