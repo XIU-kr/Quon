@@ -293,5 +293,6 @@ function downloadQR(format) {
 
 // Utility function to escape special characters in vCard
 function escapeVCard(str) {
-    return str.replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+    // Escape backslashes first, then other special characters
+    return str.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
 }
