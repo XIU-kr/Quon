@@ -114,7 +114,7 @@ Email: john@example.com
 - **HTML5** - Semantic markup
 - **CSS3** - Modern styling with CSS Grid and Flexbox
 - **Vanilla JavaScript** - No framework dependencies
-- **[qrcode](https://github.com/soldair/node-qrcode)** - Robust QR code generation library (bundled)
+- **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - Advanced QR code generation with styling support (via CDN)
 - **GitHub Pages** - Free hosting
 
 ## 🌈 Color Theme
@@ -152,7 +152,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- [qrcode](https://github.com/soldair/node-qrcode) - Reliable QR code encoding library
+- [qr-code-styling](https://github.com/kozakdenys/qr-code-styling) - Excellent QR code styling library
 - QR Code technology originally developed by Denso Wave
 
 ## 📊 Project Status
