@@ -4,7 +4,6 @@ let currentType = 'url';
 let logoImage = null;
 let map = null;
 let marker = null;
-let geocoder = null;
 let mapInitialized = false;
 
 // Initialize Google Maps
@@ -18,8 +17,6 @@ function initMap() {
         mapTypeControl: false,
         streetViewControl: false
     });
-    
-    geocoder = new google.maps.Geocoder();
     
     // Add marker
     marker = new google.maps.Marker({
@@ -198,6 +195,8 @@ function getQRContent() {
             // iOS-compatible vCard format with CRLF line endings
             content = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
             if (name) {
+                // Note: Name parsing assumes Western naming convention (First Last)
+                // May not work correctly for names with prefixes, suffixes, or non-Western formats
                 const nameParts = name.split(' ');
                 const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
                 const firstName = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : name;
@@ -210,6 +209,8 @@ function getQRContent() {
             if (url) content += `URL:${url}\r\n`;
             if (address) {
                 // ADR format: ;;street;city;state;postal;country
+                // Expected input format: "Street, City, Country"
+                // Note: This is a simplified parser. For more complex addresses, consider more robust parsing
                 const addrParts = address.split(',').map(p => p.trim());
                 const street = addrParts[0] || '';
                 const city = addrParts[1] || '';
@@ -260,7 +261,6 @@ function getQRContent() {
                 // Escape special characters for Wi-Fi QR code
                 const escapedSsid = escapeWiFi(ssid);
                 const escapedPassword = escapeWiFi(password);
-                const hiddenValue = hidden ? 'true' : '';
                 
                 // iOS-compatible Wi-Fi format
                 content = `WIFI:T:${encryption};S:${escapedSsid};P:${escapedPassword};${hidden ? 'H:true;' : ''};`;

@@ -11,11 +11,11 @@ A beautiful, responsive web application for generating customizable QR codes. Cr
 ### 📱 Multiple QR Code Types
 - **URL** - Website links and web pages
 - **Plain Text** - Any text content
-- **V-Card** - Contact information (name, phone, email, address, etc.)
+- **V-Card** - Contact information (name, phone, email, address, etc.) - **iOS compatible format**
 - **Email** - Pre-filled email with recipient, subject, and body
 - **Phone** - Direct phone call links
-- **Location (Geo)** - GPS coordinates for maps
-- **Wi-Fi** - Wireless network credentials with security settings
+- **Location (Geo)** - GPS coordinates with **interactive Google Maps picker**
+- **Wi-Fi** - Wireless network credentials with security settings - **iOS compatible format**
 
 ### 🎨 Extensive Customization
 - **Dot Styles**: Rounded, Dots, Classy, Classy Rounded, Square, Extra Rounded
@@ -23,6 +23,11 @@ A beautiful, responsive web application for generating customizable QR codes. Cr
 - **Color Options**: Full color picker for dots and background
 - **Logo Support**: Upload and embed your logo in the center of the QR code
 - **High Quality**: Generate QR codes optimized for scanning
+
+### 📱 iOS Compatibility
+- **V-Card**: iOS-optimized format with proper field types and CRLF line endings
+- **Wi-Fi**: iOS-compatible format with special character escaping
+- **Tested**: All QR code types tested with iOS native camera app
 
 ### 📲 Responsive Design
 - Beautiful, modern interface with gradient backgrounds
@@ -60,6 +65,19 @@ Visit the live application: [QR Code Generator](https://sn0wmankr.github.io/QRCo
 
 3. Start creating QR codes!
 
+### Google Maps API Configuration
+
+The application uses Google Maps JavaScript API for the interactive location picker. The included API key is for demonstration purposes. For production use or heavy traffic, you should:
+
+1. Get your own Google Maps API key from the [Google Cloud Console](https://console.cloud.google.com/)
+2. Enable the following APIs:
+   - Maps JavaScript API
+   - Places API
+3. Replace the API key in `index.html`:
+   ```html
+   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap" async defer></script>
+   ```
+
 ## 🎯 Usage Guide
 
 ### Creating a QR Code
@@ -70,6 +88,7 @@ Visit the live application: [QR Code Generator](https://sn0wmankr.github.io/QRCo
 2. **Enter Content**
    - Fill in the required fields for your selected type
    - All form fields are validated and formatted automatically
+   - For **Location** type: Search for a place, click on the map, or drag the marker to set coordinates
 
 3. **Customize Appearance** (Optional)
    - Choose dot style, corner styles, and colors
@@ -109,12 +128,21 @@ Phone: +1-234-567-8900
 Email: john@example.com
 ```
 
+#### Location QR Code
+```
+Type: Location
+Search: Times Square, New York
+Latitude: 40.758896
+Longitude: -73.985130
+```
+
 ## 🛠️ Technology Stack
 
 - **HTML5** - Semantic markup
 - **CSS3** - Modern styling with CSS Grid and Flexbox
 - **Vanilla JavaScript** - No framework dependencies
 - **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - Advanced QR code generation with styling support (via CDN)
+- **[Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript)** - Interactive location picker with Places search
 - **GitHub Pages** - Free hosting
 
 ## 🌈 Color Theme
