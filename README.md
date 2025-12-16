@@ -152,7 +152,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- [qr-code-styling](https://github.com/kozakdenys/qr-code-styling) - Amazing QR code library
+- [qrcode](https://github.com/soldair/node-qrcode) - Reliable QR code encoding library
 - QR Code technology originally developed by Denso Wave
 
 ## 📊 Project Status

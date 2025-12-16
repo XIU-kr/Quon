@@ -7,7 +7,12 @@
     'use strict';
 
     // Get the QRCode library from the bundle
-    const QRCodeLib = global.require ? global.require('qrcode') : null;
+    let QRCodeLib = null;
+    try {
+        QRCodeLib = (typeof require !== 'undefined' && require) ? require('qrcode') : null;
+    } catch (e) {
+        console.error('QRCode library not found:', e);
+    }
 
     if (!QRCodeLib) {
         console.error('QRCode library not found. Make sure qrcode-bundle.js is loaded first.');

@@ -227,12 +227,30 @@ function createInitialQRCode() {
     container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>Enter content and click "Generate QR Code"</p></div>';
 }
 
+// Show notification message
+function showNotification(message, type = 'error') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Show notification
+    setTimeout(() => notification.classList.add('show'), 10);
+    
+    // Hide and remove after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
 // Generate QR code
 function generateQRCode() {
     const content = getQRContent();
 
     if (!content) {
-        alert('Please enter content for the QR code');
+        showNotification('Please enter content for the QR code');
         return;
     }
 
@@ -254,7 +272,7 @@ function generateQRCode() {
 // Download QR code
 function downloadQR(format) {
     if (!qrCode) {
-        alert('Please generate a QR code first');
+        showNotification('Please generate a QR code first');
         return;
     }
 
