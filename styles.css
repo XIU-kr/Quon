@@ -501,3 +501,83 @@ footer a:hover {
     background: #ffc107;
     color: #664d03;
 }
+
+/* Address Search */
+.address-search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.address-search-container .input-field {
+    flex: 1;
+}
+
+.btn-search {
+    padding: 12px 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-small);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-search:hover {
+    background: var(--primary-hover);
+}
+
+.btn-search:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.search-results {
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-small);
+    background: white;
+}
+
+.search-result-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background: var(--primary-light);
+}
+
+.search-result-item .address-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+.search-result-item .address-detail {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.search-results-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.search-results-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-light);
+}

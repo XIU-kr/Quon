@@ -8,13 +8,13 @@ function getCurrentLocation() {
     const button = document.getElementById('get-current-location');
     
     if (!navigator.geolocation) {
-        showNotification('Geolocation is not supported by your browser', 'error');
+        showNotification('브라우저에서 위치 정보를 지원하지 않습니다', 'error');
         return;
     }
     
     // Update button text to show loading state
     const originalText = button.innerHTML;
-    button.innerHTML = '⏳ Getting location...';
+    button.innerHTML = '⏳ 위치 확인 중...';
     button.disabled = true;
     
     navigator.geolocation.getCurrentPosition(
@@ -22,22 +22,22 @@ function getCurrentLocation() {
             // Success - update fields with current location
             document.getElementById('geo-lat').value = position.coords.latitude.toFixed(6);
             document.getElementById('geo-lon').value = position.coords.longitude.toFixed(6);
-            showNotification('Location detected successfully!', 'success');
+            showNotification('위치를 성공적으로 확인했습니다!', 'success');
             button.innerHTML = originalText;
             button.disabled = false;
         },
         function(error) {
             // Error handling
-            let message = 'Unable to get location';
+            let message = '위치를 확인할 수 없습니다';
             switch(error.code) {
                 case error.PERMISSION_DENIED:
-                    message = 'Location access denied. Please enable location permissions.';
+                    message = '위치 접근이 거부되었습니다. 위치 권한을 허용해주세요.';
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    message = 'Location information unavailable';
+                    message = '위치 정보를 사용할 수 없습니다';
                     break;
                 case error.TIMEOUT:
-                    message = 'Location request timed out';
+                    message = '위치 요청 시간이 초과되었습니다';
                     break;
             }
             showNotification(message, 'error');
@@ -50,6 +50,81 @@ function getCurrentLocation() {
             maximumAge: 0
         }
     );
+}
+
+// Search address using Kakao Map API via proxy
+async function searchAddress(query, resultContainerId) {
+    const resultsContainer = document.getElementById(resultContainerId);
+    
+    if (!query.trim()) {
+        showNotification('검색할 주소를 입력해주세요', 'error');
+        return;
+    }
+    
+    resultsContainer.style.display = 'block';
+    resultsContainer.innerHTML = '<div class="search-results-loading">검색 중...</div>';
+    
+    try {
+        const response = await fetch(`https://proxy.sn0wman.kr/api/kakao/geocode?query=${encodeURIComponent(query)}`);
+        
+        if (!response.ok) {
+            throw new Error('API_CONNECTION_FAILED');
+        }
+        
+        const data = await response.json();
+        
+        if (!data.documents || data.documents.length === 0) {
+            resultsContainer.innerHTML = '<div class="search-results-empty">검색 결과가 없습니다</div>';
+            return;
+        }
+        
+        // Display search results
+        resultsContainer.innerHTML = '';
+        data.documents.forEach((place, index) => {
+            const item = document.createElement('div');
+            item.className = 'search-result-item';
+            item.innerHTML = `
+                <div class="address-name">${place.address_name || place.place_name || '주소 정보 없음'}</div>
+                <div class="address-detail">위도: ${place.y}, 경도: ${place.x}</div>
+            `;
+            item.addEventListener('click', () => {
+                selectSearchResult(place, resultContainerId);
+            });
+            resultsContainer.appendChild(item);
+        });
+        
+    } catch (error) {
+        console.error('Address search error:', error.message || 'Unknown error');
+        
+        // Determine user-friendly error message
+        let errorMessage = 'API 서버와 연결이 실패했습니다';
+        if (error.name === 'TypeError' || error.message.includes('fetch')) {
+            errorMessage = '네트워크 연결을 확인해주세요';
+        }
+        
+        resultsContainer.innerHTML = `<div class="search-results-empty">${errorMessage}</div>`;
+        showNotification(errorMessage, 'error');
+    }
+}
+
+// Handle search result selection
+function selectSearchResult(place, resultContainerId) {
+    const resultsContainer = document.getElementById(resultContainerId);
+    
+    if (resultContainerId === 'geo-search-results') {
+        // For location form
+        document.getElementById('geo-lat').value = place.y;
+        document.getElementById('geo-lon').value = place.x;
+        showNotification('위치가 선택되었습니다', 'success');
+    } else if (resultContainerId === 'vcard-search-results') {
+        // For vCard form
+        document.getElementById('vcard-address').value = place.address_name || place.place_name || '';
+        showNotification('주소가 입력되었습니다', 'success');
+    }
+    
+    // Hide search results
+    resultsContainer.style.display = 'none';
+    resultsContainer.innerHTML = '';
 }
 
 // Initialize the application
@@ -83,6 +158,34 @@ function initializeEventListeners() {
 
     // Get current location button
     document.getElementById('get-current-location').addEventListener('click', getCurrentLocation);
+
+    // Address search buttons
+    document.getElementById('geo-search-btn').addEventListener('click', () => {
+        const query = document.getElementById('geo-address-search').value;
+        searchAddress(query, 'geo-search-results');
+    });
+    
+    document.getElementById('vcard-search-btn').addEventListener('click', () => {
+        const query = document.getElementById('vcard-address-search').value;
+        searchAddress(query, 'vcard-search-results');
+    });
+    
+    // Search on Enter key
+    document.getElementById('geo-address-search').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const query = document.getElementById('geo-address-search').value;
+            searchAddress(query, 'geo-search-results');
+        }
+    });
+    
+    document.getElementById('vcard-address-search').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const query = document.getElementById('vcard-address-search').value;
+            searchAddress(query, 'vcard-search-results');
+        }
+    });
 
     // Customization options - live update
     const customizationInputs = [
@@ -163,7 +266,7 @@ function getQRContent() {
         case 'vcard':
             const name = document.getElementById('vcard-name').value.trim();
             const org = document.getElementById('vcard-org').value.trim();
-            const tel = document.getElementById('vcard-tel').value.trim();
+            let tel = document.getElementById('vcard-tel').value.trim();
             const email = document.getElementById('vcard-email').value.trim();
             const url = document.getElementById('vcard-url').value.trim();
             const address = document.getElementById('vcard-address').value.trim();
@@ -171,27 +274,29 @@ function getQRContent() {
             // iOS-compatible vCard format with CRLF line endings
             content = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
             if (name) {
-                // Note: Name parsing assumes Western naming convention (First Last)
-                // May not work correctly for names with prefixes, suffixes, or non-Western formats
-                const nameParts = name.split(' ');
-                const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
-                const firstName = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : name;
-                content += `N:${escapeVCard(lastName)};${escapeVCard(firstName)};;;\r\n`;
+                // For Korean names, treat entire name as display name
                 content += `FN:${escapeVCard(name)}\r\n`;
+                // Try to parse name - if it contains spaces, split; otherwise use as-is
+                const nameParts = name.split(' ');
+                if (nameParts.length > 1) {
+                    // Assume last part is given name, first part is family name (Korean convention)
+                    const familyName = nameParts[0];
+                    const givenName = nameParts.slice(1).join(' ');
+                    content += `N:${escapeVCard(familyName)};${escapeVCard(givenName)};;;\r\n`;
+                } else {
+                    content += `N:${escapeVCard(name)};;;;\r\n`;
+                }
             }
             if (org) content += `ORG:${escapeVCard(org)}\r\n`;
-            if (tel) content += `TEL;TYPE=CELL:${tel}\r\n`;
+            if (tel) {
+                // Keep Korean phone number as-is without international format conversion
+                content += `TEL;TYPE=CELL:${tel}\r\n`;
+            }
             if (email) content += `EMAIL;TYPE=INTERNET:${email}\r\n`;
             if (url) content += `URL:${url}\r\n`;
             if (address) {
-                // ADR format: ;;street;city;state;postal;country
-                // Expected input format: "Street, City, Country"
-                // Note: This is a simplified parser. For more complex addresses, consider more robust parsing
-                const addrParts = address.split(',').map(p => p.trim());
-                const street = addrParts[0] || '';
-                const city = addrParts[1] || '';
-                const country = addrParts[2] || '';
-                content += `ADR;TYPE=HOME:;;${escapeVCard(street)};${escapeVCard(city)};;${escapeVCard(country)}\r\n`;
+                // For Korean addresses, use the full address as street address
+                content += `ADR;TYPE=HOME:;;${escapeVCard(address)};;;;\r\n`;
             }
             content += 'END:VCARD';
             break;
@@ -215,6 +320,7 @@ function getQRContent() {
         case 'tel':
             const telNumber = document.getElementById('tel-number').value.trim();
             if (telNumber) {
+                // Keep Korean phone number as-is without international format conversion
                 content = `tel:${telNumber}`;
             }
             break;
@@ -299,7 +405,7 @@ function getQROptions() {
 // Create initial QR code
 function createInitialQRCode() {
     const container = document.getElementById('qr-code-container');
-    container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>Enter content and click "Generate QR Code"</p></div>';
+    container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>내용을 입력하고 "QR 코드 만들기"를 눌러주세요</p></div>';
 }
 
 // Show notification message
@@ -325,7 +431,7 @@ function generateQRCode() {
     const content = getQRContent();
 
     if (!content) {
-        showNotification('Please enter content for the QR code');
+        showNotification('QR 코드에 담을 내용을 입력해주세요');
         return;
     }
 
@@ -347,7 +453,7 @@ function generateQRCode() {
 // Download QR code
 function downloadQR(format) {
     if (!qrCode) {
-        showNotification('Please generate a QR code first');
+        showNotification('먼저 QR 코드를 만들어주세요');
         return;
     }
 
