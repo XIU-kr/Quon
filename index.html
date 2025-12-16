@@ -127,20 +127,28 @@
                         <!-- Geo Form -->
                         <div class="form-container" id="form-geo">
                             <div class="form-group">
-                                <label for="geo-search">Search Location</label>
-                                <input type="text" id="geo-search" placeholder="Search for a place..." class="input-field">
-                                <small>Search for a location or click on the map</small>
-                            </div>
-                            <div class="form-group">
-                                <div id="geo-map" style="height: 300px; width: 100%; border-radius: 8px; margin-bottom: 10px;"></div>
-                            </div>
-                            <div class="form-group">
                                 <label for="geo-lat">Latitude</label>
-                                <input type="text" id="geo-lat" placeholder="37.7749" class="input-field" readonly>
+                                <input type="number" id="geo-lat" placeholder="37.7749" class="input-field" step="0.000001" min="-90" max="90">
+                                <small>Enter latitude (-90 to 90)</small>
                             </div>
                             <div class="form-group">
                                 <label for="geo-lon">Longitude</label>
-                                <input type="text" id="geo-lon" placeholder="-122.4194" class="input-field" readonly>
+                                <input type="number" id="geo-lon" placeholder="-122.4194" class="input-field" step="0.000001" min="-180" max="180">
+                                <small>Enter longitude (-180 to 180)</small>
+                            </div>
+                            <div class="form-group">
+                                <button id="get-current-location" class="btn-secondary" style="width: 100%;">
+                                    📍 Use My Current Location
+                                </button>
+                                <small>Or enter coordinates manually above</small>
+                            </div>
+                            <div class="form-group">
+                                <small style="color: #666;">
+                                    💡 Tip: You can find coordinates by searching on 
+                                    <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">Google Maps</a>, 
+                                    <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, or 
+                                    <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer">Kakao Map</a>
+                                </small>
                             </div>
                         </div>
 
@@ -248,8 +256,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-    <!-- Google Maps API - Replace with your own API key for production use -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&libraries=places&callback=initMap" async defer></script>
     <script src="script.js"></script>
 </body>
 </html>

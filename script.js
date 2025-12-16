@@ -2,72 +2,54 @@
 let qrCode = null;
 let currentType = 'url';
 let logoImage = null;
-let map = null;
-let marker = null;
-let mapInitialized = false;
 
-// Initialize Google Maps
-function initMap() {
-    // Default to San Francisco
-    const defaultLocation = { lat: 37.7749, lng: -122.4194 };
+// Get current location using browser's geolocation API
+function getCurrentLocation() {
+    const button = document.getElementById('get-current-location');
     
-    map = new google.maps.Map(document.getElementById('geo-map'), {
-        center: defaultLocation,
-        zoom: 13,
-        mapTypeControl: false,
-        streetViewControl: false
-    });
+    if (!navigator.geolocation) {
+        showNotification('Geolocation is not supported by your browser', 'error');
+        return;
+    }
     
-    // Add marker
-    marker = new google.maps.Marker({
-        position: defaultLocation,
-        map: map,
-        draggable: true
-    });
+    // Update button text to show loading state
+    const originalText = button.innerHTML;
+    button.innerHTML = '⏳ Getting location...';
+    button.disabled = true;
     
-    // Update coordinates when marker is dragged
-    marker.addListener('dragend', function(event) {
-        updateLocationFromLatLng(event.latLng.lat(), event.latLng.lng());
-    });
-    
-    // Add click listener to map
-    map.addListener('click', function(event) {
-        updateLocationFromLatLng(event.latLng.lat(), event.latLng.lng());
-        marker.setPosition(event.latLng);
-    });
-    
-    // Initialize Places Autocomplete
-    const searchInput = document.getElementById('geo-search');
-    const autocomplete = new google.maps.places.Autocomplete(searchInput);
-    autocomplete.bindTo('bounds', map);
-    
-    autocomplete.addListener('place_changed', function() {
-        const place = autocomplete.getPlace();
-        
-        if (!place.geometry) {
-            showNotification('No location found for this search', 'error');
-            return;
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            // Success - update fields with current location
+            document.getElementById('geo-lat').value = position.coords.latitude.toFixed(6);
+            document.getElementById('geo-lon').value = position.coords.longitude.toFixed(6);
+            showNotification('Location detected successfully!', 'success');
+            button.innerHTML = originalText;
+            button.disabled = false;
+        },
+        function(error) {
+            // Error handling
+            let message = 'Unable to get location';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = 'Location access denied. Please enable location permissions.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = 'Location information unavailable';
+                    break;
+                case error.TIMEOUT:
+                    message = 'Location request timed out';
+                    break;
+            }
+            showNotification(message, 'error');
+            button.innerHTML = originalText;
+            button.disabled = false;
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
         }
-        
-        // Update map and marker
-        if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-        } else {
-            map.setCenter(place.geometry.location);
-            map.setZoom(17);
-        }
-        
-        marker.setPosition(place.geometry.location);
-        updateLocationFromLatLng(place.geometry.location.lat(), place.geometry.location.lng());
-    });
-    
-    mapInitialized = true;
-}
-
-// Update location fields from lat/lng
-function updateLocationFromLatLng(lat, lng) {
-    document.getElementById('geo-lat').value = lat.toFixed(6);
-    document.getElementById('geo-lon').value = lng.toFixed(6);
+    );
 }
 
 // Initialize the application
@@ -98,6 +80,9 @@ function initializeEventListeners() {
 
     // Logo upload
     document.getElementById('logo-upload').addEventListener('change', handleLogoUpload);
+
+    // Get current location button
+    document.getElementById('get-current-location').addEventListener('click', getCurrentLocation);
 
     // Customization options - live update
     const customizationInputs = [
@@ -141,15 +126,6 @@ function switchQRType(type) {
         form.classList.remove('active');
     });
     document.getElementById(`form-${type}`).classList.add('active');
-    
-    // Initialize map when geo type is selected
-    if (type === 'geo' && mapInitialized && map) {
-        // Trigger resize to ensure map displays correctly
-        setTimeout(() => {
-            google.maps.event.trigger(map, 'resize');
-            map.setCenter(marker.getPosition());
-        }, 100);
-    }
 }
 
 // Handle logo upload

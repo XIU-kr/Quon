@@ -14,7 +14,7 @@ A beautiful, responsive web application for generating customizable QR codes. Cr
 - **V-Card** - Contact information (name, phone, email, address, etc.) - **iOS compatible format**
 - **Email** - Pre-filled email with recipient, subject, and body
 - **Phone** - Direct phone call links
-- **Location (Geo)** - GPS coordinates with **interactive Google Maps picker**
+- **Location (Geo)** - GPS coordinates with manual input and browser geolocation support
 - **Wi-Fi** - Wireless network credentials with security settings - **iOS compatible format**
 
 ### 🎨 Extensive Customization
@@ -65,18 +65,15 @@ Visit the live application: [QR Code Generator](https://sn0wmankr.github.io/QRCo
 
 3. Start creating QR codes!
 
-### Google Maps API Configuration
+### Location Input
 
-The application uses Google Maps JavaScript API for the interactive location picker. The included API key is for demonstration purposes. For production use or heavy traffic, you should:
+The application provides simple and reliable location input without requiring any API keys:
 
-1. Get your own Google Maps API key from the [Google Cloud Console](https://console.cloud.google.com/)
-2. Enable the following APIs:
-   - Maps JavaScript API
-   - Places API
-3. Replace the API key in `index.html`:
-   ```html
-   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap" async defer></script>
-   ```
+1. **Manual Coordinate Entry**: Enter latitude and longitude values directly
+2. **Browser Geolocation**: Click "Use My Current Location" to automatically detect your position
+3. **External Map Services**: Find coordinates using Google Maps, OpenStreetMap, or Kakao Map, then paste them into the form
+
+This approach eliminates API key requirements and billing concerns while maintaining full functionality.
 
 ## 🎯 Usage Guide
 
@@ -88,7 +85,8 @@ The application uses Google Maps JavaScript API for the interactive location pic
 2. **Enter Content**
    - Fill in the required fields for your selected type
    - All form fields are validated and formatted automatically
-   - For **Location** type: Search for a place, click on the map, or drag the marker to set coordinates
+   - For **Location** type: Enter coordinates manually or use the "Use My Current Location" button
+   - For **V-Card** type: Address field supports all languages including Korean (한국어)
 
 3. **Customize Appearance** (Optional)
    - Choose dot style, corner styles, and colors
@@ -131,18 +129,18 @@ Email: john@example.com
 #### Location QR Code
 ```
 Type: Location
-Search: Times Square, New York
-Latitude: 40.758896
-Longitude: -73.985130
+Latitude: 37.5665
+Longitude: 126.9780
+(Seoul City Hall coordinates)
 ```
 
 ## 🛠️ Technology Stack
 
-- **HTML5** - Semantic markup
+- **HTML5** - Semantic markup with Geolocation API support
 - **CSS3** - Modern styling with CSS Grid and Flexbox
-- **Vanilla JavaScript** - No framework dependencies
+- **Vanilla JavaScript** - No framework dependencies, no API keys required
 - **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - Advanced QR code generation with styling support (via CDN)
-- **[Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript)** - Interactive location picker with Places search
+- **Browser Geolocation API** - Built-in location detection without external dependencies
 - **GitHub Pages** - Free hosting
 
 ## 🌈 Color Theme
