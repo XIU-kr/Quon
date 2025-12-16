@@ -51,6 +51,26 @@ header h1 {
     color: var(--text-light);
 }
 
+.notice {
+    max-width: 800px;
+    margin: 20px auto 0;
+    padding: 15px 20px;
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: var(--radius-small);
+    text-align: left;
+}
+
+.notice p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #856404;
+}
+
+.notice strong {
+    color: #664d03;
+}
+
 /* Main Content Layout */
 .content-wrapper {
     display: grid;

@@ -114,7 +114,7 @@ Email: john@example.com
 - **HTML5** - Semantic markup
 - **CSS3** - Modern styling with CSS Grid and Flexbox
 - **Vanilla JavaScript** - No framework dependencies
-- **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - QR code generation library
+- **[qrcode](https://github.com/soldair/node-qrcode)** - Robust QR code generation library (bundled)
 - **GitHub Pages** - Free hosting
 
 ## 🌈 Color Theme
