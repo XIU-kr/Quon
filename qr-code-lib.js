@@ -1,7 +1,16 @@
 /**
  * QR Code Generator Library - Lightweight implementation
- * This is a wrapper for QR code generation with styling support
- * Uses qrcodejs library as base
+ * 
+ * NOTE: This is a simplified QR code-like pattern generator for demonstration purposes.
+ * It creates visually similar patterns but uses a pseudo-random algorithm rather than
+ * proper QR encoding with error correction. For production use with real QR code scanning,
+ * consider using a full QR code library like qrcodejs, qrcode.js, or qr-code-styling.
+ * 
+ * This implementation provides:
+ * - Visual QR-like patterns with finder patterns and timing patterns
+ * - Customizable styling (dots, rounded, square)
+ * - Logo embedding
+ * - PNG and SVG export
  */
 
 (function(global) {

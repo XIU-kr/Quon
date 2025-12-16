@@ -239,6 +239,19 @@ small {
     box-shadow: var(--shadow-hover);
 }
 
+.btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: white;
+    color: var(--text-light);
+    border-color: var(--border-color);
+}
+
+.btn-secondary:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
 /* Preview Panel */
 .preview-section {
     position: sticky;

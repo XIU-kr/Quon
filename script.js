@@ -7,6 +7,9 @@ let logoImage = null;
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
     createInitialQRCode();
+    // Disable download buttons initially
+    document.getElementById('download-png').disabled = true;
+    document.getElementById('download-svg').disabled = true;
 });
 
 // Initialize all event listeners
@@ -114,12 +117,12 @@ function getQRContent() {
             const address = document.getElementById('vcard-address').value.trim();
 
             content = 'BEGIN:VCARD\nVERSION:3.0\n';
-            if (name) content += `FN:${name}\n`;
-            if (org) content += `ORG:${org}\n`;
+            if (name) content += `FN:${escapeVCard(name)}\n`;
+            if (org) content += `ORG:${escapeVCard(org)}\n`;
             if (tel) content += `TEL:${tel}\n`;
             if (email) content += `EMAIL:${email}\n`;
             if (url) content += `URL:${url}\n`;
-            if (address) content += `ADR:;;${address}\n`;
+            if (address) content += `ADR:;;${escapeVCard(address)}\n`;
             content += 'END:VCARD';
             break;
 
