@@ -94,7 +94,7 @@ async function searchAddress(query, resultContainerId) {
         });
         
     } catch (error) {
-        console.error('Address search error:', error);
+        console.error('Address search error:', error.message || 'Unknown error');
         resultsContainer.innerHTML = '<div class="search-results-empty">검색 중 오류가 발생했습니다</div>';
         showNotification('주소 검색에 실패했습니다', 'error');
     }
@@ -486,13 +486,13 @@ function escapeWiFi(str) {
 // Utility function to format Korean phone number
 // Converts 01012345678 to +821012345678 for international format
 function formatKoreanPhoneNumber(phoneNumber) {
+    const KOREAN_MOBILE_PREFIXES = ['010', '011', '016', '017', '018', '019'];
+    
     // Remove all non-numeric characters
     let cleaned = phoneNumber.replace(/\D/g, '');
     
-    // If it starts with 010, 011, 016, 017, 018, 019 (Korean mobile prefixes)
-    if (cleaned.startsWith('010') || cleaned.startsWith('011') || 
-        cleaned.startsWith('016') || cleaned.startsWith('017') || 
-        cleaned.startsWith('018') || cleaned.startsWith('019')) {
+    // If it starts with Korean mobile prefixes
+    if (KOREAN_MOBILE_PREFIXES.some(prefix => cleaned.startsWith(prefix))) {
         // Remove leading 0 and add +82
         cleaned = '+82' + cleaned.substring(1);
     }
