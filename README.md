@@ -31,29 +31,6 @@
 - **PNG 형식**: 고해상도 이미지
 - **SVG 형식**: 인쇄용 벡터 그래픽
 
-## 🚀 빠른 시작
-
-### 로컬 개발
-1. 저장소 복제:
-   ```bash
-   git clone https://github.com/sn0wmankr/QRCodeGenerator-KR.git
-   cd QRCodeGenerator-KR
-   ```
-
-2. 웹 브라우저에서 `index.html` 열기:
-   ```bash
-   # Python 사용
-   python -m http.server 8000
-   
-   # Node.js 사용
-   npx http-server
-   
-   # 또는 파일 직접 열기
-   open index.html
-   ```
-
-3. QR 코드 만들기 시작!
-
 ## 🎯 사용 방법
 
 ### QR 코드 만들기
