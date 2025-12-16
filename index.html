@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Create Beautiful QR Codes</title>
+    <meta name="description" content="Generate customizable QR codes for URLs, text, V-Card, email, phone, location, and Wi-Fi. Free and easy to use.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 QR Code Generator</h1>
+            <p class="subtitle">Create beautiful, customizable QR codes for any purpose</p>
+        </header>
+
+        <main>
+            <div class="content-wrapper">
+                <!-- Left Panel: QR Code Type Selection and Content -->
+                <div class="input-panel">
+                    <div class="section">
+                        <h2>Select QR Code Type</h2>
+                        <div class="type-selector">
+                            <button class="type-btn active" data-type="url">
+                                <span class="icon">🔗</span>
+                                <span>URL</span>
+                            </button>
+                            <button class="type-btn" data-type="text">
+                                <span class="icon">📝</span>
+                                <span>Text</span>
+                            </button>
+                            <button class="type-btn" data-type="vcard">
+                                <span class="icon">👤</span>
+                                <span>V-Card</span>
+                            </button>
+                            <button class="type-btn" data-type="email">
+                                <span class="icon">✉️</span>
+                                <span>Email</span>
+                            </button>
+                            <button class="type-btn" data-type="tel">
+                                <span class="icon">📞</span>
+                                <span>Phone</span>
+                            </button>
+                            <button class="type-btn" data-type="geo">
+                                <span class="icon">📍</span>
+                                <span>Location</span>
+                            </button>
+                            <button class="type-btn" data-type="wifi">
+                                <span class="icon">📶</span>
+                                <span>Wi-Fi</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Content Forms -->
+                    <div class="section">
+                        <h2>Enter Content</h2>
+                        
+                        <!-- URL Form -->
+                        <div class="form-container active" id="form-url">
+                            <div class="form-group">
+                                <label for="url-input">Website URL</label>
+                                <input type="url" id="url-input" placeholder="https://example.com" class="input-field">
+                            </div>
+                        </div>
+
+                        <!-- Text Form -->
+                        <div class="form-container" id="form-text">
+                            <div class="form-group">
+                                <label for="text-input">Plain Text</label>
+                                <textarea id="text-input" rows="4" placeholder="Enter your text here..." class="input-field"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- V-Card Form -->
+                        <div class="form-container" id="form-vcard">
+                            <div class="form-group">
+                                <label for="vcard-name">Full Name</label>
+                                <input type="text" id="vcard-name" placeholder="John Doe" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="vcard-org">Organization</label>
+                                <input type="text" id="vcard-org" placeholder="Company Name" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="vcard-tel">Phone Number</label>
+                                <input type="tel" id="vcard-tel" placeholder="+1234567890" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="vcard-email">Email</label>
+                                <input type="email" id="vcard-email" placeholder="email@example.com" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="vcard-url">Website</label>
+                                <input type="url" id="vcard-url" placeholder="https://example.com" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="vcard-address">Address</label>
+                                <textarea id="vcard-address" rows="2" placeholder="Street, City, Country" class="input-field"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Email Form -->
+                        <div class="form-container" id="form-email">
+                            <div class="form-group">
+                                <label for="email-to">Recipient Email</label>
+                                <input type="email" id="email-to" placeholder="recipient@example.com" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="email-subject">Subject</label>
+                                <input type="text" id="email-subject" placeholder="Email subject" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="email-body">Message</label>
+                                <textarea id="email-body" rows="4" placeholder="Email message..." class="input-field"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Tel Form -->
+                        <div class="form-container" id="form-tel">
+                            <div class="form-group">
+                                <label for="tel-number">Phone Number</label>
+                                <input type="tel" id="tel-number" placeholder="+1234567890" class="input-field">
+                            </div>
+                        </div>
+
+                        <!-- Geo Form -->
+                        <div class="form-container" id="form-geo">
+                            <div class="form-group">
+                                <label for="geo-lat">Latitude</label>
+                                <input type="text" id="geo-lat" placeholder="37.7749" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="geo-lon">Longitude</label>
+                                <input type="text" id="geo-lon" placeholder="-122.4194" class="input-field">
+                            </div>
+                        </div>
+
+                        <!-- Wi-Fi Form -->
+                        <div class="form-container" id="form-wifi">
+                            <div class="form-group">
+                                <label for="wifi-ssid">Network Name (SSID)</label>
+                                <input type="text" id="wifi-ssid" placeholder="MyWiFi" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="wifi-password">Password</label>
+                                <input type="text" id="wifi-password" placeholder="password123" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="wifi-encryption">Security Type</label>
+                                <select id="wifi-encryption" class="input-field">
+                                    <option value="WPA">WPA/WPA2</option>
+                                    <option value="WEP">WEP</option>
+                                    <option value="nopass">None</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="wifi-hidden">
+                                    <span>Hidden Network</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="generate-btn" class="btn-primary">Generate QR Code</button>
+                    </div>
+
+                    <!-- Customization Options -->
+                    <div class="section">
+                        <h2>Customize Appearance</h2>
+                        
+                        <div class="form-group">
+                            <label for="dots-type">Dot Style</label>
+                            <select id="dots-type" class="input-field">
+                                <option value="rounded">Rounded</option>
+                                <option value="dots">Dots</option>
+                                <option value="classy">Classy</option>
+                                <option value="classy-rounded">Classy Rounded</option>
+                                <option value="square">Square</option>
+                                <option value="extra-rounded">Extra Rounded</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="corner-square-type">Corner Square Style</label>
+                            <select id="corner-square-type" class="input-field">
+                                <option value="dot">Dot</option>
+                                <option value="square">Square</option>
+                                <option value="extra-rounded">Extra Rounded</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="corner-dot-type">Corner Dot Style</label>
+                            <select id="corner-dot-type" class="input-field">
+                                <option value="dot">Dot</option>
+                                <option value="square">Square</option>
+                            </select>
+                        </div>
+
+                        <div class="color-row">
+                            <div class="form-group">
+                                <label for="dots-color">Dots Color</label>
+                                <input type="color" id="dots-color" value="#51A273" class="color-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="background-color">Background</label>
+                                <input type="color" id="background-color" value="#ffffff" class="color-input">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="logo-upload">Logo Image (Optional)</label>
+                            <input type="file" id="logo-upload" accept="image/*" class="input-field">
+                            <small>Upload a logo to place in the center of your QR code</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: QR Code Preview -->
+                <div class="preview-panel">
+                    <div class="section preview-section">
+                        <h2>Preview</h2>
+                        <div id="qr-code-container"></div>
+                        <div class="preview-actions">
+                            <button id="download-png" class="btn-secondary">Download PNG</button>
+                            <button id="download-svg" class="btn-secondary">Download SVG</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made with ❤️ by <a href="https://github.com/sn0wmankr" target="_blank" rel="noopener noreferrer">sn0wmankr</a></p>
+            <p class="footer-links">
+                <a href="https://github.com/sn0wmankr/QRCodeGenerator" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
