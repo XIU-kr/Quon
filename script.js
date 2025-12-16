@@ -68,7 +68,10 @@ async function searchAddress(query, resultContainerId) {
         const response = await fetch(`https://proxy.sn0wman.kr/api/kakao/geocode?query=${encodeURIComponent(query)}`);
         
         if (!response.ok) {
-            throw new Error('검색 요청 실패');
+            if (response.status === 0 || !navigator.onLine) {
+                throw new Error('네트워크 연결을 확인해주세요');
+            }
+            throw new Error('API 서버와 연결이 실패했습니다');
         }
         
         const data = await response.json();
@@ -95,8 +98,11 @@ async function searchAddress(query, resultContainerId) {
         
     } catch (error) {
         console.error('Address search error:', error.message || 'Unknown error');
-        resultsContainer.innerHTML = '<div class="search-results-empty">검색 중 오류가 발생했습니다</div>';
-        showNotification('주소 검색에 실패했습니다', 'error');
+        const errorMessage = error.message === '네트워크 연결을 확인해주세요' || error.message === 'API 서버와 연결이 실패했습니다' 
+            ? error.message 
+            : 'API 서버와 연결이 실패했습니다';
+        resultsContainer.innerHTML = `<div class="search-results-empty">${errorMessage}</div>`;
+        showNotification(errorMessage, 'error');
     }
 }
 
@@ -282,8 +288,7 @@ function getQRContent() {
             }
             if (org) content += `ORG:${escapeVCard(org)}\r\n`;
             if (tel) {
-                // Format Korean phone number: add +82 and remove leading 0
-                tel = formatKoreanPhoneNumber(tel);
+                // Keep Korean phone number as-is without international format conversion
                 content += `TEL;TYPE=CELL:${tel}\r\n`;
             }
             if (email) content += `EMAIL;TYPE=INTERNET:${email}\r\n`;
@@ -312,10 +317,9 @@ function getQRContent() {
             break;
 
         case 'tel':
-            let telNumber = document.getElementById('tel-number').value.trim();
+            const telNumber = document.getElementById('tel-number').value.trim();
             if (telNumber) {
-                // Format Korean phone number: add +82 and remove leading 0
-                telNumber = formatKoreanPhoneNumber(telNumber);
+                // Keep Korean phone number as-is without international format conversion
                 content = `tel:${telNumber}`;
             }
             break;
@@ -400,7 +404,7 @@ function getQROptions() {
 // Create initial QR code
 function createInitialQRCode() {
     const container = document.getElementById('qr-code-container');
-    container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>내용을 입력하고 "큐알코드 만들기"를 눌러주세요</p></div>';
+    container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>내용을 입력하고 "QR 코드 만들기"를 눌러주세요</p></div>';
 }
 
 // Show notification message
@@ -426,7 +430,7 @@ function generateQRCode() {
     const content = getQRContent();
 
     if (!content) {
-        showNotification('큐알코드에 담을 내용을 입력해주세요');
+        showNotification('QR 코드에 담을 내용을 입력해주세요');
         return;
     }
 
@@ -448,7 +452,7 @@ function generateQRCode() {
 // Download QR code
 function downloadQR(format) {
     if (!qrCode) {
-        showNotification('먼저 큐알코드를 만들어주세요');
+        showNotification('먼저 QR 코드를 만들어주세요');
         return;
     }
 
@@ -481,34 +485,4 @@ function escapeWiFi(str) {
               .replace(/,/g, '\\,')
               .replace(/:/g, '\\:')
               .replace(/"/g, '\\"');
-}
-
-// Utility function to format Korean phone number
-// Converts 01012345678 to +821012345678 for international format
-function formatKoreanPhoneNumber(phoneNumber) {
-    const KOREAN_MOBILE_PREFIXES = ['010', '011', '016', '017', '018', '019'];
-    
-    // Remove all non-numeric characters
-    let cleaned = phoneNumber.replace(/\D/g, '');
-    
-    // If it starts with Korean mobile prefixes
-    if (KOREAN_MOBILE_PREFIXES.some(prefix => cleaned.startsWith(prefix))) {
-        // Remove leading 0 and add +82
-        cleaned = '+82' + cleaned.substring(1);
-    }
-    // If it already starts with 82 (country code without +)
-    else if (cleaned.startsWith('82')) {
-        cleaned = '+' + cleaned;
-    }
-    // If it doesn't start with + or 82, assume it needs +82
-    else if (!cleaned.startsWith('+')) {
-        // If it starts with 0, remove it
-        if (cleaned.startsWith('0')) {
-            cleaned = '+82' + cleaned.substring(1);
-        } else {
-            cleaned = '+82' + cleaned;
-        }
-    }
-    
-    return cleaned;
 }
