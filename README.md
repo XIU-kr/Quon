@@ -1,189 +1,197 @@
-# 🎨 QR Code Generator
+# 🎨 큐알코드 만들기
 
-A beautiful, responsive web application for generating customizable QR codes. Create QR codes for URLs, plain text, contact information (V-Card), emails, phone numbers, locations, and Wi-Fi credentials - all with extensive styling options.
+한국어로 제공되는 맞춤형 큐알코드 생성기입니다. 인터넷 주소, 문자, 연락처, 이메일, 전화번호, 위치, 와이파이 등 다양한 종류의 큐알코드를 쉽게 만들 수 있습니다.
 
 ![QR Code Generator](https://img.shields.io/badge/QR%20Code-Generator-51A273?style=for-the-badge)
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-51A273?style=for-the-badge&logo=github)](https://sn0wmankr.github.io/QRCodeGenerator/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-51A273?style=for-the-badge&logo=github)](https://sn0wmankr.github.io/QRCodeGenerator-KR/)
 [![License](https://img.shields.io/badge/License-MIT-51A273?style=for-the-badge)](LICENSE)
 
-## ✨ Features
+## ✨ 주요 기능
 
-### 📱 Multiple QR Code Types
-- **URL** - Website links and web pages
-- **Plain Text** - Any text content
-- **V-Card** - Contact information (name, phone, email, address, etc.) - **iOS compatible format**
-- **Email** - Pre-filled email with recipient, subject, and body
-- **Phone** - Direct phone call links
-- **Location (Geo)** - GPS coordinates with manual input and browser geolocation support
-- **Wi-Fi** - Wireless network credentials with security settings - **iOS compatible format**
+### 📱 다양한 큐알코드 종류
+- **인터넷 주소** - 웹사이트 링크
+- **문자** - 일반 텍스트 내용
+- **연락처** - 이름, 전화번호, 이메일, 주소 등 (iOS 호환 형식)
+- **이메일** - 받는 사람, 제목, 내용이 미리 입력된 이메일
+- **전화** - 전화 걸기 링크 (한국 전화번호 형식 지원: 01012345678)
+- **위치** - GPS 좌표 (카카오맵 주소 검색 지원)
+- **와이파이** - 무선 네트워크 접속 정보 (iOS 호환 형식)
 
-### 🎨 Extensive Customization
-- **Dot Styles**: Rounded, Dots, Classy, Classy Rounded, Square, Extra Rounded
-- **Corner Styles**: Customize corner squares and dots independently
-- **Color Options**: Full color picker for dots and background
-- **Logo Support**: Upload and embed your logo in the center of the QR code
-- **High Quality**: Generate QR codes optimized for scanning
+### 🎨 디자인 꾸미기
+- **점 모양**: 둥근 사각형, 원형, 세련된, 세련된 둥근형, 사각형, 매우 둥근
+- **모서리 스타일**: 모서리 사각형과 점을 독립적으로 커스터마이징
+- **색상 옵션**: 코드 색상과 배경 색상을 자유롭게 선택
+- **로고 추가**: 큐알코드 중앙에 로고 이미지 삽입 가능
+- **고품질**: 스캔에 최적화된 큐알코드 생성
 
-### 📱 iOS Compatibility
-- **V-Card**: iOS-optimized format with proper field types and CRLF line endings
-- **Wi-Fi**: iOS-compatible format with special character escaping
-- **Tested**: All QR code types tested with iOS native camera app
+### 🇰🇷 한국 사용자 최적화
+- **완전한 한국어 인터페이스**: 모든 UI가 자연스러운 한국어로 제공
+- **한국 전화번호 형식**: 01012345678 형식으로 입력 (자동으로 국제 형식으로 변환)
+- **카카오맵 주소 검색**: 주소나 장소 이름으로 쉽게 위치 찾기
+- **한국 이름 형식 지원**: 성과 이름을 올바르게 처리
 
-### 📲 Responsive Design
-- Beautiful, modern interface with gradient backgrounds
-- Fully responsive layout that works on desktop, tablet, and mobile
-- Touch-friendly controls and intuitive navigation
-- Optimized for all screen sizes
+### 📱 iOS 호환성
+- **연락처**: iOS에 최적화된 vCard 형식
+- **와이파이**: iOS 호환 형식으로 특수 문자 자동 처리
+- **테스트 완료**: 모든 큐알코드 종류가 iOS 기본 카메라 앱에서 테스트됨
 
-### 💾 Export Options
-- **PNG Format**: High-resolution raster image
-- **SVG Format**: Scalable vector graphics for print
+### 📲 반응형 디자인
+- 아름다운 현대적 인터페이스
+- 데스크톱, 태블릿, 모바일 모두 지원
+- 터치 친화적 컨트롤
+- 모든 화면 크기에 최적화
 
-## 🚀 Quick Start
+### 💾 다운로드 옵션
+- **PNG 형식**: 고해상도 이미지
+- **SVG 형식**: 인쇄용 벡터 그래픽
 
-### Online Version
-Visit the live application: [QR Code Generator](https://sn0wmankr.github.io/QRCodeGenerator/)
+## 🚀 빠른 시작
 
-### Local Development
-1. Clone the repository:
+### 온라인 버전
+웹사이트 방문하기: [큐알코드 만들기](https://sn0wmankr.github.io/QRCodeGenerator-KR/)
+
+### 로컬 개발
+1. 저장소 복제:
    ```bash
-   git clone https://github.com/sn0wmankr/QRCodeGenerator.git
-   cd QRCodeGenerator
+   git clone https://github.com/sn0wmankr/QRCodeGenerator-KR.git
+   cd QRCodeGenerator-KR
    ```
 
-2. Open `index.html` in your web browser:
+2. 웹 브라우저에서 `index.html` 열기:
    ```bash
-   # Using Python
+   # Python 사용
    python -m http.server 8000
    
-   # Using Node.js
+   # Node.js 사용
    npx http-server
    
-   # Or simply open the file
+   # 또는 파일 직접 열기
    open index.html
    ```
 
-3. Start creating QR codes!
+3. 큐알코드 만들기 시작!
 
-### Location Input
+### 위치 입력 방법
 
-The application provides simple and reliable location input without requiring any API keys:
+애플리케이션은 여러 가지 위치 입력 방법을 제공합니다:
 
-1. **Manual Coordinate Entry**: Enter latitude and longitude values directly
-2. **Browser Geolocation**: Click "Use My Current Location" to automatically detect your position
-3. **External Map Services**: Find coordinates using Google Maps, OpenStreetMap, or Kakao Map, then paste them into the form
+1. **주소 검색**: 카카오맵 주소 검색으로 장소나 주소를 찾아 자동으로 좌표 입력
+2. **좌표 직접 입력**: 위도와 경도 값을 직접 입력
+3. **현재 위치 사용**: "현재 내 위치 사용" 버튼으로 자동으로 위치 감지
 
-This approach eliminates API key requirements and billing concerns while maintaining full functionality.
+카카오맵 주소 검색을 사용하면 "서울시청", "강남역" 같은 장소 이름이나 전체 주소로 쉽게 위치를 찾을 수 있습니다.
 
-## 🎯 Usage Guide
+## 🎯 사용 방법
 
-### Creating a QR Code
+### 큐알코드 만들기
 
-1. **Select QR Code Type**
-   - Click on one of the seven type buttons at the top (URL, Text, V-Card, etc.)
+1. **코드 종류 선택**
+   - 7가지 종류 버튼 중 하나를 클릭 (인터넷 주소, 문자, 연락처 등)
 
-2. **Enter Content**
-   - Fill in the required fields for your selected type
-   - All form fields are validated and formatted automatically
-   - For **Location** type: Enter coordinates manually or use the "Use My Current Location" button
-   - For **V-Card** type: Address field supports all languages including Korean (한국어)
+2. **내용 입력**
+   - 선택한 종류에 맞는 필수 항목 입력
+   - 모든 입력 항목은 자동으로 검증 및 형식화됨
+   - **위치** 타입: 주소 검색, 좌표 직접 입력, 또는 "현재 내 위치 사용" 버튼 사용
+   - **연락처** 타입: 전화번호는 01012345678 형식으로 입력, 주소는 검색 또는 직접 입력
 
-3. **Customize Appearance** (Optional)
-   - Choose dot style, corner styles, and colors
-   - Upload a logo image to place in the center
-   - Preview updates in real-time
+3. **디자인 꾸미기** (선택사항)
+   - 점 모양, 모서리 스타일, 색상 선택
+   - 로고 이미지를 업로드하여 중앙에 배치
+   - 미리보기에서 실시간 확인
 
-4. **Generate**
-   - Click the "Generate QR Code" button
-   - Your QR code appears in the preview panel
+4. **생성**
+   - "큐알코드 만들기" 버튼 클릭
+   - 미리보기 패널에 큐알코드 표시됨
 
-5. **Download**
-   - Click "Download PNG" or "Download SVG" to save your QR code
+5. **다운로드**
+   - "PNG 다운로드" 또는 "SVG 다운로드" 버튼으로 저장
 
-### Examples
+### 사용 예시
 
-#### URL QR Code
+#### 인터넷 주소 큐알코드
 ```
-Type: URL
-Input: https://github.com/sn0wmankr
-```
-
-#### Wi-Fi QR Code
-```
-Type: Wi-Fi
-SSID: MyHomeNetwork
-Password: SecurePassword123
-Security: WPA/WPA2
-Hidden: No
+종류: 인터넷 주소
+입력: https://github.com/sn0wmankr
 ```
 
-#### V-Card QR Code
+#### 와이파이 큐알코드
 ```
-Type: V-Card
-Name: John Doe
-Organization: Tech Company
-Phone: +1-234-567-8900
-Email: john@example.com
-```
-
-#### Location QR Code
-```
-Type: Location
-Latitude: 37.5665
-Longitude: 126.9780
-(Seoul City Hall coordinates)
+종류: 와이파이
+네트워크 이름: MyHomeWiFi
+비밀번호: SecurePassword123
+보안 방식: WPA/WPA2
+숨김 네트워크: 아니오
 ```
 
-## 🛠️ Technology Stack
+#### 연락처 큐알코드
+```
+종류: 연락처
+이름: 홍길동
+회사: 테크 회사
+전화번호: 01012345678
+이메일: hong@example.com
+주소: 서울시 중구 세종대로 110 (주소 검색으로 찾기 가능)
+```
 
-- **HTML5** - Semantic markup with Geolocation API support
-- **CSS3** - Modern styling with CSS Grid and Flexbox
-- **Vanilla JavaScript** - No framework dependencies, no API keys required
-- **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - Advanced QR code generation with styling support (via CDN)
-- **Browser Geolocation API** - Built-in location detection without external dependencies
-- **GitHub Pages** - Free hosting
+#### 위치 큐알코드
+```
+종류: 위치
+주소 검색: 서울시청
+위도: 37.5665
+경도: 126.9780
+```
 
-## 🌈 Color Theme
+## 🛠️ 기술 스택
 
-The application uses a calming green color palette:
-- Primary Color: `#51A273` (Emerald Green)
-- Primary Hover: `#429960`
-- Light Background: `#e8f5ed`
+- **HTML5** - Geolocation API를 지원하는 시맨틱 마크업
+- **CSS3** - CSS Grid와 Flexbox를 활용한 현대적 스타일링
+- **Vanilla JavaScript** - 프레임워크 의존성 없음
+- **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - 스타일링을 지원하는 고급 큐알코드 생성 라이브러리 (CDN)
+- **브라우저 Geolocation API** - 외부 의존성 없는 내장 위치 감지
+- **카카오맵 API** - 주소 검색 기능 (프록시 서버 사용)
+- **GitHub Pages** - 무료 호스팅
 
-## 📱 Browser Support
+## 🌈 색상 테마
 
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+차분한 초록색 팔레트를 사용합니다:
+- 주 색상: `#51A273` (에메랄드 그린)
+- 호버 색상: `#429960`
+- 밝은 배경: `#e8f5ed`
 
-## 🤝 Contributing
+## 📱 브라우저 지원
 
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Improve documentation
+- ✅ Chrome (최신 버전)
+- ✅ Firefox (최신 버전)
+- ✅ Safari (최신 버전)
+- ✅ Edge (최신 버전)
+- ✅ 모바일 브라우저 (iOS Safari, Chrome Mobile)
 
-## 📄 License
+## 🤝 기여하기
 
-This project is open source and available under the [MIT License](LICENSE).
+기여를 환영합니다! 다음과 같은 방법으로 참여할 수 있습니다:
+- 버그 리포트
+- 새로운 기능 제안
+- Pull Request 제출
+- 문서 개선
 
-## 👤 Author
+## 📄 라이선스
+
+이 프로젝트는 오픈 소스이며 [MIT License](LICENSE)에 따라 제공됩니다.
+
+## 👤 만든 사람
 
 **sn0wmankr**
 - GitHub: [@sn0wmankr](https://github.com/sn0wmankr)
-- Project: [QRCodeGenerator](https://github.com/sn0wmankr/QRCodeGenerator)
+- 프로젝트: [QRCodeGenerator-KR](https://github.com/sn0wmankr/QRCodeGenerator-KR)
 
-## 🙏 Acknowledgments
+## 🙏 감사의 말
 
-- [qr-code-styling](https://github.com/kozakdenys/qr-code-styling) - Excellent QR code styling library
-- QR Code technology originally developed by Denso Wave
+- [qr-code-styling](https://github.com/kozakdenys/qr-code-styling) - 훌륭한 큐알코드 스타일링 라이브러리
+- 큐알코드 기술은 Denso Wave에서 최초로 개발되었습니다
 
-## 📊 Project Status
+## 📊 프로젝트 상태
 
-🟢 Active - This project is actively maintained and accepting contributions.
+🟢 활성 - 이 프로젝트는 활발히 유지보수되고 있으며 기여를 환영합니다.
 
 ---
 
