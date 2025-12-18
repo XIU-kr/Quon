@@ -74,18 +74,36 @@
 
                         <!-- V-Card Form -->
                         <div class="form-container" id="form-vcard">
+                            <div class="form-section-title">필수 항목</div>
                             <div class="form-group">
-                                <label for="vcard-name">이름</label>
-                                <input type="text" id="vcard-name" placeholder="홍길동" class="input-field">
+                                <label for="vcard-fullname">성함 <span class="required">*</span></label>
+                                <input type="text" id="vcard-fullname" placeholder="홍길동" class="input-field">
+                                <small>또는 아래에 성과 이름을 따로 입력하세요</small>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="vcard-lastname">성</label>
+                                    <input type="text" id="vcard-lastname" placeholder="홍" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vcard-firstname">이름</label>
+                                    <input type="text" id="vcard-firstname" placeholder="길동" class="input-field">
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="vcard-org">회사/단체</label>
-                                <input type="text" id="vcard-org" placeholder="회사명" class="input-field">
+                                <label for="vcard-tel">전화번호 <span class="required">*</span></label>
+                                <input type="tel" id="vcard-tel" placeholder="01012345678" class="input-field" required>
                             </div>
                             <div class="form-group">
-                                <label for="vcard-tel-country">전화번호 국가</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="vcard-use-country-code">
+                                    <span>국제 번호 사용</span>
+                                </label>
+                            </div>
+                            <div class="form-group" id="vcard-country-group" style="display: none;">
+                                <label for="vcard-tel-country">국가 선택</label>
                                 <select id="vcard-tel-country" class="input-field">
-                                    <option value="">한국 (국제번호 없음)</option>
+                                    <option value="+82">한국 (+82)</option>
                                     <option value="+1">미국/캐나다 (+1)</option>
                                     <option value="+7">러시아/카자흐스탄 (+7)</option>
                                     <option value="+20">이집트 (+20)</option>
@@ -290,21 +308,21 @@
                                     <option value="+998">우즈베키스탄 (+998)</option>
                                 </select>
                             </div>
+                            <div class="form-section-title">선택 항목</div>
                             <div class="form-group">
-                                <label for="vcard-tel">전화번호</label>
-                                <input type="tel" id="vcard-tel" placeholder="01012345678" class="input-field">
-                                <small>국가를 선택하면 자동으로 국제번호가 붙습니다 (한국 제외)</small>
+                                <label for="vcard-org">회사/단체 <span class="optional">(선택)</span></label>
+                                <input type="text" id="vcard-org" placeholder="회사명" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="vcard-email">이메일</label>
+                                <label for="vcard-email">이메일 <span class="optional">(선택)</span></label>
                                 <input type="email" id="vcard-email" placeholder="email@example.com" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="vcard-url">웹사이트</label>
+                                <label for="vcard-url">웹사이트 <span class="optional">(선택)</span></label>
                                 <input type="url" id="vcard-url" placeholder="https://example.com" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="vcard-address">주소</label>
+                                <label for="vcard-address">주소 <span class="optional">(선택)</span></label>
                                 <div class="address-search-container">
                                     <input type="text" id="vcard-address-search" placeholder="주소 검색 (예: 서울시청)" class="input-field">
                                     <button type="button" id="vcard-search-btn" class="btn-search">🔍 검색</button>
@@ -316,26 +334,40 @@
 
                         <!-- Email Form -->
                         <div class="form-container" id="form-email">
+                            <div class="form-section-title">필수 항목</div>
                             <div class="form-group">
-                                <label for="email-to">받는 사람 이메일</label>
-                                <input type="email" id="email-to" placeholder="recipient@example.com" class="input-field">
+                                <label for="email-to">받는 사람 이메일 <span class="required">*</span></label>
+                                <input type="email" id="email-to" placeholder="recipient@example.com" class="input-field" required>
                             </div>
+                            <div class="form-section-title">선택 항목</div>
                             <div class="form-group">
-                                <label for="email-subject">제목</label>
+                                <label for="email-subject">제목 <span class="optional">(선택)</span></label>
                                 <input type="text" id="email-subject" placeholder="이메일 제목" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="email-body">내용</label>
+                                <label for="email-body">내용 <span class="optional">(선택)</span></label>
                                 <textarea id="email-body" rows="4" placeholder="이메일 내용..." class="input-field"></textarea>
                             </div>
                         </div>
 
                         <!-- Tel Form -->
                         <div class="form-container" id="form-tel">
+                            <div class="form-section-title">필수 항목</div>
                             <div class="form-group">
-                                <label for="tel-country">국가</label>
+                                <label for="tel-number">전화번호 <span class="required">*</span></label>
+                                <input type="tel" id="tel-number" placeholder="01012345678" class="input-field" required>
+                            </div>
+                            <div class="form-section-title">선택 항목</div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="tel-use-country-code">
+                                    <span>국제 번호 사용</span>
+                                </label>
+                            </div>
+                            <div class="form-group" id="tel-country-group" style="display: none;">
+                                <label for="tel-country">국가 선택</label>
                                 <select id="tel-country" class="input-field">
-                                    <option value="">한국 (국제번호 없음)</option>
+                                    <option value="+82">한국 (+82)</option>
                                     <option value="+1">미국/캐나다 (+1)</option>
                                     <option value="+7">러시아/카자흐스탄 (+7)</option>
                                     <option value="+20">이집트 (+20)</option>
@@ -539,11 +571,6 @@
                                     <option value="+996">키르기스스탄 (+996)</option>
                                     <option value="+998">우즈베키스탄 (+998)</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="tel-number">전화번호</label>
-                                <input type="tel" id="tel-number" placeholder="01012345678" class="input-field">
-                                <small>국가를 선택하면 자동으로 국제번호가 붙습니다 (한국 제외)</small>
                             </div>
                         </div>
 

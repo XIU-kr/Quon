@@ -581,3 +581,37 @@ footer a:hover {
     text-align: center;
     color: var(--text-light);
 }
+
+/* Form Section Titles */
+.form-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--primary-light);
+}
+
+.form-section-title:first-child {
+    margin-top: 0;
+}
+
+/* Required and Optional Indicators */
+.required {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.optional {
+    color: var(--text-light);
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+/* Form Row for Side-by-Side Fields */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
