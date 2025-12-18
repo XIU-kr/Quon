@@ -303,7 +303,12 @@ function getQRContent() {
                 // Use last name and first name separately
                 familyName = lastName;
                 givenName = firstName;
-                name = (lastName + ' ' + firstName).trim();
+                // Combine names with proper spacing
+                if (lastName && firstName) {
+                    name = lastName + ' ' + firstName;
+                } else {
+                    name = (lastName || firstName);
+                }
             }
             
             // Get other fields
