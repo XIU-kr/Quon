@@ -655,6 +655,18 @@
 
                         <button id="generate-btn" class="btn-primary" data-i18n="button.generate">Generate QR Code</button>
                     </div>
+                </div>
+
+                <!-- Right Panel: QR Code Preview -->
+                <div class="preview-panel">
+                    <div class="section preview-section">
+                        <h2 data-i18n="section.preview">Preview</h2>
+                        <div id="qr-code-container"></div>
+                        <div class="preview-actions">
+                            <button id="download-png" class="btn-secondary" disabled data-i18n="button.download.png">Download PNG</button>
+                            <button id="download-svg" class="btn-secondary" disabled data-i18n="button.download.svg">Download SVG</button>
+                        </div>
+                    </div>
 
                     <!-- Customization Options -->
                     <div class="section">
@@ -704,18 +716,6 @@
                             <label for="logo-upload" data-i18n="design.logo">Logo Image (optional)</label>
                             <input type="file" id="logo-upload" accept="image/*" class="input-field">
                             <small data-i18n="design.logo.help">Upload a logo to place in the center of the code</small>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Panel: QR Code Preview -->
-                <div class="preview-panel">
-                    <div class="section preview-section">
-                        <h2 data-i18n="section.preview">Preview</h2>
-                        <div id="qr-code-container"></div>
-                        <div class="preview-actions">
-                            <button id="download-png" class="btn-secondary" disabled data-i18n="button.download.png">Download PNG</button>
-                            <button id="download-svg" class="btn-secondary" disabled data-i18n="button.download.svg">Download SVG</button>
                         </div>
                     </div>
                     
