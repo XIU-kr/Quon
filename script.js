@@ -267,6 +267,7 @@ function getQRContent() {
             const name = document.getElementById('vcard-name').value.trim();
             const org = document.getElementById('vcard-org').value.trim();
             let tel = document.getElementById('vcard-tel').value.trim();
+            const telCountry = document.getElementById('vcard-tel-country').value;
             const email = document.getElementById('vcard-email').value.trim();
             const url = document.getElementById('vcard-url').value.trim();
             const address = document.getElementById('vcard-address').value.trim();
@@ -296,8 +297,9 @@ function getQRContent() {
             }
             if (org) content += formatVCardField('ORG', org);
             if (tel) {
-                // Keep Korean phone number as-is without international format conversion
-                content += `TEL;TYPE=CELL:${tel}\r\n`;
+                // Add country code if selected (Korea is exception - no +82)
+                const formattedTel = telCountry ? `${telCountry}${tel}` : tel;
+                content += `TEL;TYPE=CELL:${formattedTel}\r\n`;
             }
             if (email) content += `EMAIL;TYPE=INTERNET:${email}\r\n`;
             if (url) content += `URL:${url}\r\n`;
@@ -333,9 +335,11 @@ function getQRContent() {
 
         case 'tel':
             const telNumber = document.getElementById('tel-number').value.trim();
+            const telCountryCode = document.getElementById('tel-country').value;
             if (telNumber) {
-                // Keep Korean phone number as-is without international format conversion
-                content = `tel:${telNumber}`;
+                // Add country code if selected (Korea is exception - no country code)
+                const formattedTelNumber = telCountryCode ? `${telCountryCode}${telNumber}` : telNumber;
+                content = `tel:${formattedTelNumber}`;
             }
             break;
 
