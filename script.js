@@ -212,6 +212,18 @@ function initializeEventListeners() {
             });
         }
     });
+
+    // Country code checkbox toggles for vCard
+    document.getElementById('vcard-use-country-code').addEventListener('change', function() {
+        const countryGroup = document.getElementById('vcard-country-group');
+        countryGroup.style.display = this.checked ? 'block' : 'none';
+    });
+
+    // Country code checkbox toggles for Tel
+    document.getElementById('tel-use-country-code').addEventListener('change', function() {
+        const countryGroup = document.getElementById('tel-country-group');
+        countryGroup.style.display = this.checked ? 'block' : 'none';
+    });
 }
 
 // Switch between QR code types
@@ -264,41 +276,75 @@ function getQRContent() {
             break;
 
         case 'vcard':
-            const name = document.getElementById('vcard-name').value.trim();
+            // Get name fields
+            const fullName = document.getElementById('vcard-fullname').value.trim();
+            const lastName = document.getElementById('vcard-lastname').value.trim();
+            const firstName = document.getElementById('vcard-firstname').value.trim();
+            
+            // Determine which name to use
+            // Note: If both full name and separate names are provided, full name takes precedence
+            let name = '';
+            let familyName = '';
+            let givenName = '';
+            
+            if (fullName) {
+                // Use full name - try to split it if it has spaces
+                name = fullName;
+                const nameParts = fullName.split(' ');
+                if (nameParts.length > 1) {
+                    // Korean naming convention: first part is family name, rest is given name
+                    familyName = nameParts[0];
+                    givenName = nameParts.slice(1).join(' ');
+                } else {
+                    familyName = fullName;
+                    givenName = '';
+                }
+            } else if (lastName || firstName) {
+                // Use last name and first name separately
+                familyName = lastName;
+                givenName = firstName;
+                // Combine names with proper spacing
+                if (lastName && firstName) {
+                    name = lastName + ' ' + firstName;
+                } else {
+                    name = (lastName || firstName);
+                }
+            }
+            
+            // Get other fields
             const org = document.getElementById('vcard-org').value.trim();
             let tel = document.getElementById('vcard-tel').value.trim();
+            const useCountryCode = document.getElementById('vcard-use-country-code').checked;
             const telCountry = document.getElementById('vcard-tel-country').value;
             const email = document.getElementById('vcard-email').value.trim();
             const url = document.getElementById('vcard-url').value.trim();
             const address = document.getElementById('vcard-address').value.trim();
 
+            // Validate required fields
+            if (!name) {
+                showNotification('이름 또는 성함을 입력해주세요');
+                return '';
+            }
+            if (!tel) {
+                showNotification('전화번호를 입력해주세요');
+                return '';
+            }
+
             // iOS-compatible vCard format with CRLF line endings
             content = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
-            if (name) {
-                // Add formatted name with proper encoding
-                content += formatVCardField('FN', name);
-                
-                // Check if name contains non-ASCII characters once
-                const hasNonASCII = containsNonASCII(name);
-                
-                // Try to parse name - if it contains spaces, split; otherwise use as-is
-                const nameParts = name.split(' ');
-                if (nameParts.length > 1) {
-                    // Assume last part is given name, first part is family name (Korean convention)
-                    const familyName = nameParts[0];
-                    const givenName = nameParts.slice(1).join(' ');
-                    // For N field, we need to handle encoding differently since it has structured components
-                    const nValue = `${escapeVCard(familyName)};${escapeVCard(givenName)};;;`;
-                    content += formatVCardNameField(nValue, hasNonASCII);
-                } else {
-                    const nValue = `${escapeVCard(name)};;;;`;
-                    content += formatVCardNameField(nValue, hasNonASCII);
-                }
-            }
+            
+            // Add formatted name
+            content += formatVCardField('FN', name);
+            
+            // Add structured name (N field)
+            const hasNonASCII = containsNonASCII(name);
+            const nValue = `${escapeVCard(familyName)};${escapeVCard(givenName)};;;`;
+            content += formatVCardNameField(nValue, hasNonASCII);
+            
             if (org) content += formatVCardField('ORG', org);
             if (tel) {
-                // Add country code if selected (Korea is exception - no +82)
-                const formattedTel = telCountry ? `${telCountry}${tel}` : tel;
+                // Add country code if checkbox is enabled and country is selected
+                const formattedTel = (useCountryCode && telCountry) ? `${telCountry}${tel}` : tel;
                 content += `TEL;TYPE=CELL:${formattedTel}\r\n`;
             }
             if (email) content += `EMAIL;TYPE=INTERNET:${email}\r\n`;
@@ -322,25 +368,33 @@ function getQRContent() {
             const subject = document.getElementById('email-subject').value.trim();
             const body = document.getElementById('email-body').value.trim();
 
-            if (emailTo) {
-                content = `mailto:${emailTo}`;
-                const params = [];
-                if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
-                if (body) params.push(`body=${encodeURIComponent(body)}`);
-                if (params.length > 0) {
-                    content += '?' + params.join('&');
-                }
+            if (!emailTo) {
+                showNotification('받는 사람 이메일을 입력해주세요');
+                return '';
+            }
+
+            content = `mailto:${emailTo}`;
+            const params = [];
+            if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+            if (body) params.push(`body=${encodeURIComponent(body)}`);
+            if (params.length > 0) {
+                content += '?' + params.join('&');
             }
             break;
 
         case 'tel':
             const telNumber = document.getElementById('tel-number').value.trim();
+            const useTelCountryCode = document.getElementById('tel-use-country-code').checked;
             const telCountryCode = document.getElementById('tel-country').value;
-            if (telNumber) {
-                // Add country code if selected (Korea is exception - no country code)
-                const formattedTelNumber = telCountryCode ? `${telCountryCode}${telNumber}` : telNumber;
-                content = `tel:${formattedTelNumber}`;
+            
+            if (!telNumber) {
+                showNotification('전화번호를 입력해주세요');
+                return '';
             }
+
+            // Add country code if checkbox is enabled and country is selected
+            const formattedTelNumber = (useTelCountryCode && telCountryCode) ? `${telCountryCode}${telNumber}` : telNumber;
+            content = `tel:${formattedTelNumber}`;
             break;
 
         case 'geo':
