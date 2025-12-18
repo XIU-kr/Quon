@@ -1,110 +1,127 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR 코드 만들기 - 맞춤형 QR 코드 생성기</title>
-    <meta name="description" content="다양한 용도의 QR 코드를 만들어보세요. 인터넷 주소, 문자, 연락처, 이메일, 전화, 위치, 와이파이 등">
+    <title>QR Code Generator - Custom QR Code Generator</title>
+    <meta name="description" content="Create QR codes for various purposes. URLs, text, contacts, email, phone, location, Wi-Fi, and more">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
+        <!-- Top Advertisement Section -->
+        <div class="ad-container ad-top">
+            <div class="ad-label" data-i18n="ad.header">Advertisement</div>
+            <div class="ad-content">
+                <!-- Ad content will be inserted here -->
+                <p class="ad-placeholder">728 x 90</p>
+            </div>
+        </div>
+
         <header>
-            <h1>🎨 QR 코드 만들기</h1>
-            <p class="subtitle">원하는 정보를 담은 맞춤형 QR 코드를 쉽게 만들어보세요</p>
+            <h1 data-i18n="header.title">🎨 QR Code Generator</h1>
+            <p class="subtitle" data-i18n="header.subtitle">Create customized QR codes with the information you want easily</p>
         </header>
 
         <main>
             <div class="content-wrapper">
                 <!-- Left Panel: QR Code Type Selection and Content -->
                 <div class="input-panel">
+                    <!-- Side Advertisement -->
+                    <div class="ad-container ad-side">
+                        <div class="ad-label" data-i18n="ad.header">Advertisement</div>
+                        <div class="ad-content">
+                            <!-- Ad content will be inserted here -->
+                            <p class="ad-placeholder">160 x 600</p>
+                        </div>
+                    </div>
                     <div class="section">
-                        <h2>코드 종류 선택</h2>
+                        <h2 data-i18n="section.type">Select Code Type</h2>
                         <div class="type-selector">
                             <button class="type-btn active" data-type="url">
                                 <span class="icon">🔗</span>
-                                <span>인터넷 주소</span>
+                                <span data-i18n="type.url">URL</span>
                             </button>
                             <button class="type-btn" data-type="text">
                                 <span class="icon">📝</span>
-                                <span>문자</span>
+                                <span data-i18n="type.text">Text</span>
                             </button>
                             <button class="type-btn" data-type="vcard">
                                 <span class="icon">👤</span>
-                                <span>연락처</span>
+                                <span data-i18n="type.vcard">Contact</span>
                             </button>
                             <button class="type-btn" data-type="email">
                                 <span class="icon">✉️</span>
-                                <span>이메일</span>
+                                <span data-i18n="type.email">Email</span>
                             </button>
                             <button class="type-btn" data-type="tel">
                                 <span class="icon">📞</span>
-                                <span>전화</span>
+                                <span data-i18n="type.tel">Phone</span>
                             </button>
                             <button class="type-btn" data-type="geo">
                                 <span class="icon">📍</span>
-                                <span>위치</span>
+                                <span data-i18n="type.geo">Location</span>
                             </button>
                             <button class="type-btn" data-type="wifi">
                                 <span class="icon">📶</span>
-                                <span>와이파이</span>
+                                <span data-i18n="type.wifi">Wi-Fi</span>
                             </button>
                         </div>
                     </div>
 
                     <!-- Content Forms -->
                     <div class="section">
-                        <h2>내용 입력</h2>
+                        <h2 data-i18n="section.content">Enter Content</h2>
                         
                         <!-- URL Form -->
                         <div class="form-container active" id="form-url">
                             <div class="form-group">
-                                <label for="url-input">인터넷 주소</label>
-                                <input type="url" id="url-input" placeholder="https://example.com" class="input-field">
+                                <label for="url-input" data-i18n="url.label">URL Address</label>
+                                <input type="url" id="url-input" data-i18n="url.placeholder" placeholder="https://example.com" class="input-field">
                             </div>
                         </div>
 
                         <!-- Text Form -->
                         <div class="form-container" id="form-text">
                             <div class="form-group">
-                                <label for="text-input">문자 내용</label>
-                                <textarea id="text-input" rows="4" placeholder="여기에 문자를 입력하세요..." class="input-field"></textarea>
+                                <label for="text-input" data-i18n="text.label">Text Content</label>
+                                <textarea id="text-input" rows="4" data-i18n="text.placeholder" placeholder="Enter your text here..." class="input-field"></textarea>
                             </div>
                         </div>
 
                         <!-- V-Card Form -->
                         <div class="form-container" id="form-vcard">
-                            <div class="form-section-title">필수 항목</div>
+                            <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
                             <div class="form-group">
-                                <label for="vcard-fullname">성함 <span class="required">*</span></label>
-                                <input type="text" id="vcard-fullname" placeholder="홍길동" class="input-field">
-                                <small>또는 아래에 성과 이름을 따로 입력하세요</small>
+                                <label for="vcard-fullname"><span data-i18n="vcard.fullname">Full Name</span> <span class="required" data-i18n="form.required">*</span></label>
+                                <input type="text" id="vcard-fullname" data-i18n="vcard.fullname.placeholder" placeholder="John Doe" class="input-field">
+                                <small data-i18n="vcard.fullname.help">Or enter last and first name separately below</small>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="vcard-lastname">성</label>
-                                    <input type="text" id="vcard-lastname" placeholder="홍" class="input-field">
+                                    <label for="vcard-lastname" data-i18n="vcard.lastname">Last Name</label>
+                                    <input type="text" id="vcard-lastname" data-i18n="vcard.lastname.placeholder" placeholder="Doe" class="input-field">
                                 </div>
                                 <div class="form-group">
-                                    <label for="vcard-firstname">이름</label>
-                                    <input type="text" id="vcard-firstname" placeholder="길동" class="input-field">
+                                    <label for="vcard-firstname" data-i18n="vcard.firstname">First Name</label>
+                                    <input type="text" id="vcard-firstname" data-i18n="vcard.firstname.placeholder" placeholder="John" class="input-field">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="vcard-tel">전화번호 <span class="required">*</span></label>
-                                <input type="tel" id="vcard-tel" placeholder="01012345678" class="input-field" required>
+                                <label for="vcard-tel"><span data-i18n="vcard.tel">Phone Number</span> <span class="required" data-i18n="form.required">*</span></label>
+                                <input type="tel" id="vcard-tel" data-i18n="vcard.tel.placeholder" placeholder="1234567890" class="input-field" required>
                             </div>
                             <div class="form-group">
                                 <label class="checkbox-label">
                                     <input type="checkbox" id="vcard-use-country-code">
-                                    <span>국제 번호 사용</span>
+                                    <span data-i18n="vcard.country.use">Use country code</span>
                                 </label>
                             </div>
                             <div class="form-group" id="vcard-country-group" style="display: none;">
-                                <label for="vcard-tel-country">국가 선택</label>
+                                <label for="vcard-tel-country" data-i18n="vcard.country.select">Select Country</label>
                                 <select id="vcard-tel-country" class="input-field">
-                                    <option value="+82">한국 (+82)</option>
-                                    <option value="+1">미국/캐나다 (+1)</option>
+                                    <option value="+82" data-i18n="country.kr">South Korea (+82)</option>
+                                    <option value="+1" data-i18n="country.us">USA/Canada (+1)</option>
                                     <option value="+7">러시아/카자흐스탄 (+7)</option>
                                     <option value="+20">이집트 (+20)</option>
                                     <option value="+27">남아프리카 공화국 (+27)</option>
@@ -308,67 +325,67 @@
                                     <option value="+998">우즈베키스탄 (+998)</option>
                                 </select>
                             </div>
-                            <div class="form-section-title">선택 항목</div>
+                            <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
                             <div class="form-group">
-                                <label for="vcard-org">회사/단체 <span class="optional">(선택)</span></label>
-                                <input type="text" id="vcard-org" placeholder="회사명" class="input-field">
+                                <label for="vcard-org"><span data-i18n="vcard.org">Company/Organization</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                <input type="text" id="vcard-org" data-i18n="vcard.org.placeholder" placeholder="Company Name" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="vcard-email">이메일 <span class="optional">(선택)</span></label>
-                                <input type="email" id="vcard-email" placeholder="email@example.com" class="input-field">
+                                <label for="vcard-email"><span data-i18n="vcard.email">Email</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                <input type="email" id="vcard-email" data-i18n="vcard.email.placeholder" placeholder="email@example.com" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="vcard-url">웹사이트 <span class="optional">(선택)</span></label>
-                                <input type="url" id="vcard-url" placeholder="https://example.com" class="input-field">
+                                <label for="vcard-url"><span data-i18n="vcard.url">Website</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                <input type="url" id="vcard-url" data-i18n="vcard.url.placeholder" placeholder="https://example.com" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="vcard-address">주소 <span class="optional">(선택)</span></label>
+                                <label for="vcard-address"><span data-i18n="vcard.address">Address</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
                                 <div class="address-search-container">
-                                    <input type="text" id="vcard-address-search" placeholder="주소 검색 (예: 서울시청)" class="input-field">
-                                    <button type="button" id="vcard-search-btn" class="btn-search">🔍 검색</button>
+                                    <input type="text" id="vcard-address-search" data-i18n="vcard.address.search.placeholder" placeholder="Search for address (e.g., City Hall)" class="input-field">
+                                    <button type="button" id="vcard-search-btn" class="btn-search" data-i18n="button.search">🔍 Search</button>
                                 </div>
                                 <div id="vcard-search-results" class="search-results" style="display: none;"></div>
-                                <textarea id="vcard-address" rows="2" placeholder="주소를 직접 입력하거나 위에서 검색하세요" class="input-field" style="margin-top: 10px;"></textarea>
+                                <textarea id="vcard-address" rows="2" data-i18n="vcard.address.placeholder" placeholder="Enter address directly or search above" class="input-field" style="margin-top: 10px;"></textarea>
                             </div>
                         </div>
 
                         <!-- Email Form -->
                         <div class="form-container" id="form-email">
-                            <div class="form-section-title">필수 항목</div>
+                            <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
                             <div class="form-group">
-                                <label for="email-to">받는 사람 이메일 <span class="required">*</span></label>
-                                <input type="email" id="email-to" placeholder="recipient@example.com" class="input-field" required>
+                                <label for="email-to"><span data-i18n="email.to">Recipient Email</span> <span class="required" data-i18n="form.required">*</span></label>
+                                <input type="email" id="email-to" data-i18n="email.to.placeholder" placeholder="recipient@example.com" class="input-field" required>
                             </div>
-                            <div class="form-section-title">선택 항목</div>
+                            <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
                             <div class="form-group">
-                                <label for="email-subject">제목 <span class="optional">(선택)</span></label>
-                                <input type="text" id="email-subject" placeholder="이메일 제목" class="input-field">
+                                <label for="email-subject"><span data-i18n="email.subject">Subject</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                <input type="text" id="email-subject" data-i18n="email.subject.placeholder" placeholder="Email subject" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="email-body">내용 <span class="optional">(선택)</span></label>
-                                <textarea id="email-body" rows="4" placeholder="이메일 내용..." class="input-field"></textarea>
+                                <label for="email-body"><span data-i18n="email.body">Body</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                <textarea id="email-body" rows="4" data-i18n="email.body.placeholder" placeholder="Email content..." class="input-field"></textarea>
                             </div>
                         </div>
 
                         <!-- Tel Form -->
                         <div class="form-container" id="form-tel">
-                            <div class="form-section-title">필수 항목</div>
+                            <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
                             <div class="form-group">
-                                <label for="tel-number">전화번호 <span class="required">*</span></label>
-                                <input type="tel" id="tel-number" placeholder="01012345678" class="input-field" required>
+                                <label for="tel-number"><span data-i18n="tel.number">Phone Number</span> <span class="required" data-i18n="form.required">*</span></label>
+                                <input type="tel" id="tel-number" data-i18n="tel.number.placeholder" placeholder="1234567890" class="input-field" required>
                             </div>
-                            <div class="form-section-title">선택 항목</div>
+                            <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
                             <div class="form-group">
                                 <label class="checkbox-label">
                                     <input type="checkbox" id="tel-use-country-code">
-                                    <span>국제 번호 사용</span>
+                                    <span data-i18n="vcard.country.use">Use country code</span>
                                 </label>
                             </div>
                             <div class="form-group" id="tel-country-group" style="display: none;">
-                                <label for="tel-country">국가 선택</label>
+                                <label for="tel-country" data-i18n="vcard.country.select">Select Country</label>
                                 <select id="tel-country" class="input-field">
-                                    <option value="+82">한국 (+82)</option>
-                                    <option value="+1">미국/캐나다 (+1)</option>
+                                    <option value="+82" data-i18n="country.kr">South Korea (+82)</option>
+                                    <option value="+1" data-i18n="country.us">USA/Canada (+1)</option>
                                     <option value="+7">러시아/카자흐스탄 (+7)</option>
                                     <option value="+20">이집트 (+20)</option>
                                     <option value="+27">남아프리카 공화국 (+27)</option>
@@ -577,108 +594,108 @@
                         <!-- Geo Form -->
                         <div class="form-container" id="form-geo">
                             <div class="form-group">
-                                <label for="geo-address-search">주소 검색</label>
+                                <label for="geo-address-search" data-i18n="geo.search">Address Search</label>
                                 <div class="address-search-container">
-                                    <input type="text" id="geo-address-search" placeholder="장소 이름이나 주소 입력 (예: 서울시청)" class="input-field">
-                                    <button type="button" id="geo-search-btn" class="btn-search">🔍 검색</button>
+                                    <input type="text" id="geo-address-search" data-i18n="geo.search.placeholder" placeholder="Enter place name or address (e.g., City Hall)" class="input-field">
+                                    <button type="button" id="geo-search-btn" class="btn-search" data-i18n="button.search">🔍 Search</button>
                                 </div>
                                 <div id="geo-search-results" class="search-results" style="display: none;"></div>
                             </div>
                             <div class="form-group">
-                                <label for="geo-lat">위도</label>
-                                <input type="number" id="geo-lat" placeholder="37.5665" class="input-field" step="0.000001" min="-90" max="90">
-                                <small>위도 값 (-90 ~ 90)</small>
+                                <label for="geo-lat" data-i18n="geo.lat">Latitude</label>
+                                <input type="number" id="geo-lat" data-i18n="geo.lat.placeholder" placeholder="37.5665" class="input-field" step="0.000001" min="-90" max="90">
+                                <small data-i18n="geo.lat.help">Latitude value (-90 ~ 90)</small>
                             </div>
                             <div class="form-group">
-                                <label for="geo-lon">경도</label>
-                                <input type="number" id="geo-lon" placeholder="126.9780" class="input-field" step="0.000001" min="-180" max="180">
-                                <small>경도 값 (-180 ~ 180)</small>
+                                <label for="geo-lon" data-i18n="geo.lon">Longitude</label>
+                                <input type="number" id="geo-lon" data-i18n="geo.lon.placeholder" placeholder="126.9780" class="input-field" step="0.000001" min="-180" max="180">
+                                <small data-i18n="geo.lon.help">Longitude value (-180 ~ 180)</small>
                             </div>
                             <div class="form-group">
-                                <button id="get-current-location" class="btn-secondary" style="width: 100%;">
-                                    📍 현재 내 위치 사용
+                                <button id="get-current-location" class="btn-secondary" style="width: 100%;" data-i18n="geo.current">
+                                    📍 Use My Current Location
                                 </button>
-                                <small>또는 위에서 주소를 검색하거나 좌표를 직접 입력하세요</small>
+                                <small data-i18n="geo.current.help">Or search address above or enter coordinates manually</small>
                             </div>
                         </div>
 
                         <!-- Wi-Fi Form -->
                         <div class="form-container" id="form-wifi">
                             <div class="form-group">
-                                <label for="wifi-ssid">네트워크 이름 (SSID)</label>
-                                <input type="text" id="wifi-ssid" placeholder="MyWiFi" class="input-field">
+                                <label for="wifi-ssid" data-i18n="wifi.ssid">Network Name (SSID)</label>
+                                <input type="text" id="wifi-ssid" data-i18n="wifi.ssid.placeholder" placeholder="MyWiFi" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="wifi-password">비밀번호</label>
-                                <input type="text" id="wifi-password" placeholder="password123" class="input-field">
+                                <label for="wifi-password" data-i18n="wifi.password">Password</label>
+                                <input type="text" id="wifi-password" data-i18n="wifi.password.placeholder" placeholder="password123" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label for="wifi-encryption">보안 방식</label>
+                                <label for="wifi-encryption" data-i18n="wifi.encryption">Security Type</label>
                                 <select id="wifi-encryption" class="input-field">
-                                    <option value="WPA">WPA/WPA2</option>
-                                    <option value="WEP">WEP</option>
-                                    <option value="nopass">없음</option>
+                                    <option value="WPA" data-i18n="wifi.encryption.wpa">WPA/WPA2</option>
+                                    <option value="WEP" data-i18n="wifi.encryption.wep">WEP</option>
+                                    <option value="nopass" data-i18n="wifi.encryption.none">None</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class="checkbox-label">
                                     <input type="checkbox" id="wifi-hidden">
-                                    <span>숨김 네트워크</span>
+                                    <span data-i18n="wifi.hidden">Hidden Network</span>
                                 </label>
                             </div>
                         </div>
 
-                        <button id="generate-btn" class="btn-primary">QR 코드 만들기</button>
+                        <button id="generate-btn" class="btn-primary" data-i18n="button.generate">Generate QR Code</button>
                     </div>
 
                     <!-- Customization Options -->
                     <div class="section">
-                        <h2>디자인 꾸미기</h2>
+                        <h2 data-i18n="section.design">Customize Design</h2>
                         
                         <div class="form-group">
-                            <label for="dots-type">점 모양</label>
+                            <label for="dots-type" data-i18n="design.dots.type">Dot Style</label>
                             <select id="dots-type" class="input-field">
-                                <option value="rounded">둥근 사각형</option>
-                                <option value="dots">원형</option>
-                                <option value="classy">세련된</option>
-                                <option value="classy-rounded">세련된 둥근형</option>
-                                <option value="square">사각형</option>
-                                <option value="extra-rounded">매우 둥근</option>
+                                <option value="rounded" data-i18n="design.dots.rounded">Rounded Square</option>
+                                <option value="dots" data-i18n="design.dots.dots">Dots</option>
+                                <option value="classy" data-i18n="design.dots.classy">Classy</option>
+                                <option value="classy-rounded" data-i18n="design.dots.classy-rounded">Classy Rounded</option>
+                                <option value="square" data-i18n="design.dots.square">Square</option>
+                                <option value="extra-rounded" data-i18n="design.dots.extra-rounded">Extra Rounded</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="corner-square-type">모서리 사각형 모양</label>
+                            <label for="corner-square-type" data-i18n="design.corner.square">Corner Square Style</label>
                             <select id="corner-square-type" class="input-field">
-                                <option value="dot">원형</option>
-                                <option value="square">사각형</option>
-                                <option value="extra-rounded">매우 둥근</option>
+                                <option value="dot" data-i18n="design.corner.square.dot">Dot</option>
+                                <option value="square" data-i18n="design.corner.square.square">Square</option>
+                                <option value="extra-rounded" data-i18n="design.corner.square.extra-rounded">Extra Rounded</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="corner-dot-type">모서리 점 모양</label>
+                            <label for="corner-dot-type" data-i18n="design.corner.dot">Corner Dot Style</label>
                             <select id="corner-dot-type" class="input-field">
-                                <option value="dot">원형</option>
-                                <option value="square">사각형</option>
+                                <option value="dot" data-i18n="design.corner.dot.dot">Dot</option>
+                                <option value="square" data-i18n="design.corner.dot.square">Square</option>
                             </select>
                         </div>
 
                         <div class="color-row">
                             <div class="form-group">
-                                <label for="dots-color">코드 색상</label>
+                                <label for="dots-color" data-i18n="design.color.dots">Code Color</label>
                                 <input type="color" id="dots-color" value="#51A273" class="color-input">
                             </div>
                             <div class="form-group">
-                                <label for="background-color">배경 색상</label>
+                                <label for="background-color" data-i18n="design.color.background">Background Color</label>
                                 <input type="color" id="background-color" value="#ffffff" class="color-input">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="logo-upload">로고 이미지 (선택)</label>
+                            <label for="logo-upload" data-i18n="design.logo">Logo Image (optional)</label>
                             <input type="file" id="logo-upload" accept="image/*" class="input-field">
-                            <small>코드 중앙에 넣을 로고를 올려주세요</small>
+                            <small data-i18n="design.logo.help">Upload a logo to place in the center of the code</small>
                         </div>
                     </div>
                 </div>
@@ -686,26 +703,48 @@
                 <!-- Right Panel: QR Code Preview -->
                 <div class="preview-panel">
                     <div class="section preview-section">
-                        <h2>미리보기</h2>
+                        <h2 data-i18n="section.preview">Preview</h2>
                         <div id="qr-code-container"></div>
                         <div class="preview-actions">
-                            <button id="download-png" class="btn-secondary" disabled>PNG 다운로드</button>
-                            <button id="download-svg" class="btn-secondary" disabled>SVG 다운로드</button>
+                            <button id="download-png" class="btn-secondary" disabled data-i18n="button.download.png">Download PNG</button>
+                            <button id="download-svg" class="btn-secondary" disabled data-i18n="button.download.svg">Download SVG</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Side Advertisement -->
+                    <div class="ad-container ad-side">
+                        <div class="ad-label" data-i18n="ad.header">Advertisement</div>
+                        <div class="ad-content">
+                            <!-- Ad content will be inserted here -->
+                            <p class="ad-placeholder">300 x 250</p>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
 
+        <!-- Bottom Advertisement Section -->
+        <div class="ad-container ad-bottom">
+            <div class="ad-label" data-i18n="ad.header">Advertisement</div>
+            <div class="ad-content">
+                <!-- Ad content will be inserted here -->
+                <p class="ad-placeholder">728 x 90</p>
+            </div>
+            <div class="ad-note">
+                <small data-i18n="ad.note">Ads help keep this service free. Future mobile app will offer ad-free experience with in-app purchase.</small>
+            </div>
+        </div>
+
         <footer>
-            <p>Made with ❤️ by <a href="https://github.com/sn0wmankr" target="_blank" rel="noopener noreferrer">sn0wmankr</a></p>
+            <p><span data-i18n="footer.made">Made with ❤️ by</span> <a href="https://github.com/sn0wmankr" target="_blank" rel="noopener noreferrer">sn0wmankr</a></p>
             <p class="footer-links">
-                <a href="https://github.com/sn0wmankr/QRCodeGenerator-KR" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+                <a href="https://github.com/sn0wmankr/QRCodeGenerator-KR" target="_blank" rel="noopener noreferrer" data-i18n="footer.github">GitHub Repository</a>
             </p>
         </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
