@@ -361,14 +361,17 @@ function getQRContent() {
             const subject = document.getElementById('email-subject').value.trim();
             const body = document.getElementById('email-body').value.trim();
 
-            if (emailTo) {
-                content = `mailto:${emailTo}`;
-                const params = [];
-                if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
-                if (body) params.push(`body=${encodeURIComponent(body)}`);
-                if (params.length > 0) {
-                    content += '?' + params.join('&');
-                }
+            if (!emailTo) {
+                showNotification('받는 사람 이메일을 입력해주세요');
+                return '';
+            }
+
+            content = `mailto:${emailTo}`;
+            const params = [];
+            if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+            if (body) params.push(`body=${encodeURIComponent(body)}`);
+            if (params.length > 0) {
+                content += '?' + params.join('&');
             }
             break;
 
@@ -376,11 +379,15 @@ function getQRContent() {
             const telNumber = document.getElementById('tel-number').value.trim();
             const useTelCountryCode = document.getElementById('tel-use-country-code').checked;
             const telCountryCode = document.getElementById('tel-country').value;
-            if (telNumber) {
-                // Add country code if checkbox is enabled and country is selected
-                const formattedTelNumber = (useTelCountryCode && telCountryCode) ? `${telCountryCode}${telNumber}` : telNumber;
-                content = `tel:${formattedTelNumber}`;
+            
+            if (!telNumber) {
+                showNotification('전화번호를 입력해주세요');
+                return '';
             }
+
+            // Add country code if checkbox is enabled and country is selected
+            const formattedTelNumber = (useTelCountryCode && telCountryCode) ? `${telCountryCode}${telNumber}` : telNumber;
+            content = `tel:${formattedTelNumber}`;
             break;
 
         case 'geo':
