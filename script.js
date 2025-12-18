@@ -128,9 +128,9 @@ function selectSearchResult(place, resultContainerId) {
 }
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize language first
-    initLanguage();
+document.addEventListener('DOMContentLoaded', async function() {
+    // Initialize language first (wait for it to load)
+    await initLanguage();
     
     initializeEventListeners();
     createInitialQRCode();

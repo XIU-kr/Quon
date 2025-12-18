@@ -1,7 +1,7 @@
-# 🎨 QR Code Generator / QR 코드 만들기
+# 🎨 Quon - Free QR Code Generator / 큐온 - 무료 QR 코드 생성기
 
 A free, customizable QR code generator supporting multiple languages.  
-한국어와 영어를 지원하는 맞춤형 무료 QR 코드 생성기입니다.
+다국어를 지원하는 맞춤형 무료 QR 코드 생성기입니다.
 
 Create various types of QR codes easily: URLs, text, contacts, email, phone numbers, locations, Wi-Fi, and more.  
 인터넷 URL, 텍스트, 연락처, 이메일, 전화번호, 위치, 와이파이 등 다양한 종류의 QR 코드를 쉽게 만들 수 있습니다.
@@ -10,17 +10,21 @@ Create various types of QR codes easily: URLs, text, contacts, email, phone numb
 
 **👉 [https://qrcode.sn0wman.kr](https://qrcode.sn0wman.kr) - Use it now! / 바로 사용하세요!**
 
-![QR Code Generator](https://img.shields.io/badge/QR%20Code-Generator-51A273?style=for-the-badge)
+![Quon](https://img.shields.io/badge/Quon-Free%20QR%20Generator-51A273?style=for-the-badge)
 [![License](https://img.shields.io/badge/License-MIT-51A273?style=for-the-badge)](LICENSE)
-![Languages](https://img.shields.io/badge/Languages-EN%20%7C%20KO-51A273?style=for-the-badge)
+![Languages](https://img.shields.io/badge/Languages-EN%20%7C%20KO%20%7C%20Extensible-51A273?style=for-the-badge)
 
 ## ✨ Key Features / 주요 기능
 
 ### 🌍 Multi-language Support / 다국어 지원
-- **English (Default)**: Automatic for all users
-- **한국어**: Automatically shown to Korean users
-- Browser language detection for seamless experience
-- Easy to extend with additional languages
+- **Modular language system**: Each language in separate file
+- **Currently supported**: English (default), Korean (한국어)
+- **Browser language detection**: Automatically shows appropriate language
+- **Easy to extend**: Just add a new file in `locales/` directory
+  - Create `locales/[lang].js` with translations
+  - Add language code to `SUPPORTED_LANGUAGES` in `i18n.js`
+  - Optionally add detection logic
+- **Fallback system**: Missing translations automatically fall back to English
 
 ### 📱 Various QR Code Types / 다양한 QR 코드 종류
 - **인터넷 URL** - 웹사이트 링크
@@ -81,7 +85,10 @@ Create various types of QR codes easily: URLs, text, contacts, email, phone numb
 - **HTML5** - Semantic markup with Geolocation API support / Geolocation API를 지원하는 시맨틱 마크업
 - **CSS3** - Modern styling with CSS Grid and Flexbox / CSS Grid와 Flexbox를 활용한 현대적 스타일링
 - **Vanilla JavaScript** - No framework dependencies / 프레임워크 의존성 없음
-- **i18n System** - Custom internationalization with English and Korean support / 영어와 한국어를 지원하는 맞춤형 다국어 시스템
+- **Modular i18n System** - Dynamic language loading with separate files / 개별 파일로 동적 언어 로딩
+  - Async language file loading / 비동기 언어 파일 로딩
+  - Automatic fallback to English / 영어 자동 폴백
+  - Easy to add new languages / 새로운 언어 추가 용이
 - **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - Advanced QR code generation library with styling support (CDN) / 스타일링을 지원하는 고급 QR 코드 생성 라이브러리 (CDN)
 - **Browser Geolocation API** - Built-in location detection without external dependencies / 외부 의존성 없는 내장 위치 감지
 - **Kakao Map API** - Address search functionality (via proxy server) / 주소 검색 기능 (프록시 서버 사용)
@@ -118,6 +125,38 @@ Create various types of QR codes easily: URLs, text, contacts, email, phone numb
 - 인앱 결제로 모든 광고 제거
 - 다국어 지원 (영어, 한국어 및 추가 언어)
 
+## 🌐 Adding a New Language / 새 언어 추가하기
+
+Adding support for a new language is easy! Follow these steps:
+
+1. **Create language file**: Copy `locales/en.js` to `locales/[your-lang-code].js`
+   ```bash
+   cp locales/en.js locales/fr.js  # Example for French
+   ```
+
+2. **Translate the content**: Open your new file and translate all the values
+   ```javascript
+   const fr = {
+       'header.title': '🎨 Quon - Générateur de QR Code Gratuit',
+       'header.subtitle': 'Créez des codes QR personnalisés facilement',
+       // ... translate all other keys
+   };
+   ```
+
+3. **Register the language**: Edit `i18n.js` and add your language code to the array
+   ```javascript
+   const SUPPORTED_LANGUAGES = ['en', 'ko', 'fr'];  // Added 'fr'
+   ```
+
+4. **Optional - Add detection**: If you want automatic detection, update `detectLanguage()`
+   ```javascript
+   if (browserLang.startsWith('fr')) {
+       return 'fr';
+   }
+   ```
+
+That's it! The system will automatically load and use your new language file.
+
 ## 🤝 Contributing / 기여하기
 
 Contributions are welcome! You can participate in the following ways:  
@@ -127,7 +166,7 @@ Contributions are welcome! You can participate in the following ways:
 - Feature suggestions / 새로운 기능 제안
 - Pull Request submissions / Pull Request 제출
 - Documentation improvements / 문서 개선
-- Translation to other languages / 다른 언어로 번역
+- **Translation to other languages** / **다른 언어로 번역** (See above for instructions / 위 지침 참조)
 
 ## 📄 License / 라이선스
 

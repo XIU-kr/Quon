@@ -1,353 +1,136 @@
-// Internationalization (i18n) system
-const translations = {
-    en: {
-        // Header
-        'header.title': '🎨 QR Code Generator',
-        'header.subtitle': 'Create customized QR codes with the information you want easily',
-        
-        // Type selector
-        'type.url': 'URL',
-        'type.text': 'Text',
-        'type.vcard': 'Contact',
-        'type.email': 'Email',
-        'type.tel': 'Phone',
-        'type.geo': 'Location',
-        'type.wifi': 'Wi-Fi',
-        
-        // Section titles
-        'section.type': 'Select Code Type',
-        'section.content': 'Enter Content',
-        'section.design': 'Customize Design',
-        'section.preview': 'Preview',
-        
-        // Common form labels
-        'form.required': '*',
-        'form.optional': '(optional)',
-        
-        // URL form
-        'url.label': 'URL Address',
-        'url.placeholder': 'https://example.com',
-        
-        // Text form
-        'text.label': 'Text Content',
-        'text.placeholder': 'Enter your text here...',
-        
-        // VCard form
-        'vcard.required': 'Required Fields',
-        'vcard.optional': 'Optional Fields',
-        'vcard.fullname': 'Full Name',
-        'vcard.fullname.placeholder': 'John Doe',
-        'vcard.fullname.help': 'Or enter last and first name separately below',
-        'vcard.lastname': 'Last Name',
-        'vcard.lastname.placeholder': 'Doe',
-        'vcard.firstname': 'First Name',
-        'vcard.firstname.placeholder': 'John',
-        'vcard.tel': 'Phone Number',
-        'vcard.tel.placeholder': '1234567890',
-        'vcard.country.use': 'Use country code',
-        'vcard.country.select': 'Select Country',
-        'vcard.org': 'Company/Organization',
-        'vcard.org.placeholder': 'Company Name',
-        'vcard.email': 'Email',
-        'vcard.email.placeholder': 'email@example.com',
-        'vcard.url': 'Website',
-        'vcard.url.placeholder': 'https://example.com',
-        'vcard.address': 'Address',
-        'vcard.address.search': 'Search Address',
-        'vcard.address.search.placeholder': 'Search for address (e.g., City Hall)',
-        'vcard.address.placeholder': 'Enter address directly or search above',
-        
-        // Email form
-        'email.to': 'Recipient Email',
-        'email.to.placeholder': 'recipient@example.com',
-        'email.subject': 'Subject',
-        'email.subject.placeholder': 'Email subject',
-        'email.body': 'Body',
-        'email.body.placeholder': 'Email content...',
-        
-        // Tel form
-        'tel.number': 'Phone Number',
-        'tel.number.placeholder': '1234567890',
-        
-        // Geo form
-        'geo.search': 'Address Search',
-        'geo.search.placeholder': 'Enter place name or address (e.g., City Hall)',
-        'geo.lat': 'Latitude',
-        'geo.lat.placeholder': '37.5665',
-        'geo.lat.help': 'Latitude value (-90 ~ 90)',
-        'geo.lon': 'Longitude',
-        'geo.lon.placeholder': '126.9780',
-        'geo.lon.help': 'Longitude value (-180 ~ 180)',
-        'geo.current': '📍 Use My Current Location',
-        'geo.current.help': 'Or search address above or enter coordinates manually',
-        
-        // Wi-Fi form
-        'wifi.ssid': 'Network Name (SSID)',
-        'wifi.ssid.placeholder': 'MyWiFi',
-        'wifi.password': 'Password',
-        'wifi.password.placeholder': 'password123',
-        'wifi.encryption': 'Security Type',
-        'wifi.encryption.wpa': 'WPA/WPA2',
-        'wifi.encryption.wep': 'WEP',
-        'wifi.encryption.none': 'None',
-        'wifi.hidden': 'Hidden Network',
-        
-        // Design options
-        'design.dots.type': 'Dot Style',
-        'design.dots.rounded': 'Rounded Square',
-        'design.dots.dots': 'Dots',
-        'design.dots.classy': 'Classy',
-        'design.dots.classy-rounded': 'Classy Rounded',
-        'design.dots.square': 'Square',
-        'design.dots.extra-rounded': 'Extra Rounded',
-        
-        'design.corner.square': 'Corner Square Style',
-        'design.corner.square.dot': 'Dot',
-        'design.corner.square.square': 'Square',
-        'design.corner.square.extra-rounded': 'Extra Rounded',
-        
-        'design.corner.dot': 'Corner Dot Style',
-        'design.corner.dot.dot': 'Dot',
-        'design.corner.dot.square': 'Square',
-        
-        'design.color.dots': 'Code Color',
-        'design.color.background': 'Background Color',
-        
-        'design.logo': 'Logo Image (optional)',
-        'design.logo.help': 'Upload a logo to place in the center of the code',
-        
-        // Buttons
-        'button.generate': 'Generate QR Code',
-        'button.download.png': 'Download PNG',
-        'button.download.svg': 'Download SVG',
-        'button.search': '🔍 Search',
-        
-        // Messages
-        'message.empty': 'Enter content and click "Generate QR Code"',
-        'message.error.empty': 'Please enter the content for the QR code',
-        'message.error.required': 'Please fill in the required field',
-        'message.error.email': 'Please enter the recipient email',
-        'message.error.tel': 'Please enter the phone number',
-        'message.error.name': 'Please enter your name or full name',
-        'message.error.geo': 'Please enter latitude and longitude',
-        'message.error.api': 'API server connection failed',
-        'message.error.network': 'Please check your network connection',
-        'message.error.search.empty': 'No search results',
-        'message.error.search.query': 'Please enter an address to search',
-        'message.success.location': 'Location successfully retrieved!',
-        'message.success.location.select': 'Location selected',
-        'message.success.address.select': 'Address entered',
-        'message.loading.location': '⏳ Checking location...',
-        'message.loading.search': 'Searching...',
-        'message.error.location.denied': 'Location access denied. Please allow location permissions.',
-        'message.error.location.unavailable': 'Location information unavailable',
-        'message.error.location.timeout': 'Location request timed out',
-        'message.error.location.unsupported': 'Browser does not support geolocation',
-        
-        // Footer
-        'footer.made': 'Made with ❤️ by',
-        'footer.github': 'GitHub Repository',
-        
-        // Country codes
-        'country.kr': 'South Korea (+82)',
-        'country.us': 'USA/Canada (+1)',
-        'country.jp': 'Japan (+81)',
-        'country.cn': 'China (+86)',
-        
-        // Ad sections
-        'ad.header': 'Advertisement',
-        'ad.note': 'Ads help keep this service free. Future mobile app will offer ad-free experience with in-app purchase.'
-    },
-    ko: {
-        // Header
-        'header.title': '🎨 QR 코드 만들기',
-        'header.subtitle': '원하는 정보를 담은 맞춤형 QR 코드를 쉽게 만들어보세요',
-        
-        // Type selector
-        'type.url': '인터넷 주소',
-        'type.text': '문자',
-        'type.vcard': '연락처',
-        'type.email': '이메일',
-        'type.tel': '전화',
-        'type.geo': '위치',
-        'type.wifi': '와이파이',
-        
-        // Section titles
-        'section.type': '코드 종류 선택',
-        'section.content': '내용 입력',
-        'section.design': '디자인 꾸미기',
-        'section.preview': '미리보기',
-        
-        // Common form labels
-        'form.required': '*',
-        'form.optional': '(선택)',
-        
-        // URL form
-        'url.label': '인터넷 주소',
-        'url.placeholder': 'https://example.com',
-        
-        // Text form
-        'text.label': '문자 내용',
-        'text.placeholder': '여기에 문자를 입력하세요...',
-        
-        // VCard form
-        'vcard.required': '필수 항목',
-        'vcard.optional': '선택 항목',
-        'vcard.fullname': '성함',
-        'vcard.fullname.placeholder': '홍길동',
-        'vcard.fullname.help': '또는 아래에 성과 이름을 따로 입력하세요',
-        'vcard.lastname': '성',
-        'vcard.lastname.placeholder': '홍',
-        'vcard.firstname': '이름',
-        'vcard.firstname.placeholder': '길동',
-        'vcard.tel': '전화번호',
-        'vcard.tel.placeholder': '01012345678',
-        'vcard.country.use': '국제 번호 사용',
-        'vcard.country.select': '국가 선택',
-        'vcard.org': '회사/단체',
-        'vcard.org.placeholder': '회사명',
-        'vcard.email': '이메일',
-        'vcard.email.placeholder': 'email@example.com',
-        'vcard.url': '웹사이트',
-        'vcard.url.placeholder': 'https://example.com',
-        'vcard.address': '주소',
-        'vcard.address.search': '주소 검색',
-        'vcard.address.search.placeholder': '주소 검색 (예: 서울시청)',
-        'vcard.address.placeholder': '주소를 직접 입력하거나 위에서 검색하세요',
-        
-        // Email form
-        'email.to': '받는 사람 이메일',
-        'email.to.placeholder': 'recipient@example.com',
-        'email.subject': '제목',
-        'email.subject.placeholder': '이메일 제목',
-        'email.body': '내용',
-        'email.body.placeholder': '이메일 내용...',
-        
-        // Tel form
-        'tel.number': '전화번호',
-        'tel.number.placeholder': '01012345678',
-        
-        // Geo form
-        'geo.search': '주소 검색',
-        'geo.search.placeholder': '장소 이름이나 주소 입력 (예: 서울시청)',
-        'geo.lat': '위도',
-        'geo.lat.placeholder': '37.5665',
-        'geo.lat.help': '위도 값 (-90 ~ 90)',
-        'geo.lon': '경도',
-        'geo.lon.placeholder': '126.9780',
-        'geo.lon.help': '경도 값 (-180 ~ 180)',
-        'geo.current': '📍 현재 내 위치 사용',
-        'geo.current.help': '또는 위에서 주소를 검색하거나 좌표를 직접 입력하세요',
-        
-        // Wi-Fi form
-        'wifi.ssid': '네트워크 이름 (SSID)',
-        'wifi.ssid.placeholder': 'MyWiFi',
-        'wifi.password': '비밀번호',
-        'wifi.password.placeholder': 'password123',
-        'wifi.encryption': '보안 방식',
-        'wifi.encryption.wpa': 'WPA/WPA2',
-        'wifi.encryption.wep': 'WEP',
-        'wifi.encryption.none': '없음',
-        'wifi.hidden': '숨김 네트워크',
-        
-        // Design options
-        'design.dots.type': '점 모양',
-        'design.dots.rounded': '둥근 사각형',
-        'design.dots.dots': '원형',
-        'design.dots.classy': '세련된',
-        'design.dots.classy-rounded': '세련된 둥근형',
-        'design.dots.square': '사각형',
-        'design.dots.extra-rounded': '매우 둥근',
-        
-        'design.corner.square': '모서리 사각형 모양',
-        'design.corner.square.dot': '원형',
-        'design.corner.square.square': '사각형',
-        'design.corner.square.extra-rounded': '매우 둥근',
-        
-        'design.corner.dot': '모서리 점 모양',
-        'design.corner.dot.dot': '원형',
-        'design.corner.dot.square': '사각형',
-        
-        'design.color.dots': '코드 색상',
-        'design.color.background': '배경 색상',
-        
-        'design.logo': '로고 이미지 (선택)',
-        'design.logo.help': '코드 중앙에 넣을 로고를 올려주세요',
-        
-        // Buttons
-        'button.generate': 'QR 코드 만들기',
-        'button.download.png': 'PNG 다운로드',
-        'button.download.svg': 'SVG 다운로드',
-        'button.search': '🔍 검색',
-        
-        // Messages
-        'message.empty': '내용을 입력하고 "QR 코드 만들기"를 눌러주세요',
-        'message.error.empty': 'QR 코드에 담을 내용을 입력해주세요',
-        'message.error.required': '필수 항목을 입력해주세요',
-        'message.error.email': '받는 사람 이메일을 입력해주세요',
-        'message.error.tel': '전화번호를 입력해주세요',
-        'message.error.name': '이름 또는 성함을 입력해주세요',
-        'message.error.geo': '위도와 경도를 입력해주세요',
-        'message.error.api': 'API 서버와 연결이 실패했습니다',
-        'message.error.network': '네트워크 연결을 확인해주세요',
-        'message.error.search.empty': '검색 결과가 없습니다',
-        'message.error.search.query': '검색할 주소를 입력해주세요',
-        'message.success.location': '위치를 성공적으로 확인했습니다!',
-        'message.success.location.select': '위치가 선택되었습니다',
-        'message.success.address.select': '주소가 입력되었습니다',
-        'message.loading.location': '⏳ 위치 확인 중...',
-        'message.loading.search': '검색 중...',
-        'message.error.location.denied': '위치 접근이 거부되었습니다. 위치 권한을 허용해주세요.',
-        'message.error.location.unavailable': '위치 정보를 사용할 수 없습니다',
-        'message.error.location.timeout': '위치 요청 시간이 초과되었습니다',
-        'message.error.location.unsupported': '브라우저에서 위치 정보를 지원하지 않습니다',
-        
-        // Footer
-        'footer.made': 'Made with ❤️ by',
-        'footer.github': 'GitHub Repository',
-        
-        // Country codes
-        'country.kr': '한국 (+82)',
-        'country.us': '미국/캐나다 (+1)',
-        'country.jp': '일본 (+81)',
-        'country.cn': '중국 (+86)',
-        
-        // Ad sections
-        'ad.header': '광고',
-        'ad.note': '광고를 통해 이 서비스를 무료로 제공하고 있습니다. 향후 모바일 앱에서는 인앱 결제를 통해 광고 없이 사용하실 수 있습니다.'
-    }
-};
+// Internationalization (i18n) system - Main loader
+// This file dynamically loads language files from the locales directory
+// 
+// To add a new language:
+// 1. Create a new file in locales/ (e.g., locales/fr.js for French)
+//    - Copy the structure from locales/en.js or locales/ko.js
+//    - Translate all the values
+// 2. Add the language code to SUPPORTED_LANGUAGES array below
+// 3. Optionally add language detection logic in detectLanguage() function
+//
+// The system will automatically load the language file and make it available
+
+// List of supported languages - add new language codes here
+const SUPPORTED_LANGUAGES = ['en', 'ko'];
+
+// Storage for loaded translations
+const translations = {};
 
 // Current language
 let currentLanguage = 'en';
 
-// Detect user's language
+// Loading state
+let isLoading = false;
+let loadedLanguages = new Set();
+
+// Load a language file
+async function loadLanguage(lang) {
+    if (!SUPPORTED_LANGUAGES.includes(lang)) {
+        console.warn(`Language "${lang}" is not supported. Falling back to English.`);
+        lang = 'en';
+    }
+    
+    // Return if already loaded
+    if (loadedLanguages.has(lang)) {
+        return true;
+    }
+    
+    try {
+        // Dynamically load the language file
+        const script = document.createElement('script');
+        script.src = `locales/${lang}.js`;
+        
+        // Wait for the script to load
+        await new Promise((resolve, reject) => {
+            script.onload = () => {
+                // The language file should have defined a variable with the language code
+                // e.g., const en = { ... } or const ko = { ... }
+                if (typeof window[lang] !== 'undefined') {
+                    translations[lang] = window[lang];
+                    loadedLanguages.add(lang);
+                    resolve();
+                } else {
+                    reject(new Error(`Language data for "${lang}" not found after loading script`));
+                }
+            };
+            script.onerror = () => reject(new Error(`Failed to load language file: locales/${lang}.js`));
+            document.head.appendChild(script);
+        });
+        
+        return true;
+    } catch (error) {
+        console.error(`Error loading language "${lang}":`, error);
+        
+        // If failed to load and not English, try to load English as fallback
+        if (lang !== 'en' && !loadedLanguages.has('en')) {
+            console.log('Attempting to load English as fallback...');
+            return loadLanguage('en');
+        }
+        
+        return false;
+    }
+}
+
+// Detect user's language based on browser settings
 function detectLanguage() {
     const browserLang = navigator.language || navigator.userLanguage;
-    // Check if Korean
+    
+    // Extract language code (e.g., 'en-US' -> 'en', 'ko-KR' -> 'ko')
+    const langCode = browserLang.split('-')[0].toLowerCase();
+    
+    // Check if the detected language is supported
+    if (SUPPORTED_LANGUAGES.includes(langCode)) {
+        return langCode;
+    }
+    
+    // Check for specific language mappings
     if (browserLang.startsWith('ko')) {
         return 'ko';
     }
-    // Default to English
+    
+    // Default to English for all other languages
     return 'en';
 }
 
-// Get translation
+// Get translation for a key
 function t(key) {
-    return translations[currentLanguage][key] || key;
+    if (!translations[currentLanguage]) {
+        console.warn(`Translations not loaded for language: ${currentLanguage}`);
+        return key;
+    }
+    
+    const translation = translations[currentLanguage][key];
+    
+    if (!translation) {
+        // Try to fallback to English if key not found
+        if (currentLanguage !== 'en' && translations['en'] && translations['en'][key]) {
+            console.warn(`Translation key "${key}" not found for language "${currentLanguage}", using English fallback`);
+            return translations['en'][key];
+        }
+        console.warn(`Translation key "${key}" not found`);
+        return key;
+    }
+    
+    return translation;
 }
 
-// Update all text content
+// Update all text content in the page
 function updateLanguage() {
+    // Update all elements with data-i18n attribute
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         const translation = t(key);
         
+        // Handle input/textarea placeholders
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
             if (element.placeholder !== undefined) {
                 element.placeholder = translation;
             }
+        } else if (element.tagName === 'SELECT') {
+            // For select elements, update the label, not the options
+            // Options should have their own data-i18n attributes
         } else {
+            // For other elements, update text content
             element.textContent = translation;
         }
     });
@@ -355,20 +138,85 @@ function updateLanguage() {
     // Update html lang attribute
     document.documentElement.lang = currentLanguage;
     
-    // Update page title
-    document.title = t('header.title').replace('🎨 ', '') + ' - ' + (currentLanguage === 'ko' ? '맞춤형 QR 코드 생성기' : 'Custom QR Code Generator');
+    // Update page title with proper branding
+    const titleBase = t('header.title').replace('🎨 ', '');
+    const titleSuffix = currentLanguage === 'ko' ? '맞춤형 QR 코드 생성기' : 'Free Custom QR Code Generator';
+    document.title = `${titleBase} - ${titleSuffix}`;
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+        metaDescription.content = t('header.subtitle');
+    }
 }
 
-// Initialize language
-function initLanguage() {
-    currentLanguage = detectLanguage();
-    updateLanguage();
+// Initialize language system
+async function initLanguage() {
+    try {
+        isLoading = true;
+        
+        // Detect user's preferred language
+        const detectedLang = detectLanguage();
+        currentLanguage = detectedLang;
+        
+        // Load the detected language
+        await loadLanguage(currentLanguage);
+        
+        // Also preload English as fallback if not already loaded
+        if (currentLanguage !== 'en') {
+            loadLanguage('en').catch(err => console.error('Failed to preload English fallback:', err));
+        }
+        
+        // Update the UI
+        updateLanguage();
+        
+        isLoading = false;
+    } catch (error) {
+        console.error('Error initializing language system:', error);
+        isLoading = false;
+    }
 }
 
-// Switch language (for future language switcher UI)
-function switchLanguage(lang) {
-    if (translations[lang]) {
+// Switch language (for language switcher UI)
+async function switchLanguage(lang) {
+    if (!SUPPORTED_LANGUAGES.includes(lang)) {
+        console.warn(`Language "${lang}" is not supported`);
+        return false;
+    }
+    
+    // Don't switch if already on this language
+    if (currentLanguage === lang && loadedLanguages.has(lang)) {
+        return true;
+    }
+    
+    try {
+        // Load the language if not already loaded
+        if (!loadedLanguages.has(lang)) {
+            await loadLanguage(lang);
+        }
+        
+        // Switch to the new language
         currentLanguage = lang;
         updateLanguage();
+        
+        return true;
+    } catch (error) {
+        console.error(`Error switching to language "${lang}":`, error);
+        return false;
     }
+}
+
+// Get list of supported languages (useful for language switcher UI)
+function getSupportedLanguages() {
+    return [...SUPPORTED_LANGUAGES];
+}
+
+// Get current language
+function getCurrentLanguage() {
+    return currentLanguage;
+}
+
+// Check if a language is loaded
+function isLanguageLoaded(lang) {
+    return loadedLanguages.has(lang);
 }
