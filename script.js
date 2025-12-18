@@ -274,20 +274,27 @@ function getQRContent() {
             // iOS-compatible vCard format with CRLF line endings
             content = 'BEGIN:VCARD\r\nVERSION:3.0\r\n';
             if (name) {
-                // For Korean names, treat entire name as display name
-                content += `FN:${escapeVCard(name)}\r\n`;
+                // Add formatted name with proper encoding
+                content += formatVCardField('FN', name);
+                
+                // Check if name contains non-ASCII characters once
+                const hasNonASCII = containsNonASCII(name);
+                
                 // Try to parse name - if it contains spaces, split; otherwise use as-is
                 const nameParts = name.split(' ');
                 if (nameParts.length > 1) {
                     // Assume last part is given name, first part is family name (Korean convention)
                     const familyName = nameParts[0];
                     const givenName = nameParts.slice(1).join(' ');
-                    content += `N:${escapeVCard(familyName)};${escapeVCard(givenName)};;;\r\n`;
+                    // For N field, we need to handle encoding differently since it has structured components
+                    const nValue = `${escapeVCard(familyName)};${escapeVCard(givenName)};;;`;
+                    content += formatVCardNameField(nValue, hasNonASCII);
                 } else {
-                    content += `N:${escapeVCard(name)};;;;\r\n`;
+                    const nValue = `${escapeVCard(name)};;;;`;
+                    content += formatVCardNameField(nValue, hasNonASCII);
                 }
             }
-            if (org) content += `ORG:${escapeVCard(org)}\r\n`;
+            if (org) content += formatVCardField('ORG', org);
             if (tel) {
                 // Keep Korean phone number as-is without international format conversion
                 content += `TEL;TYPE=CELL:${tel}\r\n`;
@@ -296,7 +303,14 @@ function getQRContent() {
             if (url) content += `URL:${url}\r\n`;
             if (address) {
                 // For Korean addresses, use the full address as street address
-                content += `ADR;TYPE=HOME:;;${escapeVCard(address)};;;;\r\n`;
+                // ADR field has structured format, so we handle it specially
+                const adrValue = `;;${escapeVCard(address)};;;;`;
+                if (containsNonASCII(address)) {
+                    const encoded = encodeQuotedPrintable(adrValue);
+                    content += `ADR;TYPE=HOME;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${encoded}\r\n`;
+                } else {
+                    content += `ADR;TYPE=HOME:${adrValue}\r\n`;
+                }
             }
             content += 'END:VCARD';
             break;
@@ -472,10 +486,66 @@ function downloadQR(format) {
     }
 }
 
-// Utility function to escape special characters in vCard
+// Utility function to check if string contains non-ASCII characters
+function containsNonASCII(str) {
+    return /[^\x00-\x7F]/.test(str);
+}
+
+// Utility function to encode string in QUOTED-PRINTABLE format for vCard
+function encodeQuotedPrintable(str) {
+    // Encode string to UTF-8 bytes and then to QUOTED-PRINTABLE
+    const encoded = [];
+    const utf8Encoder = new TextEncoder();
+    const bytes = utf8Encoder.encode(str);
+    const EQUALS_CHAR_CODE = '='.charCodeAt(0);
+    
+    for (let i = 0; i < bytes.length; i++) {
+        const byte = bytes[i];
+        // Characters that must be encoded: control chars, =, and non-ASCII
+        // Per RFC 2047, we encode all non-printable ASCII and non-ASCII bytes
+        if (byte < 32 || byte > 126 || byte === EQUALS_CHAR_CODE) {
+            encoded.push('=' + byte.toString(16).toUpperCase().padStart(2, '0'));
+        } else {
+            encoded.push(String.fromCharCode(byte));
+        }
+    }
+    
+    return encoded.join('');
+}
+
+// Utility function to escape and encode vCard field values
 function escapeVCard(str) {
-    // Escape backslashes first, then other special characters
-    return str.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+    // First escape special vCard characters
+    let escaped = str.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+    return escaped;
+}
+
+// Utility function to format vCard field with proper encoding
+function formatVCardField(fieldName, value, escapeValue = true) {
+    if (!value) return '';
+    
+    // Escape the value if needed
+    const processedValue = escapeValue ? escapeVCard(value) : value;
+    
+    // Check if the value contains non-ASCII characters (Korean, etc.)
+    if (containsNonASCII(processedValue)) {
+        // Use QUOTED-PRINTABLE encoding with UTF-8 charset for non-ASCII content
+        const encoded = encodeQuotedPrintable(processedValue);
+        return `${fieldName};CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${encoded}\r\n`;
+    } else {
+        // Use plain format for ASCII-only content
+        return `${fieldName}:${processedValue}\r\n`;
+    }
+}
+
+// Utility function to format vCard N field with proper encoding
+function formatVCardNameField(nValue, hasNonASCII) {
+    if (hasNonASCII) {
+        const encoded = encodeQuotedPrintable(nValue);
+        return `N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${encoded}\r\n`;
+    } else {
+        return `N:${nValue}\r\n`;
+    }
 }
 
 // Utility function to escape special characters in Wi-Fi QR code
