@@ -8,13 +8,13 @@ function getCurrentLocation() {
     const button = document.getElementById('get-current-location');
     
     if (!navigator.geolocation) {
-        showNotification('브라우저에서 위치 정보를 지원하지 않습니다', 'error');
+        showNotification(t('message.error.location.unsupported'), 'error');
         return;
     }
     
     // Update button text to show loading state
     const originalText = button.innerHTML;
-    button.innerHTML = '⏳ 위치 확인 중...';
+    button.innerHTML = t('message.loading.location');
     button.disabled = true;
     
     navigator.geolocation.getCurrentPosition(
@@ -22,22 +22,22 @@ function getCurrentLocation() {
             // Success - update fields with current location
             document.getElementById('geo-lat').value = position.coords.latitude.toFixed(6);
             document.getElementById('geo-lon').value = position.coords.longitude.toFixed(6);
-            showNotification('위치를 성공적으로 확인했습니다!', 'success');
+            showNotification(t('message.success.location'), 'success');
             button.innerHTML = originalText;
             button.disabled = false;
         },
         function(error) {
             // Error handling
-            let message = '위치를 확인할 수 없습니다';
+            let message = t('message.error.location.unavailable');
             switch(error.code) {
                 case error.PERMISSION_DENIED:
-                    message = '위치 접근이 거부되었습니다. 위치 권한을 허용해주세요.';
+                    message = t('message.error.location.denied');
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    message = '위치 정보를 사용할 수 없습니다';
+                    message = t('message.error.location.unavailable');
                     break;
                 case error.TIMEOUT:
-                    message = '위치 요청 시간이 초과되었습니다';
+                    message = t('message.error.location.timeout');
                     break;
             }
             showNotification(message, 'error');
@@ -57,12 +57,12 @@ async function searchAddress(query, resultContainerId) {
     const resultsContainer = document.getElementById(resultContainerId);
     
     if (!query.trim()) {
-        showNotification('검색할 주소를 입력해주세요', 'error');
+        showNotification(t('message.error.search.query'), 'error');
         return;
     }
     
     resultsContainer.style.display = 'block';
-    resultsContainer.innerHTML = '<div class="search-results-loading">검색 중...</div>';
+    resultsContainer.innerHTML = '<div class="search-results-loading">' + t('message.loading.search') + '</div>';
     
     try {
         const response = await fetch(`https://proxy.sn0wman.kr/api/kakao/geocode?query=${encodeURIComponent(query)}`);
@@ -74,7 +74,7 @@ async function searchAddress(query, resultContainerId) {
         const data = await response.json();
         
         if (!data.documents || data.documents.length === 0) {
-            resultsContainer.innerHTML = '<div class="search-results-empty">검색 결과가 없습니다</div>';
+            resultsContainer.innerHTML = '<div class="search-results-empty">' + t('message.error.search.empty') + '</div>';
             return;
         }
         
@@ -97,9 +97,9 @@ async function searchAddress(query, resultContainerId) {
         console.error('Address search error:', error.message || 'Unknown error');
         
         // Determine user-friendly error message
-        let errorMessage = 'API 서버와 연결이 실패했습니다';
+        let errorMessage = t('message.error.api');
         if (error.name === 'TypeError' || error.message.includes('fetch')) {
-            errorMessage = '네트워크 연결을 확인해주세요';
+            errorMessage = t('message.error.network');
         }
         
         resultsContainer.innerHTML = `<div class="search-results-empty">${errorMessage}</div>`;
@@ -115,11 +115,11 @@ function selectSearchResult(place, resultContainerId) {
         // For location form
         document.getElementById('geo-lat').value = place.y;
         document.getElementById('geo-lon').value = place.x;
-        showNotification('위치가 선택되었습니다', 'success');
+        showNotification(t('message.success.location.select'), 'success');
     } else if (resultContainerId === 'vcard-search-results') {
         // For vCard form
         document.getElementById('vcard-address').value = place.address_name || place.place_name || '';
-        showNotification('주소가 입력되었습니다', 'success');
+        showNotification(t('message.success.address.select'), 'success');
     }
     
     // Hide search results
@@ -128,7 +128,10 @@ function selectSearchResult(place, resultContainerId) {
 }
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Initialize language first (wait for it to load)
+    await initLanguage();
+    
     initializeEventListeners();
     createInitialQRCode();
     // Disable download buttons initially
@@ -322,11 +325,11 @@ function getQRContent() {
 
             // Validate required fields
             if (!name) {
-                showNotification('이름 또는 성함을 입력해주세요');
+                showNotification(t('message.error.name'));
                 return '';
             }
             if (!tel) {
-                showNotification('전화번호를 입력해주세요');
+                showNotification(t('message.error.tel'));
                 return '';
             }
 
@@ -369,7 +372,7 @@ function getQRContent() {
             const body = document.getElementById('email-body').value.trim();
 
             if (!emailTo) {
-                showNotification('받는 사람 이메일을 입력해주세요');
+                showNotification(t('message.error.email'));
                 return '';
             }
 
@@ -388,7 +391,7 @@ function getQRContent() {
             const telCountryCode = document.getElementById('tel-country').value;
             
             if (!telNumber) {
-                showNotification('전화번호를 입력해주세요');
+                showNotification(t('message.error.tel'));
                 return '';
             }
 
@@ -477,7 +480,7 @@ function getQROptions() {
 // Create initial QR code
 function createInitialQRCode() {
     const container = document.getElementById('qr-code-container');
-    container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>내용을 입력하고 "QR 코드 만들기"를 눌러주세요</p></div>';
+    container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>' + t('message.empty') + '</p></div>';
 }
 
 // Show notification message
@@ -503,7 +506,7 @@ function generateQRCode() {
     const content = getQRContent();
 
     if (!content) {
-        showNotification('QR 코드에 담을 내용을 입력해주세요');
+        showNotification(t('message.error.empty'));
         return;
     }
 
@@ -525,7 +528,7 @@ function generateQRCode() {
 // Download QR code
 function downloadQR(format) {
     if (!qrCode) {
-        showNotification('먼저 QR 코드를 만들어주세요');
+        showNotification(t('message.error.empty'));
         return;
     }
 

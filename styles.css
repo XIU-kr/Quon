@@ -38,6 +38,7 @@ header {
     text-align: center;
     padding: 40px 20px;
     margin-bottom: 30px;
+    position: relative;
 }
 
 header h1 {
@@ -50,6 +51,60 @@ header h1 {
 .subtitle {
     font-size: 1.1rem;
     color: var(--text-light);
+}
+
+/* Language Switcher */
+.language-switcher-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lang-label {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.language-switcher {
+    display: flex;
+    gap: 8px;
+    background: white;
+    padding: 4px;
+    border-radius: var(--radius-small);
+    box-shadow: var(--shadow);
+}
+
+.lang-btn {
+    padding: 8px 16px;
+    border: 2px solid transparent;
+    background: transparent;
+    color: var(--text-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.lang-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.lang-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.lang-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(81, 162, 115, 0.2);
 }
 
 .notice {
@@ -301,6 +356,67 @@ small {
     gap: 15px;
 }
 
+/* Advertisement Containers */
+.ad-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-small);
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.ad-top {
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.ad-bottom {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.ad-side {
+    margin: 20px 0;
+    max-width: 100%;
+}
+
+.ad-label {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.ad-content {
+    background: white;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-small);
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ad-placeholder {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.ad-note {
+    margin-top: 10px;
+}
+
+.ad-note small {
+    color: var(--text-light);
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
 /* Footer */
 footer {
     text-align: center;
@@ -352,6 +468,7 @@ footer a:hover {
 
     header {
         padding: 30px 15px;
+        padding-top: 70px; /* Make room for language switcher */
     }
 
     header h1 {
@@ -360,6 +477,24 @@ footer a:hover {
 
     .subtitle {
         font-size: 1rem;
+    }
+    
+    /* Language switcher on mobile */
+    .language-switcher-container {
+        top: 15px;
+        right: 15px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+    }
+    
+    .lang-label {
+        font-size: 0.8rem;
+    }
+    
+    .lang-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
     }
 
     .section {
