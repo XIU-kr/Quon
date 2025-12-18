@@ -1,18 +1,28 @@
-# 🎨 QR 코드 만들기
+# 🎨 QR Code Generator / QR 코드 만들기
 
-- 한국어로 제공되는 맞춤형 무료 QR 코드 생성기입니다. 
-- 인터넷 URL, 텍스트, 연락처, 이메일, 전화번호, 위치, 와이파이 등 다양한 종류의 QR 코드를 쉽게 만들 수 있습니다.
+A free, customizable QR code generator supporting multiple languages.  
+한국어와 영어를 지원하는 맞춤형 무료 QR 코드 생성기입니다.
 
-## 🌐 웹사이트
+Create various types of QR codes easily: URLs, text, contacts, email, phone numbers, locations, Wi-Fi, and more.  
+인터넷 URL, 텍스트, 연락처, 이메일, 전화번호, 위치, 와이파이 등 다양한 종류의 QR 코드를 쉽게 만들 수 있습니다.
 
-**👉 [https://qrcode.sn0wman.kr](https://qrcode.sn0wman.kr) 에서 바로 사용하세요!**
+## 🌐 Website / 웹사이트
+
+**👉 [https://qrcode.sn0wman.kr](https://qrcode.sn0wman.kr) - Use it now! / 바로 사용하세요!**
 
 ![QR Code Generator](https://img.shields.io/badge/QR%20Code-Generator-51A273?style=for-the-badge)
 [![License](https://img.shields.io/badge/License-MIT-51A273?style=for-the-badge)](LICENSE)
+![Languages](https://img.shields.io/badge/Languages-EN%20%7C%20KO-51A273?style=for-the-badge)
 
-## ✨ 주요 기능
+## ✨ Key Features / 주요 기능
 
-### 📱 다양한 QR 코드 종류
+### 🌍 Multi-language Support / 다국어 지원
+- **English (Default)**: Automatic for all users
+- **한국어**: Automatically shown to Korean users
+- Browser language detection for seamless experience
+- Easy to extend with additional languages
+
+### 📱 Various QR Code Types / 다양한 QR 코드 종류
 - **인터넷 URL** - 웹사이트 링크
 - **텍스트** - 일반 텍스트 내용
 - **연락처** - 이름, 전화번호, 이메일, 주소 등 (iOS 호환 형식)
@@ -27,9 +37,19 @@
 - **색상 옵션**: 코드 색상과 배경 색상을 자유롭게 선택
 - **로고 추가**: QR 코드 중앙에 로고 이미지 삽입 가능
 
-### 💾 다운로드 옵션
-- **PNG 형식**: 고해상도 이미지
-- **SVG 형식**: 인쇄용 벡터 그래픽
+### 💾 Download Options / 다운로드 옵션
+- **PNG Format / PNG 형식**: High-resolution image / 고해상도 이미지
+- **SVG Format / SVG 형식**: Vector graphics for printing / 인쇄용 벡터 그래픽
+
+### 📢 Ad-Supported Free Service / 광고 지원 무료 서비스
+- Website displays ads to keep the service free
+- Future mobile app (package: `com.sn0wman.quon`) will offer:
+  - Separate ads (not website ads)
+  - In-app purchase option to remove all ads
+- 웹사이트는 광고를 통해 무료로 제공됩니다
+- 향후 모바일 앱(패키지명: `com.sn0wman.quon`)에서는:
+  - 웹사이트 광고 대신 별도의 앱 광고 표시
+  - 인앱 결제로 모든 광고 제거 가능
 
 ## 🎯 사용 방법
 
@@ -56,15 +76,16 @@
 5. **다운로드**
    - "PNG 다운로드" 또는 "SVG 다운로드" 버튼으로 저장
 
-## 🛠️ 기술 스택
+## 🛠️ Tech Stack / 기술 스택
 
-- **HTML5** - Geolocation API를 지원하는 시맨틱 마크업
-- **CSS3** - CSS Grid와 Flexbox를 활용한 현대적 스타일링
-- **Vanilla JavaScript** - 프레임워크 의존성 없음
-- **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - 스타일링을 지원하는 고급 QR 코드 생성 라이브러리 (CDN)
-- **브라우저 Geolocation API** - 외부 의존성 없는 내장 위치 감지
-- **카카오맵 API** - 주소 검색 기능 (프록시 서버 사용)
-- **GitHub Pages** - 무료 호스팅
+- **HTML5** - Semantic markup with Geolocation API support / Geolocation API를 지원하는 시맨틱 마크업
+- **CSS3** - Modern styling with CSS Grid and Flexbox / CSS Grid와 Flexbox를 활용한 현대적 스타일링
+- **Vanilla JavaScript** - No framework dependencies / 프레임워크 의존성 없음
+- **i18n System** - Custom internationalization with English and Korean support / 영어와 한국어를 지원하는 맞춤형 다국어 시스템
+- **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - Advanced QR code generation library with styling support (CDN) / 스타일링을 지원하는 고급 QR 코드 생성 라이브러리 (CDN)
+- **Browser Geolocation API** - Built-in location detection without external dependencies / 외부 의존성 없는 내장 위치 감지
+- **Kakao Map API** - Address search functionality (via proxy server) / 주소 검색 기능 (프록시 서버 사용)
+- **GitHub Pages** - Free hosting / 무료 호스팅
 
 ## 🌈 색상 테마
 
@@ -73,39 +94,60 @@
 - 호버 색상: `#429960`
 - 밝은 배경: `#e8f5ed`
 
-## 📱 브라우저 지원
+## 📱 Browser Support / 브라우저 지원
 
-- ✅ Chrome (최신 버전)
-- ✅ Firefox (최신 버전)
-- ✅ Safari (최신 버전)
-- ✅ Edge (최신 버전)
-- ✅ 모바일 브라우저 (iOS Safari, Chrome Mobile)
+- ✅ Chrome (Latest version / 최신 버전)
+- ✅ Firefox (Latest version / 최신 버전)
+- ✅ Safari (Latest version / 최신 버전)
+- ✅ Edge (Latest version / 최신 버전)
+- ✅ Mobile browsers (iOS Safari, Chrome Mobile / 모바일 브라우저)
 
-## 🤝 기여하기
+## 🚀 Future Plans / 향후 계획
 
+### Mobile App
+- **Package Name**: `com.sn0wman.quon`
+- Dedicated mobile experience
+- Separate advertising (not website ads)
+- In-app purchase to remove all ads
+- Multi-language support (English, Korean, and more)
+
+### 모바일 앱
+- **패키지명**: `com.sn0wman.quon`
+- 모바일 전용 경험 제공
+- 웹사이트 광고와 별도의 광고
+- 인앱 결제로 모든 광고 제거
+- 다국어 지원 (영어, 한국어 및 추가 언어)
+
+## 🤝 Contributing / 기여하기
+
+Contributions are welcome! You can participate in the following ways:  
 기여를 환영합니다! 다음과 같은 방법으로 참여할 수 있습니다:
-- 버그 리포트
-- 새로운 기능 제안
-- Pull Request 제출
-- 문서 개선
 
-## 📄 라이선스
+- Bug reports / 버그 리포트
+- Feature suggestions / 새로운 기능 제안
+- Pull Request submissions / Pull Request 제출
+- Documentation improvements / 문서 개선
+- Translation to other languages / 다른 언어로 번역
 
+## 📄 License / 라이선스
+
+This project is open source and available under the [MIT License](LICENSE).  
 이 프로젝트는 오픈 소스이며 [MIT License](LICENSE)에 따라 제공됩니다.
 
-## 👤 만든 사람
+## 👤 Author / 만든 사람
 
 **sn0wmankr**
 - GitHub: [@sn0wmankr](https://github.com/sn0wmankr)
-- 프로젝트: [QRCodeGenerator-KR](https://github.com/sn0wmankr/QRCodeGenerator-KR)
+- Project / 프로젝트: [Quon-QRCodeGenerator](https://github.com/sn0wmankr/Quon-QRCodeGenerator)
 
-## 🙏 감사의 말
+## 🙏 Acknowledgments / 감사의 말
 
-- [qr-code-styling](https://github.com/kozakdenys/qr-code-styling) - 훌륭한 QR 코드 스타일링 라이브러리
-- QR 코드 기술은 Denso Wave에서 최초로 개발되었습니다
+- [qr-code-styling](https://github.com/kozakdenys/qr-code-styling) - Excellent QR code styling library / 훌륭한 QR 코드 스타일링 라이브러리
+- QR Code technology was originally developed by Denso Wave / QR 코드 기술은 Denso Wave에서 최초로 개발되었습니다
 
-## 📊 프로젝트 상태
+## 📊 Project Status / 프로젝트 상태
 
+🟢 Active - This project is actively maintained and contributions are welcome.  
 🟢 활성 - 이 프로젝트는 활발히 유지보수되고 있으며 기여를 환영합니다.
 
 ---
