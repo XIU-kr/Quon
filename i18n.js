@@ -71,9 +71,18 @@ async function loadLanguage(lang) {
     }
 }
 
-// Detect user's language based on browser settings
+// Detect user's language based on saved preference, then browser settings
 function detectLanguage() {
+    // First, check if user has manually selected a language (localStorage)
+    const savedLang = localStorage.getItem('quon_language');
+    if (savedLang && SUPPORTED_LANGUAGES.includes(savedLang)) {
+        console.log(`Using saved language preference: ${savedLang}`);
+        return savedLang;
+    }
+    
+    // If no saved preference, detect from browser settings
     const browserLang = navigator.language || navigator.userLanguage;
+    console.log(`Browser language detected: ${browserLang}`);
     
     // Extract language code (e.g., 'en-US' -> 'en', 'ko-KR' -> 'ko')
     const langCode = browserLang.split('-')[0].toLowerCase();
@@ -167,6 +176,9 @@ async function initLanguage() {
             loadLanguage('en').catch(err => console.error('Failed to preload English fallback:', err));
         }
         
+        // Initialize language switcher UI
+        initLanguageSwitcher();
+        
         // Update the UI
         updateLanguage();
         
@@ -197,7 +209,16 @@ async function switchLanguage(lang) {
         
         // Switch to the new language
         currentLanguage = lang;
+        
+        // Save user's language preference
+        localStorage.setItem('quon_language', lang);
+        console.log(`Language preference saved: ${lang}`);
+        
+        // Update the UI
         updateLanguage();
+        
+        // Update language switcher UI
+        updateLanguageSwitcher();
         
         return true;
     } catch (error) {
@@ -219,4 +240,47 @@ function getCurrentLanguage() {
 // Check if a language is loaded
 function isLanguageLoaded(lang) {
     return loadedLanguages.has(lang);
+}
+
+// Update language switcher UI to reflect current language
+function updateLanguageSwitcher() {
+    const switcher = document.getElementById('language-switcher');
+    if (!switcher) return;
+    
+    const buttons = switcher.querySelectorAll('.lang-btn');
+    buttons.forEach(btn => {
+        const lang = btn.getAttribute('data-lang');
+        if (lang === currentLanguage) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Initialize language switcher UI
+function initLanguageSwitcher() {
+    const switcher = document.getElementById('language-switcher');
+    if (!switcher) {
+        console.warn('Language switcher element not found');
+        return;
+    }
+    
+    // Create language buttons
+    SUPPORTED_LANGUAGES.forEach(lang => {
+        const button = document.createElement('button');
+        button.className = 'lang-btn';
+        button.setAttribute('data-lang', lang);
+        button.setAttribute('data-i18n', `lang.name.${lang}`);
+        button.textContent = lang.toUpperCase(); // Temporary text until translations load
+        
+        button.addEventListener('click', async () => {
+            await switchLanguage(lang);
+        });
+        
+        switcher.appendChild(button);
+    });
+    
+    // Update the UI to reflect current language
+    updateLanguageSwitcher();
 }

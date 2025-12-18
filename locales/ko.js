@@ -155,7 +155,12 @@ window.ko = {
     
     // Ad sections
     'ad.header': '광고',
-    'ad.note': '광고를 통해 이 서비스를 무료로 제공하고 있습니다. 향후 모바일 앱에서는 인앱 결제를 통해 광고 없이 사용하실 수 있습니다.'
+    'ad.note': '광고를 통해 이 서비스를 무료로 제공하고 있습니다. 향후 모바일 앱에서는 인앱 결제를 통해 광고 없이 사용하실 수 있습니다.',
+    
+    // Language switcher
+    'lang.name.en': 'English',
+    'lang.name.ko': '한국어',
+    'lang.select': '언어'
 };
 
 // Also export for module systems (if available)

@@ -155,7 +155,12 @@ window.en = {
     
     // Ad sections
     'ad.header': 'Advertisement',
-    'ad.note': 'Ads help keep this service free. Future mobile app will offer ad-free experience with in-app purchase.'
+    'ad.note': 'Ads help keep this service free. Future mobile app will offer ad-free experience with in-app purchase.',
+    
+    // Language switcher
+    'lang.name.en': 'English',
+    'lang.name.ko': '한국어',
+    'lang.select': 'Language'
 };
 
 // Also export for module systems (if available)
