@@ -282,6 +282,7 @@ function getQRContent() {
             const firstName = document.getElementById('vcard-firstname').value.trim();
             
             // Determine which name to use
+            // Note: If both full name and separate names are provided, full name takes precedence
             let name = '';
             let familyName = '';
             let givenName = '';
@@ -291,6 +292,7 @@ function getQRContent() {
                 name = fullName;
                 const nameParts = fullName.split(' ');
                 if (nameParts.length > 1) {
+                    // Korean naming convention: first part is family name, rest is given name
                     familyName = nameParts[0];
                     givenName = nameParts.slice(1).join(' ');
                 } else {
@@ -298,7 +300,7 @@ function getQRContent() {
                     givenName = '';
                 }
             } else if (lastName || firstName) {
-                // Use last name and first name
+                // Use last name and first name separately
                 familyName = lastName;
                 givenName = firstName;
                 name = (lastName + ' ' + firstName).trim();

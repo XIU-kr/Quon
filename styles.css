@@ -12,6 +12,7 @@
     --text-dark: #2c3e50;
     --text-light: #7f8c8d;
     --border-color: #e0e0e0;
+    --error-color: #e74c3c;
     --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 4px 12px rgba(81, 162, 115, 0.2);
     --radius: 12px;
@@ -599,7 +600,7 @@ footer a:hover {
 
 /* Required and Optional Indicators */
 .required {
-    color: #e74c3c;
+    color: var(--error-color);
     font-weight: bold;
 }
 
