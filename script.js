@@ -277,6 +277,9 @@ function getQRContent() {
                 // Add formatted name with proper encoding
                 content += formatVCardField('FN', name);
                 
+                // Check if name contains non-ASCII characters once
+                const hasNonASCII = containsNonASCII(name);
+                
                 // Try to parse name - if it contains spaces, split; otherwise use as-is
                 const nameParts = name.split(' ');
                 if (nameParts.length > 1) {
@@ -285,20 +288,10 @@ function getQRContent() {
                     const givenName = nameParts.slice(1).join(' ');
                     // For N field, we need to handle encoding differently since it has structured components
                     const nValue = `${escapeVCard(familyName)};${escapeVCard(givenName)};;;`;
-                    if (containsNonASCII(name)) {
-                        const encoded = encodeQuotedPrintable(nValue);
-                        content += `N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${encoded}\r\n`;
-                    } else {
-                        content += `N:${nValue}\r\n`;
-                    }
+                    content += formatVCardNameField(nValue, hasNonASCII);
                 } else {
                     const nValue = `${escapeVCard(name)};;;;`;
-                    if (containsNonASCII(name)) {
-                        const encoded = encodeQuotedPrintable(nValue);
-                        content += `N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${encoded}\r\n`;
-                    } else {
-                        content += `N:${nValue}\r\n`;
-                    }
+                    content += formatVCardNameField(nValue, hasNonASCII);
                 }
             }
             if (org) content += formatVCardField('ORG', org);
@@ -504,11 +497,13 @@ function encodeQuotedPrintable(str) {
     const encoded = [];
     const utf8Encoder = new TextEncoder();
     const bytes = utf8Encoder.encode(str);
+    const EQUALS_CHAR_CODE = '='.charCodeAt(0);
     
     for (let i = 0; i < bytes.length; i++) {
         const byte = bytes[i];
         // Characters that must be encoded: control chars, =, and non-ASCII
-        if (byte < 32 || byte > 126 || byte === 61) { // 61 is '='
+        // Per RFC 2047, we encode all non-printable ASCII and non-ASCII bytes
+        if (byte < 32 || byte > 126 || byte === EQUALS_CHAR_CODE) {
             encoded.push('=' + byte.toString(16).toUpperCase().padStart(2, '0'));
         } else {
             encoded.push(String.fromCharCode(byte));
@@ -540,6 +535,16 @@ function formatVCardField(fieldName, value, escapeValue = true) {
     } else {
         // Use plain format for ASCII-only content
         return `${fieldName}:${processedValue}\r\n`;
+    }
+}
+
+// Utility function to format vCard N field with proper encoding
+function formatVCardNameField(nValue, hasNonASCII) {
+    if (hasNonASCII) {
+        const encoded = encodeQuotedPrintable(nValue);
+        return `N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${encoded}\r\n`;
+    } else {
+        return `N:${nValue}\r\n`;
     }
 }
 
