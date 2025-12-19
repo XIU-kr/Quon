@@ -373,7 +373,7 @@ small {
 }
 
 .ad-side {
-    margin: 20px 0;
+    margin: 0 0 20px 0;
     max-width: 100%;
 }
 
@@ -473,7 +473,7 @@ footer a:hover {
     }
 
     .title-logo {
-        height: 2rem;
+        height: 1.5rem;
     }
 
     .subtitle {
@@ -542,7 +542,7 @@ footer a:hover {
     }
 
     .title-logo {
-        height: 1.7rem;
+        height: 1.3rem;
     }
 
     .subtitle {
