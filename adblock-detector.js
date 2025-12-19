@@ -187,14 +187,14 @@
             ]);
             
             // Require at least 2 methods to detect ad blocker to reduce false positives
-            const detectionCount = (baitResult ? 1 : 0) + (scriptResult ? 1 : 0) + (objectResult ? 1 : 0);
+            const detectionCount = [baitResult, scriptResult, objectResult].filter(Boolean).length;
             adBlockDetected = detectionCount >= 2;
             
             if (adBlockDetected) {
-                console.log('[Ad-block Detector] Ad blocker detected (detected by ' + detectionCount + ' methods)');
+                console.log(`[Ad-block Detector] Ad blocker detected (detected by ${detectionCount} methods)`);
                 showAdBlockModal();
             } else {
-                console.log('[Ad-block Detector] No ad blocker detected (detected by ' + detectionCount + ' methods)');
+                console.log(`[Ad-block Detector] No ad blocker detected (detected by ${detectionCount} methods)`);
             }
         } catch (error) {
             console.error('[Ad-block Detector] Error during detection:', error);
