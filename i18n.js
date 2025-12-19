@@ -135,6 +135,9 @@ function updateLanguage() {
             if (element.placeholder !== undefined) {
                 element.placeholder = translation;
             }
+        } else if (element.tagName === 'OPTION') {
+            // For option elements, update the text content
+            element.textContent = translation;
         } else if (element.tagName === 'SELECT') {
             // For select elements, update the label, not the options
             // Options should have their own data-i18n attributes
@@ -247,15 +250,8 @@ function updateLanguageSwitcher() {
     const switcher = document.getElementById('language-switcher');
     if (!switcher) return;
     
-    const buttons = switcher.querySelectorAll('.lang-btn');
-    buttons.forEach(btn => {
-        const lang = btn.getAttribute('data-lang');
-        if (lang === currentLanguage) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
+    // For dropdown, just set the selected value
+    switcher.value = currentLanguage;
 }
 
 // Initialize language switcher UI
@@ -266,19 +262,19 @@ function initLanguageSwitcher() {
         return;
     }
     
-    // Create language buttons
+    // Create language options
     SUPPORTED_LANGUAGES.forEach(lang => {
-        const button = document.createElement('button');
-        button.className = 'lang-btn';
-        button.setAttribute('data-lang', lang);
-        button.setAttribute('data-i18n', `lang.name.${lang}`);
-        button.textContent = lang.toUpperCase(); // Temporary text until translations load
+        const option = document.createElement('option');
+        option.value = lang;
+        option.setAttribute('data-i18n', `lang.name.${lang}`);
+        option.textContent = lang.toUpperCase(); // Temporary text until translations load
         
-        button.addEventListener('click', async () => {
-            await switchLanguage(lang);
-        });
-        
-        switcher.appendChild(button);
+        switcher.appendChild(option);
+    });
+    
+    // Add change event listener
+    switcher.addEventListener('change', async (e) => {
+        await switchLanguage(e.target.value);
     });
     
     // Update the UI to reflect current language
