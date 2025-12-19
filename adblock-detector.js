@@ -18,20 +18,22 @@
             // Create a bait element that ad blockers typically hide
             const bait = document.createElement('div');
             bait.className = 'ad ads ad-banner advertisement adsbox pub_300x250 pub_300x250m pub_728x90';
-            bait.style.cssText = 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;';
+            // Use more natural styling to avoid false positives from browser optimizations
+            bait.style.cssText = 'width: 1px !important; height: 1px !important; position: absolute !important; left: -1px !important; top: -1px !important; opacity: 0 !important;';
             
             document.body.appendChild(bait);
             
             // Wait a moment for ad blockers to hide it
             setTimeout(() => {
+                // Check if element was hidden or removed by ad blocker
+                // Note: Only check reliable indicators, not position-based checks
+                // that can give false positives with off-screen elements
+                const computedStyle = window.getComputedStyle(bait);
                 const isHidden = bait.offsetParent === null || 
                                 bait.offsetHeight === 0 || 
-                                bait.offsetLeft === 0 || 
-                                bait.offsetTop === 0 || 
                                 bait.clientHeight === 0 || 
-                                bait.clientWidth === 0 ||
-                                window.getComputedStyle(bait).display === 'none' ||
-                                window.getComputedStyle(bait).visibility === 'hidden';
+                                computedStyle.display === 'none' ||
+                                computedStyle.visibility === 'hidden';
                 
                 document.body.removeChild(bait);
                 resolve(isHidden);
@@ -95,11 +97,6 @@
     
     // Method 3: Check for common ad-blocker objects
     function checkAdBlockerObjects() {
-        // Check for ad-blocker specific properties
-        if (typeof window.canRunAds === 'undefined') {
-            return true;
-        }
-        
         // Check for common ad-blocker extensions
         if (window.adblock || window.adBlock || window.AdBlock) {
             return true;
@@ -191,14 +188,16 @@
                 Promise.resolve(checkAdBlockerObjects())
             ]);
             
-            // If any method detects an ad blocker
-            adBlockDetected = baitResult || scriptResult || objectResult;
+            // Require ALL 3 methods to detect ad blocker to eliminate false positives
+            // This is extremely conservative to avoid issues with Adguard when disabled
+            const detectionCount = [baitResult, scriptResult, objectResult].filter(Boolean).length;
+            adBlockDetected = detectionCount === 3;
             
             if (adBlockDetected) {
-                console.log('[Ad-block Detector] Ad blocker detected');
+                console.log(`[Ad-block Detector] Ad blocker detected (detected by ${detectionCount} methods)`);
                 showAdBlockModal();
             } else {
-                console.log('[Ad-block Detector] No ad blocker detected');
+                console.log(`[Ad-block Detector] No ad blocker detected (detected by ${detectionCount} methods)`);
             }
         } catch (error) {
             console.error('[Ad-block Detector] Error during detection:', error);
