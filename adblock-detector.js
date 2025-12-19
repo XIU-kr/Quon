@@ -5,6 +5,11 @@
 (function() {
     'use strict';
     
+    // Configuration
+    const DETECTION_DELAY = 1000; // Delay before running detection (ms)
+    const BAIT_CHECK_DELAY = 100; // Time to wait for ad blockers to hide bait (ms)
+    const SCRIPT_TIMEOUT = 2000; // Timeout for script loading test (ms)
+    
     let adBlockDetected = false;
     
     // Method 1: Check if a bait element is hidden by ad blockers
@@ -30,7 +35,7 @@
                 
                 document.body.removeChild(bait);
                 resolve(isHidden);
-            }, 100);
+            }, BAIT_CHECK_DELAY);
         });
     }
     
@@ -39,13 +44,52 @@
         return new Promise((resolve) => {
             const script = document.createElement('script');
             script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-            script.onerror = () => resolve(true);  // Blocked
-            script.onload = () => resolve(false);  // Not blocked
+            
+            let resolved = false;
+            
+            script.onerror = () => {
+                if (!resolved) {
+                    resolved = true;
+                    // Remove the script element
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+                    resolve(true);  // Blocked
+                }
+            };
+            
+            script.onload = () => {
+                if (!resolved) {
+                    resolved = true;
+                    // Remove the script element
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+                    resolve(false);  // Not blocked
+                }
+            };
             
             // Set a timeout in case neither fires
-            setTimeout(() => resolve(false), 2000);
+            setTimeout(() => {
+                if (!resolved) {
+                    resolved = true;
+                    // Remove the script element
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+                    resolve(false);
+                }
+            }, SCRIPT_TIMEOUT);
             
-            document.head.appendChild(script);
+            // Handle CSP errors gracefully
+            try {
+                document.head.appendChild(script);
+            } catch (error) {
+                if (!resolved) {
+                    resolved = true;
+                    resolve(false); // Don't treat CSP errors as ad-block
+                }
+            }
         });
     }
     
@@ -122,8 +166,8 @@
     
     // Detect current language from localStorage or browser
     function getCurrentLanguage() {
-        // Try to get from localStorage first
-        const savedLang = localStorage.getItem('language');
+        // Try to get from localStorage first (matches i18n.js)
+        const savedLang = localStorage.getItem('quon_language');
         if (savedLang) {
             return savedLang;
         }
@@ -165,10 +209,10 @@
     // Run detection after page loads
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(detectAdBlock, 1000); // Small delay to ensure page is ready
+            setTimeout(detectAdBlock, DETECTION_DELAY); // Small delay to ensure page is ready
         });
     } else {
-        setTimeout(detectAdBlock, 1000);
+        setTimeout(detectAdBlock, DETECTION_DELAY);
     }
     
     // Expose detection status for debugging
