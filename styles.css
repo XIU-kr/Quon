@@ -756,3 +756,141 @@ footer a:hover {
     grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
+
+/* Ad-block Detection Modal */
+.adblock-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.adblock-modal-content {
+    background: white;
+    border-radius: var(--radius);
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.adblock-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.adblock-title {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.adblock-message {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.adblock-sub-message {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.adblock-btn {
+    padding: 15px 40px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-small);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    margin-bottom: 15px;
+}
+
+.adblock-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.adblock-note {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+    .adblock-modal-content {
+        padding: 30px 25px;
+        max-width: 90%;
+    }
+    
+    .adblock-icon {
+        font-size: 3rem;
+    }
+    
+    .adblock-title {
+        font-size: 1.5rem;
+    }
+    
+    .adblock-message {
+        font-size: 1rem;
+    }
+    
+    .adblock-sub-message {
+        font-size: 0.95rem;
+    }
+    
+    .adblock-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
