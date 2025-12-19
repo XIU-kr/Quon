@@ -95,11 +95,6 @@
     
     // Method 3: Check for common ad-blocker objects
     function checkAdBlockerObjects() {
-        // Check for ad-blocker specific properties
-        if (typeof window.canRunAds === 'undefined') {
-            return true;
-        }
-        
         // Check for common ad-blocker extensions
         if (window.adblock || window.adBlock || window.AdBlock) {
             return true;
@@ -191,14 +186,15 @@
                 Promise.resolve(checkAdBlockerObjects())
             ]);
             
-            // If any method detects an ad blocker
-            adBlockDetected = baitResult || scriptResult || objectResult;
+            // Require at least 2 methods to detect ad blocker to reduce false positives
+            const detectionCount = (baitResult ? 1 : 0) + (scriptResult ? 1 : 0) + (objectResult ? 1 : 0);
+            adBlockDetected = detectionCount >= 2;
             
             if (adBlockDetected) {
-                console.log('[Ad-block Detector] Ad blocker detected');
+                console.log('[Ad-block Detector] Ad blocker detected (detected by ' + detectionCount + ' methods)');
                 showAdBlockModal();
             } else {
-                console.log('[Ad-block Detector] No ad blocker detected');
+                console.log('[Ad-block Detector] No ad blocker detected (detected by ' + detectionCount + ' methods)');
             }
         } catch (error) {
             console.error('[Ad-block Detector] Error during detection:', error);
