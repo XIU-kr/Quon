@@ -46,6 +46,16 @@ header h1 {
     color: var(--primary-color);
     margin-bottom: 10px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.title-logo {
+    height: 2.5rem;
+    width: auto;
+    vertical-align: middle;
 }
 
 .subtitle {
@@ -70,40 +80,27 @@ header h1 {
 }
 
 .language-switcher {
-    display: flex;
-    gap: 8px;
+    min-width: 120px;
+    padding: 8px 12px;
+    border: 2px solid var(--border-color);
     background: white;
-    padding: 4px;
+    color: var(--text-dark);
     border-radius: var(--radius-small);
     box-shadow: var(--shadow);
-}
-
-.lang-btn {
-    padding: 8px 16px;
-    border: 2px solid transparent;
-    background: transparent;
-    color: var(--text-dark);
-    border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.3s ease;
-    white-space: nowrap;
+    font-family: inherit;
 }
 
-.lang-btn:hover {
-    background: var(--primary-light);
-    color: var(--primary-color);
-}
-
-.lang-btn.active {
-    background: var(--primary-color);
-    color: white;
+.language-switcher:hover {
     border-color: var(--primary-color);
 }
 
-.lang-btn:focus {
+.language-switcher:focus {
     outline: none;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(81, 162, 115, 0.2);
 }
 
@@ -472,6 +469,11 @@ footer a:hover {
 
     header h1 {
         font-size: 1.8rem;
+        gap: 8px;
+    }
+
+    .title-logo {
+        height: 1.8rem;
     }
 
     .subtitle {
@@ -482,17 +484,16 @@ footer a:hover {
     .language-switcher-container {
         top: 15px;
         right: 15px;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 5px;
+        gap: 8px;
     }
     
     .lang-label {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
     
-    .lang-btn {
-        padding: 6px 12px;
+    .language-switcher {
+        min-width: 100px;
+        padding: 6px 10px;
         font-size: 0.85rem;
     }
 
@@ -537,6 +538,11 @@ footer a:hover {
 @media (max-width: 480px) {
     header h1 {
         font-size: 1.5rem;
+        gap: 6px;
+    }
+
+    .title-logo {
+        height: 1.5rem;
     }
 
     .subtitle {

@@ -1,7 +1,7 @@
 // English translations
 window.en = {
     // Header - Updated branding to Quon
-    'header.title': '🎨 Quon - Free QR Code Generator',
+    'header.title': 'Quon - Free QR Code Generator',
     'header.subtitle': 'Create customized QR codes with the information you want easily',
     
     // Type selector

@@ -1,12 +1,12 @@
 // Korean translations (한국어)
 window.ko = {
     // Header - Updated branding to Quon (큐온)
-    'header.title': '🎨 큐온 - 무료 QR 코드 생성기',
+    'header.title': '큐온 - 무료 QR 코드 생성기',
     'header.subtitle': '원하는 정보를 담은 맞춤형 QR 코드를 쉽게 만들어보세요',
     
     // Type selector
-    'type.url': '인터넷 주소',
-    'type.text': '문자',
+    'type.url': '인터넷 주소 (URL)',
+    'type.text': '텍스트',
     'type.vcard': '연락처',
     'type.email': '이메일',
     'type.tel': '전화',
@@ -28,8 +28,8 @@ window.ko = {
     'url.placeholder': 'https://example.com',
     
     // Text form
-    'text.label': '문자 내용',
-    'text.placeholder': '여기에 문자를 입력하세요...',
+    'text.label': '텍스트 내용',
+    'text.placeholder': '여기에 텍스트를 입력하세요...',
     
     // VCard form
     'vcard.required': '필수 항목',

@@ -9,25 +9,19 @@
 </head>
 <body>
     <div class="container">
-        <!-- Top Advertisement Section -->
-        <div class="ad-container ad-top">
-            <div class="ad-label" data-i18n="ad.header">Advertisement</div>
-            <div class="ad-content">
-                <!-- Ad content will be inserted here -->
-                <p class="ad-placeholder">728 x 90</p>
-            </div>
-        </div>
-
         <header>
             <!-- Language Switcher -->
             <div class="language-switcher-container">
-                <label class="lang-label" data-i18n="lang.select">Language</label>
-                <div id="language-switcher" class="language-switcher">
-                    <!-- Language buttons will be dynamically inserted here by i18n.js -->
-                </div>
+                <label class="lang-label" for="language-switcher" data-i18n="lang.select">Language</label>
+                <select id="language-switcher" class="language-switcher">
+                    <!-- Language options will be dynamically inserted here by i18n.js -->
+                </select>
             </div>
             
-            <h1 data-i18n="header.title">🎨 QR Code Generator</h1>
+            <h1>
+                <img src="logo.png" alt="Quon" class="title-logo">
+                <span data-i18n="header.title">QR Code Generator</span>
+            </h1>
             <p class="subtitle" data-i18n="header.subtitle">Create customized QR codes with the information you want easily</p>
         </header>
 
@@ -35,14 +29,6 @@
             <div class="content-wrapper">
                 <!-- Left Panel: QR Code Type Selection and Content -->
                 <div class="input-panel">
-                    <!-- Side Advertisement -->
-                    <div class="ad-container ad-side">
-                        <div class="ad-label" data-i18n="ad.header">Advertisement</div>
-                        <div class="ad-content">
-                            <!-- Ad content will be inserted here -->
-                            <p class="ad-placeholder">160 x 600</p>
-                        </div>
-                    </div>
                     <div class="section">
                         <h2 data-i18n="section.type">Select Code Type</h2>
                         <div class="type-selector">
