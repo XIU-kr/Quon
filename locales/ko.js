@@ -1,7 +1,7 @@
 // Korean translations (한국어)
 window.ko = {
     // Header - Updated branding to Quon (큐온)
-    'header.title': '🎨 큐온 - 무료 QR 코드 생성기',
+    'header.title': '큐온 - 무료 QR 코드 생성기',
     'header.subtitle': '원하는 정보를 담은 맞춤형 QR 코드를 쉽게 만들어보세요',
     
     // Type selector

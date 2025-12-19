@@ -41,26 +41,21 @@ header {
     position: relative;
 }
 
-/* Logo */
-.logo-container {
-    margin-bottom: 20px;
-}
-
-.quon-logo {
-    width: 80px;
-    height: 80px;
-    transition: transform 0.3s ease;
-}
-
-.quon-logo:hover {
-    transform: scale(1.05);
-}
-
 header h1 {
     font-size: 2.5rem;
     color: var(--primary-color);
     margin-bottom: 10px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.title-logo {
+    height: 2.5rem;
+    width: auto;
+    vertical-align: middle;
 }
 
 .subtitle {
@@ -472,13 +467,13 @@ footer a:hover {
         padding-top: 70px; /* Make room for language switcher */
     }
 
-    .quon-logo {
-        width: 60px;
-        height: 60px;
-    }
-
     header h1 {
         font-size: 1.8rem;
+        gap: 8px;
+    }
+
+    .title-logo {
+        height: 1.8rem;
     }
 
     .subtitle {
@@ -543,6 +538,11 @@ footer a:hover {
 @media (max-width: 480px) {
     header h1 {
         font-size: 1.5rem;
+        gap: 6px;
+    }
+
+    .title-logo {
+        height: 1.5rem;
     }
 
     .subtitle {
