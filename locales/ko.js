@@ -10,14 +10,13 @@ window.ko = {
     'type.vcard': '연락처',
     'type.email': '이메일',
     'type.tel': '전화',
-    'type.geo': '위치',
     'type.wifi': '와이파이',
     
     // Section titles
     'section.type': '코드 종류 선택',
     'section.content': '내용 입력',
     'section.design': '디자인 꾸미기',
-    'section.preview': '미리보기',
+    'section.preview': 'QR 미리보기',
     
     // Common form labels
     'form.required': '*',
@@ -52,9 +51,7 @@ window.ko = {
     'vcard.url': '웹사이트',
     'vcard.url.placeholder': 'https://example.com',
     'vcard.address': '주소',
-    'vcard.address.search': '주소 검색',
-    'vcard.address.search.placeholder': '주소 검색 (예: 서울시청)',
-    'vcard.address.placeholder': '주소를 직접 입력하거나 위에서 검색하세요',
+    'vcard.address.placeholder': '주소를 입력하세요',
     
     // Email form
     'email.to': '받는 사람 이메일',
@@ -67,18 +64,6 @@ window.ko = {
     // Tel form
     'tel.number': '전화번호',
     'tel.number.placeholder': '01012345678',
-    
-    // Geo form
-    'geo.search': '주소 검색',
-    'geo.search.placeholder': '장소 이름이나 주소 입력 (예: 서울시청)',
-    'geo.lat': '위도',
-    'geo.lat.placeholder': '37.5665',
-    'geo.lat.help': '위도 값 (-90 ~ 90)',
-    'geo.lon': '경도',
-    'geo.lon.placeholder': '126.9780',
-    'geo.lon.help': '경도 값 (-180 ~ 180)',
-    'geo.current': '📍 현재 내 위치 사용',
-    'geo.current.help': '또는 위에서 주소를 검색하거나 좌표를 직접 입력하세요',
     
     // Wi-Fi form
     'wifi.ssid': '네트워크 이름 (SSID)',
@@ -114,44 +99,36 @@ window.ko = {
     
     'design.logo': '로고 이미지 (선택)',
     'design.logo.help': '코드 중앙에 넣을 로고를 올려주세요',
+    'design.group.shape': '모양',
+    'design.group.color': '색상',
+    'design.group.logo': '로고',
+
+    // Preview tools
+    'preview.zoom.in': '+',
+    'preview.zoom.out': '-',
+    'preview.zoom.reset': '초기화',
     
     // Buttons
     'button.generate': 'QR 코드 만들기',
     'button.download.png': 'PNG 다운로드',
     'button.download.svg': 'SVG 다운로드',
-    'button.search': '🔍 검색',
     
     // Messages
     'message.empty': '내용을 입력하고 "QR 코드 만들기"를 눌러주세요',
     'message.error.empty': 'QR 코드에 담을 내용을 입력해주세요',
-    'message.error.required': '필수 항목을 입력해주세요',
     'message.error.email': '받는 사람 이메일을 입력해주세요',
     'message.error.tel': '전화번호를 입력해주세요',
     'message.error.name': '이름 또는 성함을 입력해주세요',
-    'message.error.geo': '위도와 경도를 입력해주세요',
     'message.error.api': 'API 서버와 연결이 실패했습니다',
     'message.error.network': '네트워크 연결을 확인해주세요',
-    'message.error.search.empty': '검색 결과가 없습니다',
-    'message.error.search.query': '검색할 주소를 입력해주세요',
-    'message.success.location': '위치를 성공적으로 확인했습니다!',
-    'message.success.location.select': '위치가 선택되었습니다',
-    'message.success.address.select': '주소가 입력되었습니다',
-    'message.loading.location': '⏳ 위치 확인 중...',
-    'message.loading.search': '검색 중...',
-    'message.error.location.denied': '위치 접근이 거부되었습니다. 위치 권한을 허용해주세요.',
-    'message.error.location.unavailable': '위치 정보를 사용할 수 없습니다',
-    'message.error.location.timeout': '위치 요청 시간이 초과되었습니다',
-    'message.error.location.unsupported': '브라우저에서 위치 정보를 지원하지 않습니다',
     
     // Footer
-    'footer.made': 'Made with ❤️ by',
-    'footer.github': 'GitHub Repository',
+    'footer.made': '❤️로 만든 사람',
+    'footer.privacy': '개인정보처리방침',
     
     // Country codes
     'country.kr': '한국 (+82)',
     'country.us': '미국/캐나다 (+1)',
-    'country.jp': '일본 (+81)',
-    'country.cn': '중국 (+86)',
     
     // Ad sections
     'ad.header': '광고',

@@ -32,7 +32,7 @@ Create various types of QR codes easily: URLs, text, contacts, email, phone numb
 - **연락처** - 이름, 전화번호, 이메일, 주소 등 (iOS 호환 형식)
 - **이메일** - 받는 사람, 제목, 내용이 미리 입력된 이메일
 - **전화** - 전화 걸기 링크 (한국 전화번호 형식 지원: 01012345678)
-- **위치** - GPS 좌표 (카카오맵 주소 검색 지원)
+- **위치** - GPS 좌표
 - **와이파이** - 무선 네트워크 접속 정보 (iOS 호환 형식)
 
 ### 🎨 디자인 꾸미기
@@ -65,8 +65,8 @@ Create various types of QR codes easily: URLs, text, contacts, email, phone numb
 2. **내용 입력**
    - 선택한 종류에 맞는 필수 항목 입력
    - 모든 입력 항목은 자동으로 검증 및 형식화됨
-   - **위치** 타입: 주소 검색, 좌표 직접 입력, 또는 "현재 내 위치 사용" 버튼 사용
-   - **연락처** 타입: 전화번호는 01012345678 형식으로 입력, 주소는 검색 또는 직접 입력
+  - **위치** 타입: 좌표 직접 입력 또는 "현재 내 위치 사용" 버튼 사용
+  - **연락처** 타입: 전화번호는 01012345678 형식으로 입력, 주소는 직접 입력
 
 3. **디자인 꾸미기** (선택사항)
    - 점 모양, 모서리 스타일, 색상 선택
@@ -91,7 +91,6 @@ Create various types of QR codes easily: URLs, text, contacts, email, phone numb
   - Easy to add new languages / 새로운 언어 추가 용이
 - **[qr-code-styling](https://github.com/kozakdenys/qr-code-styling)** - Advanced QR code generation library with styling support (CDN) / 스타일링을 지원하는 고급 QR 코드 생성 라이브러리 (CDN)
 - **Browser Geolocation API** - Built-in location detection without external dependencies / 외부 의존성 없는 내장 위치 감지
-- **Kakao Map API** - Address search functionality (via proxy server) / 주소 검색 기능 (프록시 서버 사용)
 - **GitHub Pages** - Free hosting / 무료 호스팅
 
 ## 🌈 색상 테마

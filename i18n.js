@@ -160,6 +160,10 @@ function updateLanguage() {
     if (metaDescription) {
         metaDescription.content = t('header.subtitle');
     }
+
+    document.dispatchEvent(new CustomEvent('languageChanged', {
+        detail: { language: currentLanguage }
+    }));
 }
 
 // Initialize language system

@@ -10,14 +10,13 @@ window.en = {
     'type.vcard': 'Contact',
     'type.email': 'Email',
     'type.tel': 'Phone',
-    'type.geo': 'Location',
     'type.wifi': 'Wi-Fi',
     
     // Section titles
     'section.type': 'Select Code Type',
     'section.content': 'Enter Content',
     'section.design': 'Customize Design',
-    'section.preview': 'Preview',
+    'section.preview': 'QR Preview',
     
     // Common form labels
     'form.required': '*',
@@ -52,9 +51,7 @@ window.en = {
     'vcard.url': 'Website',
     'vcard.url.placeholder': 'https://example.com',
     'vcard.address': 'Address',
-    'vcard.address.search': 'Search Address',
-    'vcard.address.search.placeholder': 'Search for address (e.g., City Hall)',
-    'vcard.address.placeholder': 'Enter address directly or search above',
+    'vcard.address.placeholder': 'Enter address',
     
     // Email form
     'email.to': 'Recipient Email',
@@ -67,18 +64,6 @@ window.en = {
     // Tel form
     'tel.number': 'Phone Number',
     'tel.number.placeholder': '1234567890',
-    
-    // Geo form
-    'geo.search': 'Address Search',
-    'geo.search.placeholder': 'Enter place name or address (e.g., City Hall)',
-    'geo.lat': 'Latitude',
-    'geo.lat.placeholder': '37.5665',
-    'geo.lat.help': 'Latitude value (-90 ~ 90)',
-    'geo.lon': 'Longitude',
-    'geo.lon.placeholder': '126.9780',
-    'geo.lon.help': 'Longitude value (-180 ~ 180)',
-    'geo.current': '📍 Use My Current Location',
-    'geo.current.help': 'Or search address above or enter coordinates manually',
     
     // Wi-Fi form
     'wifi.ssid': 'Network Name (SSID)',
@@ -114,44 +99,36 @@ window.en = {
     
     'design.logo': 'Logo Image (optional)',
     'design.logo.help': 'Upload a logo to place in the center of the code',
+    'design.group.shape': 'Shape',
+    'design.group.color': 'Color',
+    'design.group.logo': 'Logo',
+
+    // Preview tools
+    'preview.zoom.in': '+',
+    'preview.zoom.out': '-',
+    'preview.zoom.reset': 'Reset',
     
     // Buttons
     'button.generate': 'Generate QR Code',
     'button.download.png': 'Download PNG',
     'button.download.svg': 'Download SVG',
-    'button.search': '🔍 Search',
     
     // Messages
     'message.empty': 'Enter content and click "Generate QR Code"',
     'message.error.empty': 'Please enter the content for the QR code',
-    'message.error.required': 'Please fill in the required field',
     'message.error.email': 'Please enter the recipient email',
     'message.error.tel': 'Please enter the phone number',
     'message.error.name': 'Please enter your name or full name',
-    'message.error.geo': 'Please enter latitude and longitude',
     'message.error.api': 'API server connection failed',
     'message.error.network': 'Please check your network connection',
-    'message.error.search.empty': 'No search results',
-    'message.error.search.query': 'Please enter an address to search',
-    'message.success.location': 'Location successfully retrieved!',
-    'message.success.location.select': 'Location selected',
-    'message.success.address.select': 'Address entered',
-    'message.loading.location': '⏳ Checking location...',
-    'message.loading.search': 'Searching...',
-    'message.error.location.denied': 'Location access denied. Please allow location permissions.',
-    'message.error.location.unavailable': 'Location information unavailable',
-    'message.error.location.timeout': 'Location request timed out',
-    'message.error.location.unsupported': 'Browser does not support geolocation',
     
     // Footer
     'footer.made': 'Made with ❤️ by',
-    'footer.github': 'GitHub Repository',
+    'footer.privacy': 'Privacy Policy',
     
     // Country codes
     'country.kr': 'South Korea (+82)',
     'country.us': 'USA/Canada (+1)',
-    'country.jp': 'Japan (+81)',
-    'country.cn': 'China (+86)',
     
     // Ad sections
     'ad.header': 'Advertisement',

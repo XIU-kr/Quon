@@ -2,137 +2,149 @@
 let qrCode = null;
 let currentType = 'url';
 let logoImage = null;
+let previewZoom = 1;
+const PREVIEW_ZOOM_MIN = 0.75;
+const PREVIEW_ZOOM_MAX = 1.8;
+const PREVIEW_ZOOM_STEP = 0.1;
+const DESIGN_PANEL_STATE_KEY = 'quon_design_panel_state';
 
-// Get current location using browser's geolocation API
-function getCurrentLocation() {
-    const button = document.getElementById('get-current-location');
-    
-    if (!navigator.geolocation) {
-        showNotification(t('message.error.location.unsupported'), 'error');
+function initializeAdsenseUnits() {
+    const adUnits = document.querySelectorAll('.adsbygoogle');
+    if (!adUnits.length) {
         return;
     }
-    
-    // Update button text to show loading state
-    const originalText = button.innerHTML;
-    button.innerHTML = t('message.loading.location');
-    button.disabled = true;
-    
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            // Success - update fields with current location
-            document.getElementById('geo-lat').value = position.coords.latitude.toFixed(6);
-            document.getElementById('geo-lon').value = position.coords.longitude.toFixed(6);
-            showNotification(t('message.success.location'), 'success');
-            button.innerHTML = originalText;
-            button.disabled = false;
-        },
-        function(error) {
-            // Error handling
-            let message = t('message.error.location.unavailable');
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    message = t('message.error.location.denied');
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    message = t('message.error.location.unavailable');
-                    break;
-                case error.TIMEOUT:
-                    message = t('message.error.location.timeout');
-                    break;
-            }
-            showNotification(message, 'error');
-            button.innerHTML = originalText;
-            button.disabled = false;
-        },
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        }
-    );
-}
 
-// Search address using Kakao Map API via proxy
-async function searchAddress(query, resultContainerId) {
-    const resultsContainer = document.getElementById(resultContainerId);
-    
-    if (!query.trim()) {
-        showNotification(t('message.error.search.query'), 'error');
-        return;
-    }
-    
-    resultsContainer.style.display = 'block';
-    resultsContainer.innerHTML = '<div class="search-results-loading">' + t('message.loading.search') + '</div>';
-    
-    try {
-        const response = await fetch(`https://proxy.sn0wman.kr/api/kakao/geocode?query=${encodeURIComponent(query)}`);
-        
-        if (!response.ok) {
-            throw new Error('API_CONNECTION_FAILED');
-        }
-        
-        const data = await response.json();
-        
-        if (!data.documents || data.documents.length === 0) {
-            resultsContainer.innerHTML = '<div class="search-results-empty">' + t('message.error.search.empty') + '</div>';
+    adUnits.forEach((adUnit) => {
+        if (adUnit.getAttribute('data-adsbygoogle-status') === 'done') {
             return;
         }
-        
-        // Display search results
-        resultsContainer.innerHTML = '';
-        data.documents.forEach((place, index) => {
-            const item = document.createElement('div');
-            item.className = 'search-result-item';
-            item.innerHTML = `
-                <div class="address-name">${place.address_name || place.place_name || '주소 정보 없음'}</div>
-                <div class="address-detail">위도: ${place.y}, 경도: ${place.x}</div>
-            `;
-            item.addEventListener('click', () => {
-                selectSearchResult(place, resultContainerId);
-            });
-            resultsContainer.appendChild(item);
-        });
-        
-    } catch (error) {
-        console.error('Address search error:', error.message || 'Unknown error');
-        
-        // Determine user-friendly error message
-        let errorMessage = t('message.error.api');
-        if (error.name === 'TypeError' || error.message.includes('fetch')) {
-            errorMessage = t('message.error.network');
+
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (error) {
+            console.error('[AdSense] Failed to initialize ad unit:', error);
         }
-        
-        resultsContainer.innerHTML = `<div class="search-results-empty">${errorMessage}</div>`;
-        showNotification(errorMessage, 'error');
-    }
+    });
 }
 
-// Handle search result selection
-function selectSearchResult(place, resultContainerId) {
-    const resultsContainer = document.getElementById(resultContainerId);
-    
-    if (resultContainerId === 'geo-search-results') {
-        // For location form
-        document.getElementById('geo-lat').value = place.y;
-        document.getElementById('geo-lon').value = place.x;
-        showNotification(t('message.success.location.select'), 'success');
-    } else if (resultContainerId === 'vcard-search-results') {
-        // For vCard form
-        document.getElementById('vcard-address').value = place.address_name || place.place_name || '';
-        showNotification(t('message.success.address.select'), 'success');
+function updatePreviewZoomLabel() {
+    const zoomLabel = document.getElementById('preview-zoom-level');
+    if (!zoomLabel) {
+        return;
     }
-    
-    // Hide search results
-    resultsContainer.style.display = 'none';
-    resultsContainer.innerHTML = '';
+
+    zoomLabel.textContent = `${Math.round(previewZoom * 100)}%`;
+}
+
+function applyPreviewZoom() {
+    const qrElements = document.querySelectorAll('#qr-code-container canvas, #qr-code-container svg');
+    qrElements.forEach((element) => {
+        element.style.transform = `scale(${previewZoom})`;
+        element.style.transformOrigin = 'center center';
+    });
+    updatePreviewZoomLabel();
+}
+
+function setPreviewZoom(nextZoom) {
+    previewZoom = Math.max(PREVIEW_ZOOM_MIN, Math.min(PREVIEW_ZOOM_MAX, nextZoom));
+    applyPreviewZoom();
+}
+
+function initializeDesignPanelState() {
+    const groups = Array.from(document.querySelectorAll('.design-group'));
+    if (!groups.length) {
+        return;
+    }
+
+    let savedState = {};
+    try {
+        const raw = localStorage.getItem(DESIGN_PANEL_STATE_KEY);
+        if (raw) {
+            savedState = JSON.parse(raw);
+        }
+    } catch (error) {
+        savedState = {};
+    }
+
+    groups.forEach((group, index) => {
+        const groupKey = group.dataset.group || `group-${index}`;
+        if (Object.prototype.hasOwnProperty.call(savedState, groupKey)) {
+            group.open = Boolean(savedState[groupKey]);
+        }
+
+        group.addEventListener('toggle', () => {
+            const nextState = {};
+            groups.forEach((entry, entryIndex) => {
+                const key = entry.dataset.group || `group-${entryIndex}`;
+                nextState[key] = entry.open;
+            });
+
+            try {
+                localStorage.setItem(DESIGN_PANEL_STATE_KEY, JSON.stringify(nextState));
+            } catch (error) {
+                // Ignore storage write errors
+            }
+        });
+    });
+}
+
+function getDialCodeLabel(option, language) {
+    const savedKoreanLabel = option.dataset.labelKo || option.textContent;
+    const code = option.value || '';
+
+    if (option.dataset.i18n) {
+        return option.textContent;
+    }
+
+    if (language === 'ko') {
+        return savedKoreanLabel;
+    }
+
+    return code;
+}
+
+function normalizeCountryOptionLabels(language) {
+    const selectors = ['vcard-tel-country', 'tel-country'];
+
+    selectors.forEach((id) => {
+        const select = document.getElementById(id);
+        if (!select) return;
+
+        Array.from(select.options).forEach((option) => {
+            if (!option.dataset.labelKo) {
+                option.dataset.labelKo = option.textContent;
+            }
+
+            if (!option.value) {
+                return;
+            }
+
+            option.textContent = getDialCodeLabel(option, language);
+        });
+    });
+}
+
+function syncCountryCodeOptions() {
+    const sourceSelect = document.getElementById('vcard-tel-country');
+    const targetSelect = document.getElementById('tel-country');
+
+    if (!sourceSelect || !targetSelect) {
+        return;
+    }
+
+    targetSelect.innerHTML = sourceSelect.innerHTML;
 }
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async function() {
     // Initialize language first (wait for it to load)
     await initLanguage();
+    initializeAdsenseUnits();
+    initializeDesignPanelState();
     
     initializeEventListeners();
+    syncCountryCodeOptions();
+    normalizeCountryOptionLabels(getCurrentLanguage());
     createInitialQRCode();
     // Disable download buttons initially
     document.getElementById('download-png').disabled = true;
@@ -141,6 +153,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 // Initialize all event listeners
 function initializeEventListeners() {
+    document.addEventListener('languageChanged', (event) => {
+        normalizeCountryOptionLabels(event.detail.language);
+    });
+
     // Type selector buttons
     const typeButtons = document.querySelectorAll('.type-btn');
     typeButtons.forEach(btn => {
@@ -152,43 +168,23 @@ function initializeEventListeners() {
     // Generate button
     document.getElementById('generate-btn').addEventListener('click', generateQRCode);
 
+    const zoomInButton = document.getElementById('preview-zoom-in');
+    const zoomOutButton = document.getElementById('preview-zoom-out');
+    const zoomResetButton = document.getElementById('preview-zoom-reset');
+
+    if (zoomInButton && zoomOutButton && zoomResetButton) {
+        zoomInButton.addEventListener('click', () => setPreviewZoom(previewZoom + PREVIEW_ZOOM_STEP));
+        zoomOutButton.addEventListener('click', () => setPreviewZoom(previewZoom - PREVIEW_ZOOM_STEP));
+        zoomResetButton.addEventListener('click', () => setPreviewZoom(1));
+        updatePreviewZoomLabel();
+    }
+
     // Download buttons
     document.getElementById('download-png').addEventListener('click', () => downloadQR('png'));
     document.getElementById('download-svg').addEventListener('click', () => downloadQR('svg'));
 
     // Logo upload
     document.getElementById('logo-upload').addEventListener('change', handleLogoUpload);
-
-    // Get current location button
-    document.getElementById('get-current-location').addEventListener('click', getCurrentLocation);
-
-    // Address search buttons
-    document.getElementById('geo-search-btn').addEventListener('click', () => {
-        const query = document.getElementById('geo-address-search').value;
-        searchAddress(query, 'geo-search-results');
-    });
-    
-    document.getElementById('vcard-search-btn').addEventListener('click', () => {
-        const query = document.getElementById('vcard-address-search').value;
-        searchAddress(query, 'vcard-search-results');
-    });
-    
-    // Search on Enter key
-    document.getElementById('geo-address-search').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            const query = document.getElementById('geo-address-search').value;
-            searchAddress(query, 'geo-search-results');
-        }
-    });
-    
-    document.getElementById('vcard-address-search').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            const query = document.getElementById('vcard-address-search').value;
-            searchAddress(query, 'vcard-search-results');
-        }
-    });
 
     // Customization options - live update
     const customizationInputs = [
@@ -326,11 +322,11 @@ function getQRContent() {
             // Validate required fields
             if (!name) {
                 showNotification(t('message.error.name'));
-                return '';
+                return null;
             }
             if (!tel) {
                 showNotification(t('message.error.tel'));
-                return '';
+                return null;
             }
 
             // iOS-compatible vCard format with CRLF line endings
@@ -373,7 +369,7 @@ function getQRContent() {
 
             if (!emailTo) {
                 showNotification(t('message.error.email'));
-                return '';
+                return null;
             }
 
             content = `mailto:${emailTo}`;
@@ -392,20 +388,12 @@ function getQRContent() {
             
             if (!telNumber) {
                 showNotification(t('message.error.tel'));
-                return '';
+                return null;
             }
 
             // Add country code if checkbox is enabled and country is selected
             const formattedTelNumber = (useTelCountryCode && telCountryCode) ? `${telCountryCode}${telNumber}` : telNumber;
             content = `tel:${formattedTelNumber}`;
-            break;
-
-        case 'geo':
-            const lat = document.getElementById('geo-lat').value.trim();
-            const lon = document.getElementById('geo-lon').value.trim();
-            if (lat && lon) {
-                content = `geo:${lat},${lon}`;
-            }
             break;
 
         case 'wifi':
@@ -481,6 +469,7 @@ function getQROptions() {
 function createInitialQRCode() {
     const container = document.getElementById('qr-code-container');
     container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>' + t('message.empty') + '</p></div>';
+    updatePreviewZoomLabel();
 }
 
 // Show notification message
@@ -505,6 +494,10 @@ function showNotification(message, type = 'error') {
 function generateQRCode() {
     const content = getQRContent();
 
+    if (content === null) {
+        return;
+    }
+
     if (!content) {
         showNotification(t('message.error.empty'));
         return;
@@ -519,6 +512,7 @@ function generateQRCode() {
     // Create new QR code
     qrCode = new QRCodeStyling(options);
     qrCode.append(container);
+    applyPreviewZoom();
 
     // Enable download buttons
     document.getElementById('download-png').disabled = false;
