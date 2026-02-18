@@ -18,11 +18,20 @@ object QrScanParser {
         if (value.startsWith("BEGIN:VCARD", ignoreCase = true)) {
             return parseVCard(value)
         }
+        if (value.startsWith("MECARD:", ignoreCase = true)) {
+            return parseMeCard(value)
+        }
         if (value.startsWith("mailto:", ignoreCase = true)) {
             return parseMailto(value)
         }
+        if (value.startsWith("MATMSG:", ignoreCase = true)) {
+            return parseMatmsg(value)
+        }
         if (value.startsWith("tel:", ignoreCase = true)) {
-            return ParsedScan(QrType.TEL, QrFormState(telNumber = value.removePrefix("tel:").trim()))
+            return ParsedScan(QrType.TEL, QrFormState(telNumber = stripPrefixIgnoreCase(value, "tel:").trim()))
+        }
+        if (value.startsWith("SMSTO:", ignoreCase = true) || value.startsWith("SMS:", ignoreCase = true)) {
+            return parseSms(value)
         }
         if (value.startsWith("http://", ignoreCase = true) || value.startsWith("https://", ignoreCase = true)) {
             return ParsedScan(QrType.URL, QrFormState(url = value))
@@ -32,7 +41,7 @@ object QrScanParser {
     }
 
     private fun parseWifi(raw: String): ParsedScan {
-        val payload = raw.removePrefix("WIFI:")
+        val payload = stripPrefixIgnoreCase(raw, "WIFI:")
         val fields = splitSemicolonAware(payload)
             .mapNotNull { token ->
                 val index = token.indexOf(':')
@@ -120,7 +129,7 @@ object QrScanParser {
     }
 
     private fun parseMailto(raw: String): ParsedScan {
-        val mailtoBody = raw.removePrefix("mailto:")
+        val mailtoBody = stripPrefixIgnoreCase(raw, "mailto:")
         val to = mailtoBody.substringBefore('?')
         val query = mailtoBody.substringAfter('?', "")
 
@@ -142,6 +151,67 @@ object QrScanParser {
                 emailBody = queryMap["body"].orEmpty()
             )
         )
+    }
+
+    private fun parseMatmsg(raw: String): ParsedScan {
+        val payload = stripPrefixIgnoreCase(raw, "MATMSG:")
+        val fields = splitSemicolonAware(payload)
+            .mapNotNull { token ->
+                val index = token.indexOf(':')
+                if (index <= 0) return@mapNotNull null
+                token.substring(0, index).uppercase() to token.substring(index + 1)
+            }
+            .toMap()
+
+        return ParsedScan(
+            type = QrType.EMAIL,
+            form = QrFormState(
+                emailTo = fields["TO"].orEmpty(),
+                emailSubject = decode(fields["SUB"].orEmpty()),
+                emailBody = decode(fields["BODY"].orEmpty())
+            )
+        )
+    }
+
+    private fun parseMeCard(raw: String): ParsedScan {
+        val payload = stripPrefixIgnoreCase(raw, "MECARD:")
+        val fields = splitSemicolonAware(payload)
+            .mapNotNull { token ->
+                val index = token.indexOf(':')
+                if (index <= 0) return@mapNotNull null
+                token.substring(0, index).uppercase() to token.substring(index + 1)
+            }
+            .toMap()
+
+        val name = fields["N"].orEmpty().split(',').let { parts ->
+            when {
+                parts.size >= 2 -> "${parts[1]} ${parts[0]}".trim()
+                else -> fields["N"].orEmpty()
+            }
+        }
+
+        return ParsedScan(
+            type = QrType.VCARD,
+            form = QrFormState(
+                fullName = name,
+                vCardTel = fields["TEL"].orEmpty(),
+                vCardEmail = fields["EMAIL"].orEmpty(),
+                vCardAddress = fields["ADR"].orEmpty(),
+                organization = fields["ORG"].orEmpty(),
+                vCardUrl = fields["URL"].orEmpty()
+            )
+        )
+    }
+
+    private fun parseSms(raw: String): ParsedScan {
+        val payload = when {
+            raw.startsWith("SMSTO:", ignoreCase = true) -> stripPrefixIgnoreCase(raw, "SMSTO:")
+            raw.startsWith("SMS:", ignoreCase = true) -> stripPrefixIgnoreCase(raw, "SMS:")
+            else -> raw
+        }
+
+        val number = payload.substringBefore(':').trim()
+        return ParsedScan(QrType.TEL, QrFormState(telNumber = number))
     }
 
     private fun splitSemicolonAware(payload: String): List<String> {
@@ -187,5 +257,13 @@ object QrScanParser {
 
     private fun decode(value: String): String {
         return URLDecoder.decode(value, StandardCharsets.UTF_8)
+    }
+
+    private fun stripPrefixIgnoreCase(source: String, prefix: String): String {
+        return if (source.startsWith(prefix, ignoreCase = true)) {
+            source.substring(prefix.length)
+        } else {
+            source
+        }
     }
 }

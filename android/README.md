@@ -5,7 +5,7 @@ Native Android app built with Kotlin + Jetpack Compose.
 ## Features
 
 - QR types: URL, Text, Contact(vCard), Email, Phone, Wi-Fi
-- QR scan support (device camera)
+- QR scan support (CameraX + ML Kit, realtime)
 - New dark-first mobile design (not WebView / not web app)
 - Live QR preview with zoom controls
 - Design studio: palette, QR resolution, margin, logo overlay size

@@ -48,6 +48,14 @@
     <string name="scan_applied">Scanned QR data applied to form</string>
     <string name="scan_applied_review">Scanned data loaded. Review then tap Generate.</string>
     <string name="scan_cancelled">Scan cancelled</string>
+    <string name="action_close_scanner">Close scanner</string>
+
+    <string name="cd_scan_qr">Scan QR code</string>
+    <string name="cd_zoom_in">Zoom in preview</string>
+    <string name="cd_zoom_out">Zoom out preview</string>
+    <string name="cd_zoom_reset">Reset preview zoom</string>
+    <string name="cd_save_png">Save QR image</string>
+    <string name="cd_preview_qr">Generated QR preview</string>
 
     <string name="preview_empty">Generate a QR code to preview</string>
     <string name="save_failed">Failed to save image</string>

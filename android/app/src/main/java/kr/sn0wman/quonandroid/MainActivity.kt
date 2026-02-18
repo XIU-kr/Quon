@@ -10,6 +10,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -69,6 +70,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -89,8 +91,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kr.sn0wman.quonandroid.core.ImageStore
 import kr.sn0wman.quonandroid.core.QrPalette
 import kr.sn0wman.quonandroid.core.QrType
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
+import kr.sn0wman.quonandroid.scan.QrScannerOverlay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,6 +110,7 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
     val snackHost = remember { SnackbarHostState() }
     var previewPulse by remember { mutableStateOf(false) }
     var focusType by remember { mutableStateOf<QrType?>(null) }
+    var scannerOpen by rememberSaveable { mutableStateOf(false) }
 
     fun triggerScanFeedback(type: QrType) {
         previewPulse = true
@@ -125,15 +127,6 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
 
     val logoPicker = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         vm.setLogo(uri?.let { ImageStore.decode(context, it) })
-    }
-
-    val scanLauncher = rememberLauncherForActivityResult(ScanContract()) { result ->
-        val payload = result.contents
-        if (payload.isNullOrBlank()) {
-            vm.onScanCancelled()
-        } else {
-            vm.applyScan(payload)
-        }
     }
 
     LaunchedEffect(Unit) {
@@ -189,16 +182,9 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
                             )
 
                             AssistChip(onClick = {
-                                val options = ScanOptions().apply {
-                                    setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-                                    setPrompt(context.getString(R.string.scan_prompt))
-                                    setBeepEnabled(true)
-                                    setOrientationLocked(false)
-                                    setBarcodeImageEnabled(false)
-                                }
-                                scanLauncher.launch(options)
+                                scannerOpen = true
                             }, label = { Text(stringResource(R.string.action_scan_qr)) }, leadingIcon = {
-                                Icon(Icons.Default.QrCodeScanner, null)
+                                Icon(Icons.Default.QrCodeScanner, contentDescription = stringResource(R.string.cd_scan_qr))
                             })
                         }
                     )
@@ -225,6 +211,19 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
                                 logoPicker.launch("image/*")
                             })
                         }
+                    }
+
+                    if (scannerOpen) {
+                        QrScannerOverlay(
+                            onClose = {
+                                scannerOpen = false
+                                vm.onScanCancelled()
+                            },
+                            onScanned = { payload ->
+                                scannerOpen = false
+                                vm.applyScan(payload)
+                            }
+                        )
                     }
                 }
             }
@@ -323,10 +322,10 @@ private fun PreviewPanel(modifier: Modifier, ui: MainUiState, vm: MainViewModel,
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.label_qr_preview), fontWeight = FontWeight.Bold)
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconButton(onClick = vm::zoomOut) { Icon(Icons.Default.Remove, null) }
+                    IconButton(onClick = vm::zoomOut) { Icon(Icons.Default.Remove, stringResource(R.string.cd_zoom_out)) }
                     Text("${(ui.zoom * 100).toInt()}%", fontSize = 12.sp)
-                    IconButton(onClick = vm::zoomIn) { Icon(Icons.Default.Add, null) }
-                    IconButton(onClick = vm::zoomReset) { Icon(Icons.Default.Refresh, null) }
+                    IconButton(onClick = vm::zoomIn) { Icon(Icons.Default.Add, stringResource(R.string.cd_zoom_in)) }
+                    IconButton(onClick = vm::zoomReset) { Icon(Icons.Default.Refresh, stringResource(R.string.cd_zoom_reset)) }
                 }
             }
 
@@ -349,7 +348,7 @@ private fun PreviewPanel(modifier: Modifier, ui: MainUiState, vm: MainViewModel,
             }
 
             OutlinedButton(onClick = { vm.save(context) }, enabled = ui.qrBitmap != null, modifier = Modifier.fillMaxWidth()) {
-                Icon(Icons.Default.Download, contentDescription = null)
+                Icon(Icons.Default.Download, contentDescription = stringResource(R.string.cd_save_png))
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(stringResource(R.string.action_save_png))
             }

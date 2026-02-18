@@ -57,4 +57,35 @@ class QrScanParserTest {
         assertEquals("WPA2-TTLS", parsed.form.wifiEncryption)
         assertEquals("secret | id=user01", parsed.form.wifiPassword)
     }
+
+    @Test
+    fun parse_mecard_mapsToContactForm() {
+        val payload = "MECARD:N:Kim,Minsoo;TEL:+821012345678;EMAIL:minsoo@example.com;ADR:Seoul;ORG:Quon;URL:https://sn0wman.kr;;"
+        val parsed = QrScanParser.parse(payload)
+
+        assertEquals(QrType.VCARD, parsed.type)
+        assertEquals("Minsoo Kim", parsed.form.fullName)
+        assertEquals("+821012345678", parsed.form.vCardTel)
+        assertEquals("minsoo@example.com", parsed.form.vCardEmail)
+    }
+
+    @Test
+    fun parse_matmsg_mapsToEmailForm() {
+        val payload = "MATMSG:TO:test@example.com;SUB:Hello;BODY:World;;"
+        val parsed = QrScanParser.parse(payload)
+
+        assertEquals(QrType.EMAIL, parsed.type)
+        assertEquals("test@example.com", parsed.form.emailTo)
+        assertEquals("Hello", parsed.form.emailSubject)
+        assertEquals("World", parsed.form.emailBody)
+    }
+
+    @Test
+    fun parse_smsto_mapsToTelForm() {
+        val payload = "SMSTO:+82105551234:hello"
+        val parsed = QrScanParser.parse(payload)
+
+        assertEquals(QrType.TEL, parsed.type)
+        assertEquals("+82105551234", parsed.form.telNumber)
+    }
 }
