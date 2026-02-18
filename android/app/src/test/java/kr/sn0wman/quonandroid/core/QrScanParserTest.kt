@@ -88,4 +88,22 @@ class QrScanParserTest {
         assertEquals(QrType.TEL, parsed.type)
         assertEquals("+82105551234", parsed.form.telNumber)
     }
+
+    @Test
+    fun parse_mmsto_mapsToTelForm() {
+        val payload = "MMSTO:+82105550000:hello"
+        val parsed = QrScanParser.parse(payload)
+
+        assertEquals(QrType.TEL, parsed.type)
+        assertEquals("+82105550000", parsed.form.telNumber)
+    }
+
+    @Test
+    fun parse_geo_mapsToGoogleMapsUrl() {
+        val payload = "geo:37.5665,126.9780"
+        val parsed = QrScanParser.parse(payload)
+
+        assertEquals(QrType.URL, parsed.type)
+        assertEquals("https://maps.google.com/?q=37.5665,126.9780", parsed.form.url)
+    }
 }

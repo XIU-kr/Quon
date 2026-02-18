@@ -70,6 +70,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -88,9 +89,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kr.sn0wman.quonandroid.core.ImageStore
 import kr.sn0wman.quonandroid.core.QrPalette
 import kr.sn0wman.quonandroid.core.QrType
+import kr.sn0wman.quonandroid.data.ScanPrefsStore
 import kr.sn0wman.quonandroid.scan.QrScannerOverlay
 
 class MainActivity : ComponentActivity() {
@@ -107,10 +110,12 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
     val ui by vm.uiState.collectAsState()
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
+    val scope = rememberCoroutineScope()
     val snackHost = remember { SnackbarHostState() }
     var previewPulse by remember { mutableStateOf(false) }
     var focusType by remember { mutableStateOf<QrType?>(null) }
     var scannerOpen by rememberSaveable { mutableStateOf(false) }
+    val prefsStore = remember(context) { ScanPrefsStore(context) }
 
     fun triggerScanFeedback(type: QrType) {
         previewPulse = true
@@ -127,6 +132,11 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
 
     val logoPicker = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         vm.setLogo(uri?.let { ImageStore.decode(context, it) })
+    }
+
+    LaunchedEffect(Unit) {
+        vm.setAutoApplyScan(prefsStore.readAutoApply(defaultValue = true))
+        prefsStore.readLastType()?.let(vm::setType)
     }
 
     LaunchedEffect(Unit) {
@@ -148,7 +158,10 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
                         ImageStore.openImage(context, event.openSaved.uri)
                     }
                 }
-                is UiEvent.ScanApplied -> triggerScanFeedback(event.type)
+                is UiEvent.ScanApplied -> {
+                    triggerScanFeedback(event.type)
+                    scope.launch { prefsStore.writeLastType(event.type) }
+                }
             }
         }
     }
@@ -174,7 +187,9 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
                                 selected = ui.autoApplyScan,
                                 onClick = {
                                     focusManager.clearFocus(force = true)
-                                    vm.setAutoApplyScan(!ui.autoApplyScan)
+                                    val next = !ui.autoApplyScan
+                                    vm.setAutoApplyScan(next)
+                                    scope.launch { prefsStore.writeAutoApply(next) }
                                 },
                                 label = { Text(stringResource(R.string.scan_auto_apply)) },
                                 colors = FilterChipDefaults.filterChipColors(),

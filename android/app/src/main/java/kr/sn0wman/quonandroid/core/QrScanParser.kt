@@ -30,8 +30,17 @@ object QrScanParser {
         if (value.startsWith("tel:", ignoreCase = true)) {
             return ParsedScan(QrType.TEL, QrFormState(telNumber = stripPrefixIgnoreCase(value, "tel:").trim()))
         }
+        if (value.startsWith("MMSTO:", ignoreCase = true)) {
+            return parseMmsto(value)
+        }
         if (value.startsWith("SMSTO:", ignoreCase = true) || value.startsWith("SMS:", ignoreCase = true)) {
             return parseSms(value)
+        }
+        if (value.startsWith("geo:", ignoreCase = true)) {
+            return parseGeo(value)
+        }
+        if (value.startsWith("BEGIN:VEVENT", ignoreCase = true)) {
+            return ParsedScan(QrType.TEXT, QrFormState(text = value))
         }
         if (value.startsWith("http://", ignoreCase = true) || value.startsWith("https://", ignoreCase = true)) {
             return ParsedScan(QrType.URL, QrFormState(url = value))
@@ -212,6 +221,24 @@ object QrScanParser {
 
         val number = payload.substringBefore(':').trim()
         return ParsedScan(QrType.TEL, QrFormState(telNumber = number))
+    }
+
+    private fun parseMmsto(raw: String): ParsedScan {
+        val payload = stripPrefixIgnoreCase(raw, "MMSTO:")
+        val number = payload.substringBefore(':').trim()
+        return ParsedScan(QrType.TEL, QrFormState(telNumber = number))
+    }
+
+    private fun parseGeo(raw: String): ParsedScan {
+        val body = stripPrefixIgnoreCase(raw, "geo:")
+        val coords = body.substringBefore('?').split(',')
+        return if (coords.size >= 2) {
+            val lat = coords[0].trim()
+            val lon = coords[1].trim()
+            ParsedScan(QrType.URL, QrFormState(url = "https://maps.google.com/?q=$lat,$lon"))
+        } else {
+            ParsedScan(QrType.TEXT, QrFormState(text = raw))
+        }
     }
 
     private fun splitSemicolonAware(payload: String): List<String> {

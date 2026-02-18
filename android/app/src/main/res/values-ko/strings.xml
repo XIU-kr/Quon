@@ -49,6 +49,7 @@
     <string name="scan_applied_review">스캔 데이터가 입력되었습니다. 확인 후 QR 생성을 눌러주세요.</string>
     <string name="scan_cancelled">스캔이 취소되었습니다</string>
     <string name="action_close_scanner">스캐너 닫기</string>
+    <string name="action_toggle_torch">손전등 켜기/끄기</string>
 
     <string name="cd_scan_qr">QR 코드 스캔</string>
     <string name="cd_zoom_in">미리보기 확대</string>
