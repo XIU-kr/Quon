@@ -87,8 +87,19 @@
 
         <main id="workspace">
             <section class="workspace-intro">
-                <h2 data-i18n="workspace.title">Professional Workspace</h2>
-                <p data-i18n="workspace.subtitle">Use the three-panel flow: enter content, verify preview, then fine-tune design for export.</p>
+                <div>
+                    <h2 data-i18n="workspace.title">Professional Workspace</h2>
+                    <p data-i18n="workspace.subtitle">Use the three-panel flow: enter content, verify preview, then fine-tune design for export.</p>
+                </div>
+                <aside class="cta-analytics" id="cta-analytics" aria-live="polite">
+                    <p class="cta-analytics-title" data-i18n="analytics.title">CTA performance (local)</p>
+                    <div class="cta-analytics-grid">
+                        <p><span data-i18n="analytics.impressions">Impressions</span> <strong id="analytics-impressions">0</strong></p>
+                        <p><span data-i18n="analytics.clicks">Clicks</span> <strong id="analytics-clicks">0</strong></p>
+                        <p><span data-i18n="analytics.conversions">Conversions</span> <strong id="analytics-conversions">0</strong></p>
+                        <p><span data-i18n="analytics.rate">Conversion rate</span> <strong id="analytics-rate">0%</strong></p>
+                    </div>
+                </aside>
             </section>
             <div class="content-wrapper">
                 <!-- Left Panel: QR Code Type Selection and Content -->
@@ -525,6 +536,12 @@
                     <div class="section">
                         <h2 data-i18n="section.design">Customize Design</h2>
 
+                        <div class="preset-row" role="group" data-i18n-aria="preset.group.aria">
+                            <button type="button" class="preset-btn" data-preset="business" data-i18n="preset.business">Business Card</button>
+                            <button type="button" class="preset-btn" data-preset="event" data-i18n="preset.event">Event Check-in</button>
+                            <button type="button" class="preset-btn" data-preset="wifi" data-i18n="preset.wifi">Wi-Fi Label</button>
+                        </div>
+
                         <details class="design-group" data-group="shape">
                             <summary data-i18n="design.group.shape">Shape</summary>
                             <div class="design-group-body">
@@ -636,6 +653,24 @@
                 <summary data-i18n="faq.q4.title">Can I add my brand logo safely?</summary>
                 <p data-i18n="faq.q4.body">Yes. Keep contrast high and avoid oversized logos for the best scan success rate.</p>
             </details>
+        </section>
+
+        <section class="use-cases">
+            <h2 data-i18n="cases.title">Use cases</h2>
+            <div class="use-cases-grid">
+                <article>
+                    <h3 data-i18n="cases.c1.title">Offline store links</h3>
+                    <p data-i18n="cases.c1.body">Guide walk-in users to menus, offers, and reservation pages.</p>
+                </article>
+                <article>
+                    <h3 data-i18n="cases.c2.title">Event onboarding</h3>
+                    <p data-i18n="cases.c2.body">Create check-in or survey entry points for conferences and meetups.</p>
+                </article>
+                <article>
+                    <h3 data-i18n="cases.c3.title">Portfolio sharing</h3>
+                    <p data-i18n="cases.c3.body">Attach polished QR cards to resumes, booths, and printed kits.</p>
+                </article>
+            </div>
         </section>
 
         <footer>

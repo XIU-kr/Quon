@@ -10,12 +10,38 @@ const DESIGN_PANEL_STATE_KEY = 'quon_design_panel_state';
 const RECENT_SETTINGS_KEY = 'quon_recent_settings';
 const DRAFT_INPUTS_KEY = 'quon_draft_inputs';
 const CTA_VARIANT_KEY = 'quon_cta_variant';
+const CTA_METRICS_KEY = 'quon_cta_metrics';
 const GENERATION_HISTORY_KEY = 'quon_generation_history';
 const MAX_HISTORY_ITEMS = 5;
 const QR_TYPES = ['url', 'text', 'vcard', 'email', 'tel', 'wifi'];
 let isGenerating = false;
 let ctaVariant = 0;
+let ctaMetrics = { impressions: [0, 0, 0], clicks: [0, 0, 0], conversions: [0, 0, 0] };
 let generationHistory = [];
+
+const DESIGN_PRESETS = {
+    business: {
+        dotsType: 'rounded',
+        cornerSquareType: 'square',
+        cornerDotType: 'square',
+        dotsColor: '#10243f',
+        backgroundColor: '#ffffff'
+    },
+    event: {
+        dotsType: 'classy-rounded',
+        cornerSquareType: 'extra-rounded',
+        cornerDotType: 'dot',
+        dotsColor: '#5a246e',
+        backgroundColor: '#fff8f2'
+    },
+    wifi: {
+        dotsType: 'square',
+        cornerSquareType: 'square',
+        cornerDotType: 'square',
+        dotsColor: '#0d513a',
+        backgroundColor: '#effff8'
+    }
+};
 
 function initializeAdsenseUnits() {
     const adUnits = document.querySelectorAll('.adsbygoogle');
@@ -157,9 +183,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     normalizeCountryOptionLabels(getCurrentLanguage());
     restoreRecentSettings();
     restoreDraftInputs();
+    restoreCtaMetrics();
     initializeCtaVariant();
     restoreGenerationHistory();
+    markPresetSelection();
     renderGenerationHistory();
+    renderCtaAnalytics();
     createInitialQRCode();
     // Disable download buttons initially
     document.getElementById('download-png').disabled = true;
@@ -177,6 +206,7 @@ function initializeCtaVariant() {
     }
 
     applyCtaVariant();
+    trackCtaMetric('impressions');
 }
 
 function applyCtaVariant() {
@@ -190,12 +220,128 @@ function applyCtaVariant() {
     cta.textContent = t(key);
 }
 
+function restoreCtaMetrics() {
+    try {
+        const raw = localStorage.getItem(CTA_METRICS_KEY);
+        if (!raw) {
+            return;
+        }
+
+        const parsed = JSON.parse(raw);
+        const hasShape = parsed
+            && Array.isArray(parsed.impressions)
+            && Array.isArray(parsed.clicks)
+            && Array.isArray(parsed.conversions)
+            && parsed.impressions.length === 3
+            && parsed.clicks.length === 3
+            && parsed.conversions.length === 3;
+
+        if (hasShape) {
+            ctaMetrics = parsed;
+        }
+    } catch (error) {
+        ctaMetrics = { impressions: [0, 0, 0], clicks: [0, 0, 0], conversions: [0, 0, 0] };
+    }
+}
+
+function persistCtaMetrics() {
+    try {
+        localStorage.setItem(CTA_METRICS_KEY, JSON.stringify(ctaMetrics));
+    } catch (error) {
+        // Ignore storage write errors
+    }
+}
+
+function trackCtaMetric(kind) {
+    if (!ctaMetrics[kind] || typeof ctaMetrics[kind][ctaVariant] !== 'number') {
+        return;
+    }
+
+    ctaMetrics[kind][ctaVariant] += 1;
+    persistCtaMetrics();
+    renderCtaAnalytics();
+}
+
+function renderCtaAnalytics() {
+    const impressions = ctaMetrics.impressions[ctaVariant] || 0;
+    const clicks = ctaMetrics.clicks[ctaVariant] || 0;
+    const conversions = ctaMetrics.conversions[ctaVariant] || 0;
+    const rate = impressions > 0 ? Math.round((conversions / impressions) * 1000) / 10 : 0;
+
+    const impressionsEl = document.getElementById('analytics-impressions');
+    const clicksEl = document.getElementById('analytics-clicks');
+    const conversionsEl = document.getElementById('analytics-conversions');
+    const rateEl = document.getElementById('analytics-rate');
+
+    if (impressionsEl) impressionsEl.textContent = String(impressions);
+    if (clicksEl) clicksEl.textContent = String(clicks);
+    if (conversionsEl) conversionsEl.textContent = String(conversions);
+    if (rateEl) rateEl.textContent = `${rate}%`;
+}
+
+function applyDesignPreset(presetKey) {
+    const preset = DESIGN_PRESETS[presetKey];
+    if (!preset) {
+        return;
+    }
+
+    const mappings = [
+        ['dots-type', preset.dotsType],
+        ['corner-square-type', preset.cornerSquareType],
+        ['corner-dot-type', preset.cornerDotType],
+        ['dots-color', preset.dotsColor],
+        ['background-color', preset.backgroundColor]
+    ];
+
+    mappings.forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element && value) {
+            element.value = value;
+        }
+    });
+
+    markPresetSelection(presetKey);
+    saveRecentSettings();
+    generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
+    showNotification(t('preset.applied'), 'success');
+}
+
+function markPresetSelection(activePresetKey = null) {
+    let resolvedPresetKey = activePresetKey;
+
+    if (!resolvedPresetKey) {
+        const current = {
+            dotsType: document.getElementById('dots-type')?.value,
+            cornerSquareType: document.getElementById('corner-square-type')?.value,
+            cornerDotType: document.getElementById('corner-dot-type')?.value,
+            dotsColor: document.getElementById('dots-color')?.value,
+            backgroundColor: document.getElementById('background-color')?.value
+        };
+
+        resolvedPresetKey = Object.entries(DESIGN_PRESETS).find(([, preset]) => {
+            return preset.dotsType === current.dotsType
+                && preset.cornerSquareType === current.cornerSquareType
+                && preset.cornerDotType === current.cornerDotType
+                && preset.dotsColor.toLowerCase() === (current.dotsColor || '').toLowerCase()
+                && preset.backgroundColor.toLowerCase() === (current.backgroundColor || '').toLowerCase();
+        })?.[0] || null;
+    }
+
+    const buttons = document.querySelectorAll('.preset-btn');
+    buttons.forEach((button) => {
+        const preset = button.dataset.preset;
+        const isActive = resolvedPresetKey ? preset === resolvedPresetKey : false;
+        button.classList.toggle('is-active', isActive);
+    });
+}
+
 // Initialize all event listeners
 function initializeEventListeners() {
     document.addEventListener('languageChanged', (event) => {
         normalizeCountryOptionLabels(event.detail.language);
         applyCtaVariant();
         renderGenerationHistory();
+        renderCtaAnalytics();
     });
 
     // Type selector buttons
@@ -232,6 +378,20 @@ function initializeEventListeners() {
         });
     }
 
+    const primaryHeroCta = document.querySelector('.hero-actions .btn-primary');
+    if (primaryHeroCta) {
+        primaryHeroCta.addEventListener('click', () => {
+            trackCtaMetric('clicks');
+        });
+    }
+
+    const presetButtons = document.querySelectorAll('.preset-btn');
+    presetButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            applyDesignPreset(button.dataset.preset);
+        });
+    });
+
     const zoomInButton = document.getElementById('preview-zoom-in');
     const zoomOutButton = document.getElementById('preview-zoom-out');
     const zoomResetButton = document.getElementById('preview-zoom-reset');
@@ -260,6 +420,7 @@ function initializeEventListeners() {
         const element = document.getElementById(id);
         if (element) {
             element.addEventListener('change', () => {
+                markPresetSelection();
                 saveRecentSettings();
                 generateQRCode();
             });
@@ -784,7 +945,10 @@ function restoreGenerationHistory() {
             return;
         }
 
-        generationHistory = parsed.filter((item) => item && typeof item === 'object').slice(0, MAX_HISTORY_ITEMS);
+        generationHistory = parsed
+            .filter((item) => item && typeof item === 'object')
+            .map((item) => ({ ...item, favorite: Boolean(item.favorite) }))
+            .slice(0, MAX_HISTORY_ITEMS);
     } catch (error) {
         generationHistory = [];
     }
@@ -863,18 +1027,20 @@ function applyFormSnapshot(snapshot) {
 }
 
 function addGenerationHistoryItem(content) {
-    const typeLabel = t(`type.${currentType}`);
     const trimmed = content.replace(/\s+/g, ' ').trim();
     const entry = {
         id: Date.now(),
         type: currentType,
-        typeLabel,
         preview: trimmed.slice(0, 68),
+        fullContent: content,
         timestamp: Date.now(),
+        favorite: false,
         snapshot: getCurrentFormSnapshot()
     };
 
-    generationHistory = [entry, ...generationHistory].slice(0, MAX_HISTORY_ITEMS);
+    generationHistory = [entry, ...generationHistory]
+        .sort((a, b) => Number(b.favorite) - Number(a.favorite) || b.timestamp - a.timestamp)
+        .slice(0, MAX_HISTORY_ITEMS);
     persistGenerationHistory();
     renderGenerationHistory();
 }
@@ -916,20 +1082,74 @@ function renderGenerationHistory() {
         preview.className = 'history-content';
         preview.textContent = item.preview;
 
+        const actions = document.createElement('div');
+        actions.className = 'history-actions';
+
         const reuse = document.createElement('button');
         reuse.type = 'button';
-        reuse.className = 'history-reuse-btn';
+        reuse.className = 'history-reuse-btn history-action-btn';
         reuse.textContent = t('history.reuse');
         reuse.addEventListener('click', () => {
             applyFormSnapshot(item.snapshot);
             saveDraftInputs();
-            generateQRCode();
+            generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
             showNotification(t('history.reused'), 'success');
         });
 
+        const favorite = document.createElement('button');
+        favorite.type = 'button';
+        favorite.className = `history-fav-btn ${item.favorite ? 'is-active' : ''}`;
+        favorite.textContent = item.favorite ? t('history.unfavorite') : t('history.favorite');
+        favorite.addEventListener('click', () => {
+            generationHistory = generationHistory.map((entry) => {
+                if (entry.id !== item.id) {
+                    return entry;
+                }
+                return { ...entry, favorite: !entry.favorite };
+            }).sort((a, b) => Number(b.favorite) - Number(a.favorite) || b.timestamp - a.timestamp);
+
+            persistGenerationHistory();
+            renderGenerationHistory();
+        });
+
+        const downloadPng = document.createElement('button');
+        downloadPng.type = 'button';
+        downloadPng.className = 'history-action-btn';
+        downloadPng.textContent = t('history.download.png');
+        downloadPng.addEventListener('click', () => {
+            applyFormSnapshot(item.snapshot);
+            saveDraftInputs();
+            generateQRCode({
+                silent: true,
+                focusDownload: false,
+                recordHistory: false,
+                onSuccess: () => downloadQR('png')
+            });
+        });
+
+        const downloadSvg = document.createElement('button');
+        downloadSvg.type = 'button';
+        downloadSvg.className = 'history-action-btn';
+        downloadSvg.textContent = t('history.download.svg');
+        downloadSvg.addEventListener('click', () => {
+            applyFormSnapshot(item.snapshot);
+            saveDraftInputs();
+            generateQRCode({
+                silent: true,
+                focusDownload: false,
+                recordHistory: false,
+                onSuccess: () => downloadQR('svg')
+            });
+        });
+
+        actions.appendChild(reuse);
+        actions.appendChild(favorite);
+        actions.appendChild(downloadPng);
+        actions.appendChild(downloadSvg);
+
         li.appendChild(top);
         li.appendChild(preview);
-        li.appendChild(reuse);
+        li.appendChild(actions);
         list.appendChild(li);
     });
 }
@@ -1030,13 +1250,21 @@ function showNotification(message, type = 'error') {
 }
 
 // Generate QR code
-function generateQRCode() {
+function generateQRCode(options = {}) {
+    const silent = Boolean(options.silent);
+    const focusDownload = options.focusDownload !== false;
+    const countConversion = options.countConversion !== false && !silent;
+    const recordHistory = options.recordHistory !== false;
+    const onSuccess = typeof options.onSuccess === 'function' ? options.onSuccess : null;
+
     if (isGenerating) {
         return;
     }
 
     if (!validateCurrentInput()) {
-        showNotification(t('message.error.fixFields'));
+        if (!silent) {
+            showNotification(t('message.error.fixFields'));
+        }
         return;
     }
 
@@ -1048,7 +1276,9 @@ function generateQRCode() {
 
     if (!content) {
         updatePreviewStatus('message.error.empty', true);
-        showNotification(t('message.error.empty'));
+        if (!silent) {
+            showNotification(t('message.error.empty'));
+        }
         return;
     }
 
@@ -1072,14 +1302,28 @@ function generateQRCode() {
             const downloadSvgButton = document.getElementById('download-svg');
             downloadPngButton.disabled = false;
             downloadSvgButton.disabled = false;
-            downloadPngButton.focus({ preventScroll: true });
+            if (focusDownload) {
+                downloadPngButton.focus({ preventScroll: true });
+            }
 
             updatePreviewStatus('message.success.generated', false);
-            addGenerationHistoryItem(content);
-            showNotification(t('message.success.generated'), 'success');
+            if (recordHistory) {
+                addGenerationHistoryItem(content);
+            }
+            if (countConversion) {
+                trackCtaMetric('conversions');
+            }
+            if (!silent) {
+                showNotification(t('message.success.generated'), 'success');
+            }
+            if (onSuccess) {
+                onSuccess();
+            }
         } catch (error) {
             updatePreviewStatus('message.error.network', true);
-            showNotification(t('message.error.network'));
+            if (!silent) {
+                showNotification(t('message.error.network'));
+            }
         } finally {
             setGeneratingState(false);
         }
