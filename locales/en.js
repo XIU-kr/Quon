@@ -35,6 +35,12 @@ window.en = {
     'preset.custom.empty': 'This custom slot is empty',
     'preset.market.title': 'Preset marketplace',
     'preset.market.subtitle': 'Apply industry-focused style kits with one click.',
+    'preset.market.filter.all': 'All industries',
+    'preset.market.filter.food': 'Food & Cafe',
+    'preset.market.filter.retail': 'Retail',
+    'preset.market.filter.personal': 'Personal Brand',
+    'preset.market.sort.popular': 'Most popular',
+    'preset.market.sort.newest': 'Newest',
     'preset.market.cafe.title': 'Cafe ordering',
     'preset.market.cafe.desc': 'Warm contrast for counters and table cards.',
     'preset.market.retail.title': 'Retail promo',
@@ -179,6 +185,7 @@ window.en = {
     'button.download.png': 'Download PNG',
     'button.download.svg': 'Download SVG',
     'button.share': 'Share',
+    'button.last_preset': 'Last Preset',
     'button.fill.example': 'Fill Example',
 
     // Accessibility labels
@@ -194,6 +201,7 @@ window.en = {
     'history.title': 'Recent generations',
     'history.hint': 'Reuse your latest QR setups instantly.',
     'history.empty': 'No history yet. Generate your first QR.',
+    'history.empty.filtered': 'No items match your filter/search.',
     'history.clear': 'Clear',
     'history.cleared': 'History cleared',
     'history.reuse': 'Reuse',
@@ -217,6 +225,8 @@ window.en = {
     'history.time.min': '{n}m ago',
     'history.time.hour': '{n}h ago',
     'history.time.day': '{n}d ago',
+    'history.search.placeholder': 'Search history',
+    'history.filter.all': 'All tags',
 
     // Use cases
     'cases.title': 'Use cases',
@@ -229,6 +239,12 @@ window.en = {
 
     // Scan quality
     'quality.title': 'Scan quality check',
+    'quality.score.label': 'Quality score',
+    'quality.recommendation.default': 'Generate a QR code to get recommendations.',
+    'quality.recommendation.good': 'Great balance. You can publish this QR confidently.',
+    'quality.recommendation.contrast': 'Increase contrast first for faster scanning.',
+    'quality.recommendation.logo': 'Reduce logo impact to improve scan reliability.',
+    'quality.recommendation.multi': 'Improve contrast and logo size for the best result.',
     'quality.default': 'Generate a QR code to review scan quality guidance.',
     'quality.warn.contrast': 'Low contrast detected. Increase foreground/background contrast.',
     'quality.warn.logo': 'Logo detected. Keep center logo compact for reliable scanning.',
@@ -245,6 +261,7 @@ window.en = {
     'share.copied': 'Copied QR content to clipboard',
     'share.no_content': 'Generate a QR code first before sharing',
     'share.failed': 'Share failed on this device',
+    'preset.last.empty': 'No previous preset found yet',
     
     // Messages
     'message.empty': 'Enter content and click "Generate QR Code"',

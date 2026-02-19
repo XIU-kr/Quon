@@ -35,6 +35,12 @@ window.ko = {
     'preset.custom.empty': '이 슬롯은 아직 비어 있습니다',
     'preset.market.title': '프리셋 마켓',
     'preset.market.subtitle': '업종별 스타일 킷을 한 번에 적용하세요.',
+    'preset.market.filter.all': '전체 업종',
+    'preset.market.filter.food': '푸드/카페',
+    'preset.market.filter.retail': '리테일',
+    'preset.market.filter.personal': '개인 브랜딩',
+    'preset.market.sort.popular': '인기순',
+    'preset.market.sort.newest': '최신순',
     'preset.market.cafe.title': '카페 주문',
     'preset.market.cafe.desc': '카운터/테이블 카드에 어울리는 따뜻한 대비.',
     'preset.market.retail.title': '리테일 프로모션',
@@ -179,6 +185,7 @@ window.ko = {
     'button.download.png': 'PNG 다운로드',
     'button.download.svg': 'SVG 다운로드',
     'button.share': '공유',
+    'button.last_preset': '최근 프리셋',
     'button.fill.example': '예시 자동 입력',
 
     // Accessibility labels
@@ -194,6 +201,7 @@ window.ko = {
     'history.title': '최근 생성 기록',
     'history.hint': '최근 QR 설정을 즉시 다시 불러올 수 있습니다.',
     'history.empty': '아직 기록이 없습니다. 첫 QR을 생성해보세요.',
+    'history.empty.filtered': '필터 또는 검색 결과가 없습니다.',
     'history.clear': '지우기',
     'history.cleared': '기록이 삭제되었습니다',
     'history.reuse': '다시 사용',
@@ -217,6 +225,8 @@ window.ko = {
     'history.time.min': '{n}분 전',
     'history.time.hour': '{n}시간 전',
     'history.time.day': '{n}일 전',
+    'history.search.placeholder': '기록 검색',
+    'history.filter.all': '전체 태그',
 
     // Use cases
     'cases.title': '활용 사례',
@@ -229,6 +239,12 @@ window.ko = {
 
     // Scan quality
     'quality.title': '스캔 품질 점검',
+    'quality.score.label': '품질 점수',
+    'quality.recommendation.default': 'QR을 생성하면 맞춤 추천을 확인할 수 있습니다.',
+    'quality.recommendation.good': '균형이 좋습니다. 바로 배포해도 안정적인 상태입니다.',
+    'quality.recommendation.contrast': '먼저 대비를 높이면 스캔 속도가 개선됩니다.',
+    'quality.recommendation.logo': '로고 영향도를 낮추면 스캔 안정성이 올라갑니다.',
+    'quality.recommendation.multi': '대비와 로고 크기를 함께 조정하면 가장 좋습니다.',
     'quality.default': 'QR을 생성하면 스캔 품질 가이드를 확인할 수 있습니다.',
     'quality.warn.contrast': '대비가 낮습니다. 코드/배경 대비를 더 높여주세요.',
     'quality.warn.logo': '로고가 감지되었습니다. 중앙 로고를 작게 유지하세요.',
@@ -245,6 +261,7 @@ window.ko = {
     'share.copied': 'QR 내용이 클립보드에 복사되었습니다',
     'share.no_content': '공유하려면 먼저 QR을 생성해주세요',
     'share.failed': '이 기기에서 공유에 실패했습니다',
+    'preset.last.empty': '아직 적용한 프리셋이 없습니다',
     
     // Messages
     'message.empty': '내용을 입력하고 "QR 코드 만들기"를 눌러주세요',
