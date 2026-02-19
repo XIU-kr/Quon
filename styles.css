@@ -868,6 +868,18 @@ small {
   margin-bottom: 0.7rem;
 }
 
+.design-quick-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.45rem;
+}
+
+.design-reset-btn {
+  min-height: 34px;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.72rem;
+}
+
 .preset-btn {
   border: 1px solid #38557f;
   border-radius: 10px;

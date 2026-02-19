@@ -32,6 +32,15 @@ let historyFilter = 'all';
 let historyQuery = '';
 let historySort = 'recent';
 let lastAppliedPresetKey = '';
+let historySearchDebounceTimer = null;
+
+const DEFAULT_DESIGN_SETTINGS = {
+    dotsType: 'rounded',
+    cornerSquareType: 'dot',
+    cornerDotType: 'dot',
+    dotsColor: '#51A273',
+    backgroundColor: '#ffffff'
+};
 
 const DESIGN_PRESETS = {
     business: {
@@ -520,6 +529,35 @@ function applyLastPreset() {
     applyDesignPreset(lastAppliedPresetKey);
 }
 
+function resetDesignToDefault() {
+    const mapping = {
+        'dots-type': DEFAULT_DESIGN_SETTINGS.dotsType,
+        'corner-square-type': DEFAULT_DESIGN_SETTINGS.cornerSquareType,
+        'corner-dot-type': DEFAULT_DESIGN_SETTINGS.cornerDotType,
+        'dots-color': DEFAULT_DESIGN_SETTINGS.dotsColor,
+        'background-color': DEFAULT_DESIGN_SETTINGS.backgroundColor
+    };
+
+    Object.entries(mapping).forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.value = value;
+        }
+    });
+
+    logoImage = null;
+    logoScale = 0.4;
+    const logoInput = document.getElementById('logo-upload');
+    if (logoInput) {
+        logoInput.value = '';
+    }
+
+    markPresetSelection();
+    saveRecentSettings();
+    generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
+    showNotification(t('design.reset.applied'), 'success');
+}
+
 function restoreCustomPresets() {
     try {
         const raw = localStorage.getItem(CUSTOM_PRESETS_KEY);
@@ -820,9 +858,14 @@ function initializeEventListeners() {
     const historySearchEl = document.getElementById('history-search');
     if (historySearchEl) {
         historySearchEl.addEventListener('input', () => {
-            historyQuery = historySearchEl.value.trim().toLowerCase();
-            persistHistoryView();
-            renderGenerationHistory();
+            if (historySearchDebounceTimer) {
+                clearTimeout(historySearchDebounceTimer);
+            }
+            historySearchDebounceTimer = setTimeout(() => {
+                historyQuery = historySearchEl.value.trim().toLowerCase();
+                persistHistoryView();
+                renderGenerationHistory();
+            }, 120);
         });
     }
 
@@ -891,6 +934,11 @@ function initializeEventListeners() {
             }
         });
     });
+
+    const designResetButton = document.getElementById('design-reset-btn');
+    if (designResetButton) {
+        designResetButton.addEventListener('click', resetDesignToDefault);
+    }
 
     const pinSlotButtons = document.querySelectorAll('.pin-slot');
     pinSlotButtons.forEach((button) => {
@@ -961,6 +1009,7 @@ function initializeEventListeners() {
     if (mobileMoreToggle && mobileMorePanel) {
         mobileMoreToggle.addEventListener('click', () => {
             mobileMorePanel.hidden = !mobileMorePanel.hidden;
+            mobileMoreToggle.setAttribute('aria-expanded', String(!mobileMorePanel.hidden));
         });
 
         document.addEventListener('click', (event) => {
@@ -975,6 +1024,14 @@ function initializeEventListeners() {
                 return;
             }
             mobileMorePanel.hidden = true;
+            mobileMoreToggle.setAttribute('aria-expanded', 'false');
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !mobileMorePanel.hidden) {
+                mobileMorePanel.hidden = true;
+                mobileMoreToggle.setAttribute('aria-expanded', 'false');
+            }
         });
     }
 
@@ -1790,6 +1847,25 @@ function renderGenerationHistory() {
             });
         });
 
+        const copyContent = document.createElement('button');
+        copyContent.type = 'button';
+        copyContent.className = 'history-action-btn';
+        copyContent.textContent = t('history.copy');
+        copyContent.addEventListener('click', async () => {
+            const value = item.fullContent || item.preview;
+            if (!value) {
+                return;
+            }
+            try {
+                if (navigator.clipboard?.writeText) {
+                    await navigator.clipboard.writeText(value);
+                    showNotification(t('history.copy.success'), 'success');
+                }
+            } catch (error) {
+                showNotification(t('history.copy.failed'));
+            }
+        });
+
         const pin1 = document.createElement('button');
         pin1.type = 'button';
         pin1.className = 'history-action-btn';
@@ -1813,6 +1889,7 @@ function renderGenerationHistory() {
         actions.appendChild(favorite);
         actions.appendChild(pin1);
         actions.appendChild(pin2);
+        actions.appendChild(copyContent);
         actions.appendChild(downloadPng);
         actions.appendChild(downloadSvg);
 

@@ -587,6 +587,10 @@
                     <div class="section">
                         <h2 data-i18n="section.design">Customize Design</h2>
 
+                        <div class="design-quick-actions">
+                            <button type="button" id="design-reset-btn" class="btn-secondary design-reset-btn" data-i18n="design.reset">Reset Design</button>
+                        </div>
+
                         <div class="preset-row" role="group" data-i18n-aria="preset.group.aria">
                             <button type="button" class="preset-btn" data-preset="business" data-i18n="preset.business">Business Card</button>
                             <button type="button" class="preset-btn" data-preset="event" data-i18n="preset.event">Event Check-in</button>
@@ -813,7 +817,7 @@
             <button type="button" id="mobile-generate" class="mobile-action primary" data-i18n="button.generate">Generate QR Code</button>
             <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">Download PNG</button>
             <button type="button" id="mobile-share" class="mobile-action" data-i18n="button.share">Share</button>
-            <button type="button" id="mobile-more-toggle" class="mobile-action" data-i18n="button.more">More</button>
+            <button type="button" id="mobile-more-toggle" class="mobile-action" data-i18n="button.more" aria-expanded="false" aria-controls="mobile-more-panel">More</button>
             <div id="mobile-more-panel" class="mobile-more-panel" hidden>
                 <button type="button" id="mobile-download-svg" class="mobile-more-btn" data-i18n="button.download.svg">Download SVG</button>
                 <button type="button" id="mobile-last-preset" class="mobile-more-btn" data-i18n="button.last_preset">Last Preset</button>
