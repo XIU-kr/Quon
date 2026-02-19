@@ -8,6 +8,7 @@ const PREVIEW_ZOOM_MAX = 1.8;
 const PREVIEW_ZOOM_STEP = 0.1;
 const DESIGN_PANEL_STATE_KEY = 'quon_design_panel_state';
 const RECENT_SETTINGS_KEY = 'quon_recent_settings';
+const DRAFT_INPUTS_KEY = 'quon_draft_inputs';
 const QR_TYPES = ['url', 'text', 'vcard', 'email', 'tel', 'wifi'];
 let isGenerating = false;
 
@@ -150,6 +151,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     syncCountryCodeOptions();
     normalizeCountryOptionLabels(getCurrentLanguage());
     restoreRecentSettings();
+    restoreDraftInputs();
     createInitialQRCode();
     // Disable download buttons initially
     document.getElementById('download-png').disabled = true;
@@ -176,6 +178,14 @@ function initializeEventListeners() {
     const fillExampleButton = document.getElementById('preview-fill-example');
     if (fillExampleButton) {
         fillExampleButton.addEventListener('click', fillExampleContent);
+    }
+
+    const heroExampleButton = document.getElementById('hero-example-btn');
+    if (heroExampleButton) {
+        heroExampleButton.addEventListener('click', () => {
+            fillExampleContent();
+            document.getElementById('workspace')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
     }
 
     const zoomInButton = document.getElementById('preview-zoom-in');
@@ -230,7 +240,10 @@ function initializeEventListeners() {
             if (sibling && sibling.classList && sibling.classList.contains('field-error')) {
                 sibling.remove();
             }
+            saveDraftInputs();
         });
+
+        field.addEventListener('change', saveDraftInputs);
     });
 
     document.addEventListener('keydown', (event) => {
@@ -703,6 +716,81 @@ function createInitialQRCode() {
     setPreviewEmptyState(true);
     updatePreviewStatus('message.empty', true);
     updatePreviewZoomLabel();
+}
+
+function saveDraftInputs() {
+    const fields = document.querySelectorAll('.input-field');
+    const draft = {};
+
+    fields.forEach((field) => {
+        if (!field.id) {
+            return;
+        }
+
+        if (field.type === 'file') {
+            return;
+        }
+
+        draft[field.id] = field.value;
+    });
+
+    const checkboxIds = ['vcard-use-country-code', 'tel-use-country-code', 'wifi-hidden'];
+    checkboxIds.forEach((id) => {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+            draft[id] = checkbox.checked;
+        }
+    });
+
+    try {
+        localStorage.setItem(DRAFT_INPUTS_KEY, JSON.stringify(draft));
+    } catch (error) {
+        // Ignore storage write errors
+    }
+}
+
+function restoreDraftInputs() {
+    try {
+        const raw = localStorage.getItem(DRAFT_INPUTS_KEY);
+        if (!raw) {
+            return;
+        }
+
+        const draft = JSON.parse(raw);
+        if (!draft || typeof draft !== 'object') {
+            return;
+        }
+
+        Object.entries(draft).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (!element) {
+                return;
+            }
+
+            if (element.type === 'checkbox') {
+                element.checked = Boolean(value);
+                return;
+            }
+
+            if (typeof value === 'string') {
+                element.value = value;
+            }
+        });
+
+        const vcardUseCountry = document.getElementById('vcard-use-country-code');
+        const vcardCountryGroup = document.getElementById('vcard-country-group');
+        if (vcardUseCountry && vcardCountryGroup) {
+            vcardCountryGroup.style.display = vcardUseCountry.checked ? 'block' : 'none';
+        }
+
+        const telUseCountry = document.getElementById('tel-use-country-code');
+        const telCountryGroup = document.getElementById('tel-country-group');
+        if (telUseCountry && telCountryGroup) {
+            telCountryGroup.style.display = telUseCountry.checked ? 'block' : 'none';
+        }
+    } catch (error) {
+        // Ignore malformed storage data
+    }
 }
 
 // Show notification message

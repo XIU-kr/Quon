@@ -14,23 +14,68 @@
     <script src="adblock-detector.js"></script>
     
     <div class="container">
-        <header>
-            <!-- Language Switcher -->
-            <div class="language-switcher-container">
-                <label class="lang-label" for="language-switcher" data-i18n="lang.select">Language</label>
-                <select id="language-switcher" class="language-switcher">
-                    <!-- Language options will be dynamically inserted here by i18n.js -->
-                </select>
+        <header class="site-header">
+            <div class="topbar">
+                <a class="brand" href="#top" aria-label="Quon Home">
+                    <img src="quon.webp" alt="Quon" class="title-logo">
+                    <span data-i18n="header.title">Quon - Free QR Code Generator</span>
+                </a>
+
+                <nav class="site-nav" aria-label="Primary">
+                    <a href="#workspace" data-i18n="nav.workspace">Workspace</a>
+                    <a href="#faq" data-i18n="nav.faq">FAQ</a>
+                    <a href="https://www.sn0wman.kr/privacy-policy/" target="_blank" rel="noopener noreferrer" data-i18n="nav.privacy">Privacy</a>
+                </nav>
+
+                <div class="language-switcher-container">
+                    <label class="lang-label" for="language-switcher" data-i18n="lang.select">Language</label>
+                    <select id="language-switcher" class="language-switcher">
+                        <!-- Language options will be dynamically inserted here by i18n.js -->
+                    </select>
+                </div>
             </div>
-            
-            <h1>
-                <img src="quon.webp" alt="Quon" class="title-logo">
-                <span data-i18n="header.title">QR Code Generator</span>
-            </h1>
-            <p class="subtitle" data-i18n="header.subtitle">Create customized QR codes with the information you want easily</p>
+
+            <section class="hero" id="top">
+                <div class="hero-copy">
+                    <p class="hero-kicker" data-i18n="hero.kicker">Professional QR workflow</p>
+                    <h1 data-i18n="hero.title">Create polished QR assets in seconds</h1>
+                    <p class="subtitle" data-i18n="hero.subtitle">Generate secure QR codes for links, contacts, Wi-Fi, email, and more. Fine-tune style, preview instantly, and export production-ready files.</p>
+                    <div class="hero-actions">
+                        <a href="#workspace" class="btn-primary hero-btn" data-i18n="hero.cta.primary">Start Creating</a>
+                        <button type="button" id="hero-example-btn" class="btn-secondary hero-btn" data-i18n="hero.cta.secondary">Try Sample</button>
+                    </div>
+                </div>
+                <aside class="hero-card" aria-label="Service highlights">
+                    <p class="hero-card-title" data-i18n="hero.card.title">Why creators choose Quon</p>
+                    <ul>
+                        <li data-i18n="hero.card.item1">Live preview with instant style controls</li>
+                        <li data-i18n="hero.card.item2">No account required for core generation</li>
+                        <li data-i18n="hero.card.item3">Fast export for web and print workflows</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <section class="trust-strip" aria-label="Service trust indicators">
+                <article>
+                    <h2 data-i18n="trust.privacy.title">Privacy-first flow</h2>
+                    <p data-i18n="trust.privacy.body">Content stays in your browser while generating codes.</p>
+                </article>
+                <article>
+                    <h2 data-i18n="trust.speed.title">Fast workspace</h2>
+                    <p data-i18n="trust.speed.body">Generate, test, and download without leaving one screen.</p>
+                </article>
+                <article>
+                    <h2 data-i18n="trust.design.title">Design control</h2>
+                    <p data-i18n="trust.design.body">Tune shape, color, corners, and logo with predictable results.</p>
+                </article>
+            </section>
         </header>
 
-        <main>
+        <main id="workspace">
+            <section class="workspace-intro">
+                <h2 data-i18n="workspace.title">Professional Workspace</h2>
+                <p data-i18n="workspace.subtitle">Use the three-panel flow: enter content, verify preview, then fine-tune design for export.</p>
+            </section>
             <div class="content-wrapper">
                 <!-- Left Panel: QR Code Type Selection and Content -->
                 <div class="input-panel">
@@ -548,11 +593,45 @@
             </div>
         </div>
 
+        <section id="faq" class="faq-section">
+            <h2 data-i18n="faq.title">Frequently asked questions</h2>
+            <details>
+                <summary data-i18n="faq.q1.title">Is Quon free to use?</summary>
+                <p data-i18n="faq.q1.body">Yes. The web service is free and supported by ads.</p>
+            </details>
+            <details>
+                <summary data-i18n="faq.q2.title">Can I use generated QR codes commercially?</summary>
+                <p data-i18n="faq.q2.body">Yes, you can use exported QR images for personal or business materials.</p>
+            </details>
+            <details>
+                <summary data-i18n="faq.q3.title">Does Quon support mobile scanning compatibility?</summary>
+                <p data-i18n="faq.q3.body">Quon uses standard QR formats compatible with major camera and scanner apps.</p>
+            </details>
+            <details>
+                <summary data-i18n="faq.q4.title">Can I add my brand logo safely?</summary>
+                <p data-i18n="faq.q4.body">Yes. Keep contrast high and avoid oversized logos for the best scan success rate.</p>
+            </details>
+        </section>
+
         <footer>
-            <p><span data-i18n="footer.made">Made with ❤️ by</span> <a href="https://github.com/sn0wmankr" target="_blank" rel="noopener noreferrer">sn0wmankr</a></p>
-            <p class="footer-links">
-                <a href="https://www.sn0wman.kr/privacy-policy/" target="_blank" rel="noopener noreferrer" data-i18n="footer.privacy">Privacy Policy</a>
-            </p>
+            <div class="footer-grid">
+                <div>
+                    <p class="footer-title" data-i18n="footer.product">Quon</p>
+                    <p data-i18n="footer.product.desc">A focused QR generation workspace for creators and teams.</p>
+                </div>
+                <div>
+                    <p class="footer-title" data-i18n="footer.links">Links</p>
+                    <p class="footer-links">
+                        <a href="#workspace" data-i18n="nav.workspace">Workspace</a>
+                        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+                        <a href="https://www.sn0wman.kr/privacy-policy/" target="_blank" rel="noopener noreferrer" data-i18n="footer.privacy">Privacy Policy</a>
+                    </p>
+                </div>
+                <div>
+                    <p class="footer-title" data-i18n="footer.author.title">Author</p>
+                    <p><span data-i18n="footer.made">Made with ❤️ by</span> <a href="https://github.com/sn0wmankr" target="_blank" rel="noopener noreferrer">sn0wmankr</a></p>
+                </div>
+            </div>
         </footer>
     </div>
 
