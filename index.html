@@ -507,6 +507,11 @@
                                     <option value="event" data-i18n="history.tag.event">Event</option>
                                     <option value="wifi" data-i18n="history.tag.wifi">Wi-Fi</option>
                                 </select>
+                                <select id="history-sort" class="history-filter">
+                                    <option value="recent" data-i18n="history.sort.recent">Recent first</option>
+                                    <option value="favorite" data-i18n="history.sort.favorite">Favorites first</option>
+                                    <option value="oldest" data-i18n="history.sort.oldest">Oldest first</option>
+                                </select>
                             </div>
                             <div class="history-pins" id="history-pins">
                                 <button type="button" class="pin-slot" data-slot="0">
@@ -548,6 +553,20 @@
                             <div class="quality-score-row">
                                 <span data-i18n="quality.score.label">Quality score</span>
                                 <strong id="quality-score">--</strong>
+                            </div>
+                            <div class="quality-breakdown" id="quality-breakdown" aria-hidden="true">
+                                <div class="quality-break-item">
+                                    <span data-i18n="quality.breakdown.contrast">Contrast</span>
+                                    <div class="quality-break-track"><div id="quality-break-contrast" class="quality-break-fill"></div></div>
+                                </div>
+                                <div class="quality-break-item">
+                                    <span data-i18n="quality.breakdown.logo">Logo safety</span>
+                                    <div class="quality-break-track"><div id="quality-break-logo" class="quality-break-fill"></div></div>
+                                </div>
+                                <div class="quality-break-item">
+                                    <span data-i18n="quality.breakdown.structure">Structure</span>
+                                    <div class="quality-break-track"><div id="quality-break-structure" class="quality-break-fill"></div></div>
+                                </div>
                             </div>
                             <p id="quality-recommendation" class="quality-recommendation" data-i18n="quality.recommendation.default">Generate a QR code to get recommendations.</p>
                             <ul id="quality-list" class="quality-list">
@@ -595,16 +614,19 @@
                             <div class="preset-market-grid">
                                 <button type="button" class="preset-market-item" data-preset="cafe" data-category="food" data-popularity="92" data-order="3">
                                     <span class="preset-market-thumb preset-thumb-cafe" aria-hidden="true"></span>
+                                    <em class="preset-badge" data-i18n="preset.badge.best_for_print">Best for print</em>
                                     <strong data-i18n="preset.market.cafe.title">Cafe ordering</strong>
                                     <span data-i18n="preset.market.cafe.desc">Warm contrast for counters and table cards.</span>
                                 </button>
                                 <button type="button" class="preset-market-item" data-preset="retail" data-category="retail" data-popularity="88" data-order="2">
                                     <span class="preset-market-thumb preset-thumb-retail" aria-hidden="true"></span>
+                                    <em class="preset-badge" data-i18n="preset.badge.high_scan">High scan rate</em>
                                     <strong data-i18n="preset.market.retail.title">Retail promo</strong>
                                     <span data-i18n="preset.market.retail.desc">High-contrast coupon style for print flyers.</span>
                                 </button>
                                 <button type="button" class="preset-market-item" data-preset="portfolio" data-category="personal" data-popularity="81" data-order="1">
                                     <span class="preset-market-thumb preset-thumb-portfolio" aria-hidden="true"></span>
+                                    <em class="preset-badge" data-i18n="preset.badge.modern">Modern look</em>
                                     <strong data-i18n="preset.market.portfolio.title">Portfolio profile</strong>
                                     <span data-i18n="preset.market.portfolio.desc">Clean modern look for resumes and badges.</span>
                                 </button>
@@ -790,9 +812,12 @@
         <div class="mobile-action-bar" aria-label="Quick actions">
             <button type="button" id="mobile-generate" class="mobile-action primary" data-i18n="button.generate">Generate QR Code</button>
             <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">Download PNG</button>
-            <button type="button" id="mobile-download-svg" class="mobile-action" data-i18n="button.download.svg">Download SVG</button>
             <button type="button" id="mobile-share" class="mobile-action" data-i18n="button.share">Share</button>
-            <button type="button" id="mobile-last-preset" class="mobile-action" data-i18n="button.last_preset">Last Preset</button>
+            <button type="button" id="mobile-more-toggle" class="mobile-action" data-i18n="button.more">More</button>
+            <div id="mobile-more-panel" class="mobile-more-panel" hidden>
+                <button type="button" id="mobile-download-svg" class="mobile-more-btn" data-i18n="button.download.svg">Download SVG</button>
+                <button type="button" id="mobile-last-preset" class="mobile-more-btn" data-i18n="button.last_preset">Last Preset</button>
+            </div>
         </div>
     </div>
 

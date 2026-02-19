@@ -30,6 +30,7 @@ let historyPins = [null, null];
 let customPresets = { slot1: null, slot2: null, slot3: null };
 let historyFilter = 'all';
 let historyQuery = '';
+let historySort = 'recent';
 let lastAppliedPresetKey = '';
 
 const DESIGN_PRESETS = {
@@ -441,7 +442,7 @@ function updateMobileLastPresetButton() {
 
 function persistHistoryView() {
     try {
-        localStorage.setItem(HISTORY_VIEW_KEY, JSON.stringify({ filter: historyFilter, query: historyQuery }));
+        localStorage.setItem(HISTORY_VIEW_KEY, JSON.stringify({ filter: historyFilter, query: historyQuery, sort: historySort }));
     } catch (error) {
         // Ignore storage write errors
     }
@@ -457,6 +458,7 @@ function restoreHistoryView() {
         if (parsed && typeof parsed === 'object') {
             historyFilter = parsed.filter || 'all';
             historyQuery = parsed.query || '';
+            historySort = parsed.sort || 'recent';
         }
     } catch (error) {
         historyFilter = 'all';
@@ -465,11 +467,15 @@ function restoreHistoryView() {
 
     const filterEl = document.getElementById('history-filter');
     const searchEl = document.getElementById('history-search');
+    const sortEl = document.getElementById('history-sort');
     if (filterEl) {
         filterEl.value = historyFilter;
     }
     if (searchEl) {
         searchEl.value = historyQuery;
+    }
+    if (sortEl) {
+        sortEl.value = historySort;
     }
 }
 
@@ -643,6 +649,9 @@ function evaluateScanQuality() {
     const actions = document.getElementById('quality-actions');
     const scoreEl = document.getElementById('quality-score');
     const recommendationEl = document.getElementById('quality-recommendation');
+    const contrastBar = document.getElementById('quality-break-contrast');
+    const logoBar = document.getElementById('quality-break-logo');
+    const structureBar = document.getElementById('quality-break-structure');
     if (!list) {
         return;
     }
@@ -655,6 +664,9 @@ function evaluateScanQuality() {
         if (actions) actions.innerHTML = '';
         if (scoreEl) scoreEl.textContent = '--';
         if (recommendationEl) recommendationEl.textContent = t('quality.recommendation.default');
+        if (contrastBar) contrastBar.style.width = '0%';
+        if (logoBar) logoBar.style.width = '0%';
+        if (structureBar) structureBar.style.width = '0%';
         return;
     }
 
@@ -677,12 +689,16 @@ function evaluateScanQuality() {
     const warnings = [];
     const actionButtons = [];
     let score = 100;
+    let contrastScore = 100;
+    let logoScore = logoImage ? (logoScale > 0.25 ? 58 : 82) : 100;
+    const structureScore = 88;
     let recommendationKey = 'quality.recommendation.good';
 
     if (contrast < 4.5) {
         warnings.push({ key: 'quality.warn.contrast', warning: true });
         actionButtons.push({ action: 'contrast', labelKey: 'quality.fix.contrast' });
         score -= 38;
+        contrastScore = Math.round((contrast / 4.5) * 100);
         recommendationKey = 'quality.recommendation.contrast';
     }
     if (logoImage) {
@@ -700,6 +716,8 @@ function evaluateScanQuality() {
     }
 
     score = Math.max(25, Math.min(100, Math.round(score)));
+    contrastScore = Math.max(25, Math.min(100, contrastScore));
+    logoScore = Math.max(32, Math.min(100, logoScore));
 
     list.innerHTML = '';
     warnings.forEach((entry) => {
@@ -716,6 +734,10 @@ function evaluateScanQuality() {
     if (recommendationEl) {
         recommendationEl.textContent = t(recommendationKey);
     }
+
+    if (contrastBar) contrastBar.style.width = `${contrastScore}%`;
+    if (logoBar) logoBar.style.width = `${logoScore}%`;
+    if (structureBar) structureBar.style.width = `${structureScore}%`;
 
     if (actions) {
         actions.innerHTML = '';
@@ -799,6 +821,15 @@ function initializeEventListeners() {
     if (historySearchEl) {
         historySearchEl.addEventListener('input', () => {
             historyQuery = historySearchEl.value.trim().toLowerCase();
+            persistHistoryView();
+            renderGenerationHistory();
+        });
+    }
+
+    const historySortEl = document.getElementById('history-sort');
+    if (historySortEl) {
+        historySortEl.addEventListener('change', () => {
+            historySort = historySortEl.value;
             persistHistoryView();
             renderGenerationHistory();
         });
@@ -904,7 +935,11 @@ function initializeEventListeners() {
 
     const mobileDownloadSvg = document.getElementById('mobile-download-svg');
     if (mobileDownloadSvg) {
-        mobileDownloadSvg.addEventListener('click', () => downloadQR('svg'));
+        mobileDownloadSvg.addEventListener('click', () => {
+            downloadQR('svg');
+            const panel = document.getElementById('mobile-more-panel');
+            if (panel) panel.hidden = true;
+        });
     }
 
     const mobileShare = document.getElementById('mobile-share');
@@ -914,7 +949,33 @@ function initializeEventListeners() {
 
     const mobileLastPreset = document.getElementById('mobile-last-preset');
     if (mobileLastPreset) {
-        mobileLastPreset.addEventListener('click', applyLastPreset);
+        mobileLastPreset.addEventListener('click', () => {
+            applyLastPreset();
+            const panel = document.getElementById('mobile-more-panel');
+            if (panel) panel.hidden = true;
+        });
+    }
+
+    const mobileMoreToggle = document.getElementById('mobile-more-toggle');
+    const mobileMorePanel = document.getElementById('mobile-more-panel');
+    if (mobileMoreToggle && mobileMorePanel) {
+        mobileMoreToggle.addEventListener('click', () => {
+            mobileMorePanel.hidden = !mobileMorePanel.hidden;
+        });
+
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLElement)) {
+                return;
+            }
+            if (mobileMorePanel.hidden) {
+                return;
+            }
+            if (target.id === 'mobile-more-toggle' || mobileMorePanel.contains(target)) {
+                return;
+            }
+            mobileMorePanel.hidden = true;
+        });
     }
 
     const qualityActions = document.getElementById('quality-actions');
@@ -1495,6 +1556,28 @@ function formatRelativeTime(timestamp) {
     return t('history.time.day').replace('{n}', String(Math.max(1, Math.floor(diffMs / day))));
 }
 
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlightQuery(text, query) {
+    if (!query) {
+        return escapeHtml(text);
+    }
+    const escapedQuery = escapeRegExp(query);
+    const regex = new RegExp(`(${escapedQuery})`, 'ig');
+    return escapeHtml(text).replace(regex, '<mark>$1</mark>');
+}
+
 function getCurrentFormSnapshot() {
     const fields = document.querySelectorAll('.input-field');
     const formValues = {};
@@ -1587,6 +1670,14 @@ function renderGenerationHistory() {
         const searchBase = `${item.preview || ''} ${(item.tag || '')} ${item.type || ''}`.toLowerCase();
         const matchQuery = !historyQuery || searchBase.includes(historyQuery);
         return matchTag && matchQuery;
+    }).sort((a, b) => {
+        if (historySort === 'favorite') {
+            return Number(b.favorite) - Number(a.favorite) || b.timestamp - a.timestamp;
+        }
+        if (historySort === 'oldest') {
+            return a.timestamp - b.timestamp;
+        }
+        return b.timestamp - a.timestamp;
     });
 
     if (!filtered.length) {
@@ -1618,7 +1709,7 @@ function renderGenerationHistory() {
 
         const preview = document.createElement('p');
         preview.className = 'history-content';
-        preview.textContent = item.preview;
+        preview.innerHTML = highlightQuery(item.preview, historyQuery);
 
         const actions = document.createElement('div');
         actions.className = 'history-actions';
