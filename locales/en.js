@@ -110,8 +110,10 @@ window.en = {
     
     // Buttons
     'button.generate': 'Generate QR Code',
+    'button.generating': 'Generating...',
     'button.download.png': 'Download PNG',
     'button.download.svg': 'Download SVG',
+    'button.fill.example': 'Fill Example',
     
     // Messages
     'message.empty': 'Enter content and click "Generate QR Code"',
@@ -121,6 +123,10 @@ window.en = {
     'message.error.name': 'Please enter your name or full name',
     'message.error.api': 'API server connection failed',
     'message.error.network': 'Please check your network connection',
+    'message.error.fixFields': 'Please check required fields',
+    'message.error.wifi': 'Please enter the Wi-Fi network name',
+    'message.success.generated': 'QR code generated successfully',
+    'message.success.prefilled': 'Sample content filled automatically',
     
     // Footer
     'footer.made': 'Made with ❤️ by',
@@ -137,7 +143,8 @@ window.en = {
     // Language switcher
     'lang.name.en': 'English',
     'lang.name.ko': '한국어',
-    'lang.select': 'Language'
+    'lang.select': 'Language',
+    'hint.generate.shortcut': 'Tip: Press Ctrl+Enter to generate quickly.'
 };
 
 // Also export for module systems (if available)

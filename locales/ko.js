@@ -110,8 +110,10 @@ window.ko = {
     
     // Buttons
     'button.generate': 'QR 코드 만들기',
+    'button.generating': '생성 중...',
     'button.download.png': 'PNG 다운로드',
     'button.download.svg': 'SVG 다운로드',
+    'button.fill.example': '예시 자동 입력',
     
     // Messages
     'message.empty': '내용을 입력하고 "QR 코드 만들기"를 눌러주세요',
@@ -121,6 +123,10 @@ window.ko = {
     'message.error.name': '이름 또는 성함을 입력해주세요',
     'message.error.api': 'API 서버와 연결이 실패했습니다',
     'message.error.network': '네트워크 연결을 확인해주세요',
+    'message.error.fixFields': '필수 입력 항목을 확인해주세요',
+    'message.error.wifi': '와이파이 네트워크 이름을 입력해주세요',
+    'message.success.generated': 'QR 코드가 생성되었습니다',
+    'message.success.prefilled': '예시 내용이 자동으로 채워졌습니다',
     
     // Footer
     'footer.made': '❤️로 만든 사람',
@@ -137,7 +143,8 @@ window.ko = {
     // Language switcher
     'lang.name.en': 'English',
     'lang.name.ko': '한국어',
-    'lang.select': '언어'
+    'lang.select': '언어',
+    'hint.generate.shortcut': '팁: Ctrl+Enter로 빠르게 생성할 수 있어요.'
 };
 
 // Also export for module systems (if available)
