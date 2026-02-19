@@ -14,6 +14,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,6 +43,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,9 +56,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import android.util.Log
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kr.sn0wman.quonandroid.R
 
 @Composable
@@ -65,8 +70,12 @@ fun QrScannerOverlay(
     onScanned: (String) -> Unit
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var cameraRef by remember { mutableStateOf<Camera?>(null) }
     var torchEnabled by remember { mutableStateOf(false) }
+    var lowLightHint by remember { mutableStateOf(false) }
+    var successOverlay by remember { mutableStateOf(false) }
+    var scanningLocked by remember { mutableStateOf(false) }
 
     val lineAnimation = rememberInfiniteTransition(label = "scanLine")
     val lineOffset by lineAnimation.animateFloat(
@@ -100,25 +109,70 @@ fun QrScannerOverlay(
         modifier = Modifier.fillMaxSize().background(Color(0xD60A0D14))
     ) {
         if (hasCameraPermission) {
-            CameraPreview(
-                modifier = Modifier.fillMaxSize(),
-                onScanned = onScanned,
-                onCameraBound = { cameraRef = it }
-            )
+            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+                val frameWidth = (maxWidth * 0.62f).coerceIn(220.dp, 360.dp)
+                val frameHeight = if (maxWidth > maxHeight) {
+                    (frameWidth * 0.72f).coerceIn(180.dp, 280.dp)
+                } else {
+                    frameWidth
+                }
 
-            Box(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(260.dp)
-                    .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(22.dp))
-            ) {
+                CameraPreview(
+                    modifier = Modifier.fillMaxSize(),
+                    onScanned = { raw ->
+                        if (scanningLocked) return@CameraPreview
+                        scanningLocked = true
+                        successOverlay = true
+                        scope.launch {
+                            delay(320)
+                            onScanned(raw)
+                        }
+                    },
+                    onCameraBound = { cameraRef = it },
+                    onMetric = { millis ->
+                        lowLightHint = millis >= 240 && !torchEnabled
+                    }
+                )
+
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(2.dp)
-                        .offset { IntOffset(0, lineOffset.toInt()) }
-                        .background(MaterialTheme.colorScheme.primary)
-                )
+                        .align(Alignment.Center)
+                        .size(width = frameWidth, height = frameHeight)
+                        .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(22.dp))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(2.dp)
+                            .offset { IntOffset(0, lineOffset.toInt()) }
+                            .background(MaterialTheme.colorScheme.primary)
+                    )
+                }
+
+                if (successOverlay) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(82.dp)
+                            .background(Color(0xCC1A2336), RoundedCornerShape(18.dp))
+                            .border(1.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(18.dp)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "OK", color = MaterialTheme.colorScheme.primary)
+                    }
+                }
+
+                if (lowLightHint) {
+                    Text(
+                        text = stringResource(R.string.scan_hint_low_light),
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 74.dp)
+                            .background(Color(0xA6121520), RoundedCornerShape(12.dp))
+                            .padding(horizontal = 12.dp, vertical = 7.dp),
+                        color = Color.White
+                    )
+                }
             }
         }
 
@@ -138,6 +192,7 @@ fun QrScannerOverlay(
                 IconButton(onClick = {
                     torchEnabled = !torchEnabled
                     cameraRef?.cameraControl?.enableTorch(torchEnabled)
+                    if (torchEnabled) lowLightHint = false
                 }) {
                     Icon(
                         imageVector = if (torchEnabled) Icons.Default.FlashOn else Icons.Default.FlashOff,
@@ -157,7 +212,8 @@ fun QrScannerOverlay(
 private fun CameraPreview(
     modifier: Modifier = Modifier,
     onScanned: (String) -> Unit,
-    onCameraBound: (Camera) -> Unit
+    onCameraBound: (Camera) -> Unit,
+    onMetric: (Long) -> Unit
 ) {
     val context = LocalContext.current
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
@@ -187,7 +243,7 @@ private fun CameraPreview(
                             detectedAt = now
                             onScanned(raw)
                         }
-                    }))
+                    }, onMetric = onMetric))
                 }
 
             provider.unbindAll()
@@ -214,7 +270,8 @@ private fun CameraPreview(
 }
 
 private class QrImageAnalyzer(
-    private val onDecoded: (String) -> Unit
+    private val onDecoded: (String) -> Unit,
+    private val onMetric: (Long) -> Unit
 ) : ImageAnalysis.Analyzer {
 
     private val scanner = BarcodeScanning.getClient(
@@ -224,6 +281,7 @@ private class QrImageAnalyzer(
     )
 
     override fun analyze(imageProxy: ImageProxy) {
+        val startedAt = System.currentTimeMillis()
         val mediaImage = imageProxy.image
         if (mediaImage == null) {
             imageProxy.close()
@@ -239,6 +297,11 @@ private class QrImageAnalyzer(
                 }
             }
             .addOnCompleteListener {
+                val elapsed = System.currentTimeMillis() - startedAt
+                onMetric(elapsed)
+                if (elapsed > 260) {
+                    Log.d("QrScannerOverlay", "Slow frame: ${elapsed}ms")
+                }
                 imageProxy.close()
             }
     }

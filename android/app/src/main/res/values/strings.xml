@@ -9,6 +9,9 @@
     <string name="label_qr_resolution">QR Resolution</string>
     <string name="label_margin">Margin</string>
     <string name="label_logo_ratio">Logo Ratio</string>
+    <string name="section_style">Style</string>
+    <string name="section_color_and_size">Color and Size</string>
+    <string name="section_logo">Logo</string>
 
     <string name="type_url">URL</string>
     <string name="type_text">Text</string>
@@ -41,6 +44,8 @@
     <string name="action_pick_logo">Pick Logo</string>
     <string name="action_clear_logo">Clear Logo</string>
     <string name="action_apply_regenerate">Apply and Regenerate</string>
+    <string name="action_expand">Expand</string>
+    <string name="action_collapse">Collapse</string>
     <string name="action_scan_qr">Scan QR</string>
     <string name="scan_auto_apply">Auto Apply</string>
     <string name="open_saved">Open</string>
@@ -50,6 +55,7 @@
     <string name="scan_cancelled">Scan cancelled</string>
     <string name="action_close_scanner">Close scanner</string>
     <string name="action_toggle_torch">Toggle flashlight</string>
+    <string name="scan_hint_low_light">Low light detected. Turn on flashlight for faster scan.</string>
 
     <string name="cd_scan_qr">Scan QR code</string>
     <string name="cd_zoom_in">Zoom in preview</string>

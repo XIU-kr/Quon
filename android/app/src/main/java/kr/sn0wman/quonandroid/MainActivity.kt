@@ -47,6 +47,7 @@ import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -211,7 +212,7 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
                         Row(modifier = Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             LeftPanel(modifier = Modifier.weight(0.9f), ui = ui, vm = vm, focusType = focusType)
                             PreviewPanel(modifier = Modifier.weight(1.35f), ui = ui, vm = vm, pulse = previewPulse)
-                            RightPanel(modifier = Modifier.weight(0.85f), ui = ui, palettes = vm.palettes, vm = vm, onPickLogo = {
+                            RightPanel(modifier = Modifier.weight(0.85f), compact = false, ui = ui, palettes = vm.palettes, vm = vm, onPickLogo = {
                                 logoPicker.launch("image/*")
                             })
                         }
@@ -222,7 +223,7 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
                         ) {
                             PreviewPanel(modifier = Modifier.fillMaxWidth(), ui = ui, vm = vm, pulse = previewPulse)
                             LeftPanel(modifier = Modifier.fillMaxWidth(), ui = ui, vm = vm, focusType = focusType)
-                            RightPanel(modifier = Modifier.fillMaxWidth(), ui = ui, palettes = vm.palettes, vm = vm, onPickLogo = {
+                            RightPanel(modifier = Modifier.fillMaxWidth(), compact = true, ui = ui, palettes = vm.palettes, vm = vm, onPickLogo = {
                                 logoPicker.launch("image/*")
                             })
                         }
@@ -358,7 +359,7 @@ private fun PreviewPanel(modifier: Modifier, ui: MainUiState, vm: MainViewModel,
                         textAlign = TextAlign.Center
                     )
                 } else {
-                    Image(bitmap = ui.qrBitmap.asImageBitmap(), contentDescription = null, modifier = Modifier.size((300 * ui.zoom).dp))
+                    Image(bitmap = ui.qrBitmap.asImageBitmap(), contentDescription = stringResource(R.string.cd_preview_qr), modifier = Modifier.size((300 * ui.zoom).dp))
                 }
             }
 
@@ -372,41 +373,81 @@ private fun PreviewPanel(modifier: Modifier, ui: MainUiState, vm: MainViewModel,
 }
 
 @Composable
-private fun RightPanel(modifier: Modifier, ui: MainUiState, palettes: List<QrPalette>, vm: MainViewModel, onPickLogo: () -> Unit) {
+private fun RightPanel(modifier: Modifier, compact: Boolean, ui: MainUiState, palettes: List<QrPalette>, vm: MainViewModel, onPickLogo: () -> Unit) {
+    var styleExpanded by rememberSaveable { mutableStateOf(true) }
+    var colorExpanded by rememberSaveable { mutableStateOf(true) }
+    var logoExpanded by rememberSaveable { mutableStateOf(true) }
+
+    @Composable
+    fun SectionHeader(title: String, expanded: Boolean, onToggle: () -> Unit) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(title, fontWeight = FontWeight.SemiBold)
+            if (compact) {
+                TextButton(onClick = onToggle) {
+                    Text(if (expanded) stringResource(R.string.action_collapse) else stringResource(R.string.action_expand))
+                }
+            }
+        }
+    }
+
     ElevatedCard(modifier = modifier) {
         Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Text(stringResource(R.string.label_design_studio), fontWeight = FontWeight.Bold)
 
-            Text(stringResource(R.string.label_palette), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.horizontalScroll(rememberScrollState())) {
-                palettes.forEach { palette ->
-                    Card(onClick = { vm.setPalette(palette) }) {
-                        Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                modifier = Modifier.size(14.dp).clip(CircleShape)
-                                    .background(Color(palette.foreground))
-                                    .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape)
-                            )
-                            Spacer(Modifier.width(6.dp))
-                            Text(palette.label, fontSize = 12.sp)
+            Card(colors = cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f))) {
+                Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    SectionHeader(stringResource(R.string.section_style), styleExpanded) { styleExpanded = !styleExpanded }
+                    if (!compact || styleExpanded) {
+                        Text(stringResource(R.string.label_palette), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.horizontalScroll(rememberScrollState())) {
+                            palettes.forEach { palette ->
+                                Card(onClick = { vm.setPalette(palette) }) {
+                                    Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                        Box(
+                                            modifier = Modifier.size(14.dp).clip(CircleShape)
+                                                .background(Color(palette.foreground))
+                                                .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape)
+                                        )
+                                        Spacer(Modifier.width(6.dp))
+                                        Text(palette.label, fontSize = 12.sp)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
 
-            ColorReadout("FG", ui.fgColor)
-            ColorReadout("BG", ui.bgColor)
-
-            SliderItem(stringResource(R.string.label_qr_resolution), ui.qrSize, 480f..1500f, vm::setQrSize)
-            SliderItem(stringResource(R.string.label_margin), ui.margin, 0f..8f, vm::setMargin)
-            SliderItem(stringResource(R.string.label_logo_ratio), ui.logoSize, 0.12f..0.33f, vm::setLogoSize)
-
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-                OutlinedButton(onClick = onPickLogo, modifier = Modifier.weight(1f)) {
-                    Text(stringResource(R.string.action_pick_logo))
+            Card(colors = cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f))) {
+                Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    SectionHeader(stringResource(R.string.section_color_and_size), colorExpanded) { colorExpanded = !colorExpanded }
+                    if (!compact || colorExpanded) {
+                        ColorReadout("FG", ui.fgColor)
+                        ColorReadout("BG", ui.bgColor)
+                        SliderItem(stringResource(R.string.label_qr_resolution), ui.qrSize, 480f..1500f, vm::setQrSize)
+                        SliderItem(stringResource(R.string.label_margin), ui.margin, 0f..8f, vm::setMargin)
+                        SliderItem(stringResource(R.string.label_logo_ratio), ui.logoSize, 0.12f..0.33f, vm::setLogoSize)
+                    }
                 }
-                OutlinedButton(onClick = { vm.setLogo(null) }, modifier = Modifier.weight(1f)) {
-                    Text(stringResource(R.string.action_clear_logo))
+            }
+
+            Card(colors = cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f))) {
+                Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    SectionHeader(stringResource(R.string.section_logo), logoExpanded) { logoExpanded = !logoExpanded }
+                    if (!compact || logoExpanded) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+                            OutlinedButton(onClick = onPickLogo, modifier = Modifier.weight(1f)) {
+                                Text(stringResource(R.string.action_pick_logo))
+                            }
+                            OutlinedButton(onClick = { vm.setLogo(null) }, modifier = Modifier.weight(1f)) {
+                                Text(stringResource(R.string.action_clear_logo))
+                            }
+                        }
+                    }
                 }
             }
 
