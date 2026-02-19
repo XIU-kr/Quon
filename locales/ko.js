@@ -176,6 +176,8 @@ window.ko = {
     'design.group.shape': '모양',
     'design.group.color': '색상',
     'design.group.logo': '로고',
+    'design.reset': '디자인 초기화',
+    'design.reset.applied': '디자인을 기본값으로 초기화했습니다',
 
     // Preview tools
     'preview.zoom.in': '+',
@@ -234,6 +236,9 @@ window.ko = {
     'history.sort.recent': '최신순',
     'history.sort.favorite': '즐겨찾기 우선',
     'history.sort.oldest': '오래된순',
+    'history.copy': '복사',
+    'history.copy.success': '기록 내용을 복사했습니다',
+    'history.copy.failed': '내용 복사에 실패했습니다',
 
     // Use cases
     'cases.title': '활용 사례',

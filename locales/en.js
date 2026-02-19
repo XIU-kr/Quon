@@ -176,6 +176,8 @@ window.en = {
     'design.group.shape': 'Shape',
     'design.group.color': 'Color',
     'design.group.logo': 'Logo',
+    'design.reset': 'Reset Design',
+    'design.reset.applied': 'Design reset to default',
 
     // Preview tools
     'preview.zoom.in': '+',
@@ -234,6 +236,9 @@ window.en = {
     'history.sort.recent': 'Recent first',
     'history.sort.favorite': 'Favorites first',
     'history.sort.oldest': 'Oldest first',
+    'history.copy': 'Copy',
+    'history.copy.success': 'History content copied',
+    'history.copy.failed': 'Unable to copy this content',
 
     // Use cases
     'cases.title': 'Use cases',
