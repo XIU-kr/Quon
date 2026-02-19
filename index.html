@@ -498,6 +498,16 @@
                                 <button type="button" id="clear-history-btn" class="history-clear-btn" data-i18n="history.clear">Clear</button>
                             </div>
                             <p class="history-hint" data-i18n="history.hint">Reuse your latest QR setups instantly.</p>
+                            <div class="history-pins" id="history-pins">
+                                <button type="button" class="pin-slot" data-slot="0">
+                                    <span class="pin-label" data-i18n="history.pin.1">Pinned Slot 1</span>
+                                    <span class="pin-empty" data-i18n="history.pin.empty">Empty</span>
+                                </button>
+                                <button type="button" class="pin-slot" data-slot="1">
+                                    <span class="pin-label" data-i18n="history.pin.2">Pinned Slot 2</span>
+                                    <span class="pin-empty" data-i18n="history.pin.empty">Empty</span>
+                                </button>
+                            </div>
                             <ul id="recent-history-list" class="history-list">
                                 <li class="history-empty" data-i18n="history.empty">No history yet. Generate your first QR.</li>
                             </ul>
@@ -523,6 +533,12 @@
                             </div>
                         </div>
                         <p id="preview-status" class="preview-status" aria-live="polite" data-i18n="message.empty">Enter content and click "Generate QR Code"</p>
+                        <div class="quality-check" id="quality-check">
+                            <p class="quality-title" data-i18n="quality.title">Scan quality check</p>
+                            <ul id="quality-list" class="quality-list">
+                                <li data-i18n="quality.default">Generate a QR code to review scan quality guidance.</li>
+                            </ul>
+                        </div>
                         <button id="preview-fill-example" type="button" class="btn-secondary btn-tertiary" data-i18n="button.fill.example">Fill Example</button>
                         <div class="preview-actions">
                             <button id="download-png" class="btn-secondary" disabled data-i18n="button.download.png" data-i18n-aria="a11y.download.png">Download PNG</button>
@@ -540,6 +556,30 @@
                             <button type="button" class="preset-btn" data-preset="business" data-i18n="preset.business">Business Card</button>
                             <button type="button" class="preset-btn" data-preset="event" data-i18n="preset.event">Event Check-in</button>
                             <button type="button" class="preset-btn" data-preset="wifi" data-i18n="preset.wifi">Wi-Fi Label</button>
+                        </div>
+
+                        <div class="custom-preset-grid" aria-live="polite">
+                            <article class="custom-preset-item">
+                                <h3 data-i18n="preset.custom.1">Custom Slot 1</h3>
+                                <div class="custom-preset-actions">
+                                    <button type="button" class="custom-preset-btn" data-action="save" data-slot="slot1" data-i18n="preset.save">Save</button>
+                                    <button type="button" class="custom-preset-btn" data-action="apply" data-slot="slot1" data-i18n="preset.apply">Apply</button>
+                                </div>
+                            </article>
+                            <article class="custom-preset-item">
+                                <h3 data-i18n="preset.custom.2">Custom Slot 2</h3>
+                                <div class="custom-preset-actions">
+                                    <button type="button" class="custom-preset-btn" data-action="save" data-slot="slot2" data-i18n="preset.save">Save</button>
+                                    <button type="button" class="custom-preset-btn" data-action="apply" data-slot="slot2" data-i18n="preset.apply">Apply</button>
+                                </div>
+                            </article>
+                            <article class="custom-preset-item">
+                                <h3 data-i18n="preset.custom.3">Custom Slot 3</h3>
+                                <div class="custom-preset-actions">
+                                    <button type="button" class="custom-preset-btn" data-action="save" data-slot="slot3" data-i18n="preset.save">Save</button>
+                                    <button type="button" class="custom-preset-btn" data-action="apply" data-slot="slot3" data-i18n="preset.apply">Apply</button>
+                                </div>
+                            </article>
                         </div>
 
                         <details class="design-group" data-group="shape">
@@ -693,6 +733,12 @@
                 </div>
             </div>
         </footer>
+
+        <div class="mobile-action-bar" aria-label="Quick actions">
+            <button type="button" id="mobile-generate" class="mobile-action primary" data-i18n="button.generate">Generate QR Code</button>
+            <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">Download PNG</button>
+            <button type="button" id="mobile-download-svg" class="mobile-action" data-i18n="button.download.svg">Download SVG</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>

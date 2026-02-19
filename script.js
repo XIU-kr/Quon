@@ -12,12 +12,18 @@ const DRAFT_INPUTS_KEY = 'quon_draft_inputs';
 const CTA_VARIANT_KEY = 'quon_cta_variant';
 const CTA_METRICS_KEY = 'quon_cta_metrics';
 const GENERATION_HISTORY_KEY = 'quon_generation_history';
+const HISTORY_PINS_KEY = 'quon_history_pins';
+const CUSTOM_PRESETS_KEY = 'quon_custom_presets';
+const METRICS_ENDPOINT_KEY = 'quon_metrics_endpoint';
 const MAX_HISTORY_ITEMS = 5;
 const QR_TYPES = ['url', 'text', 'vcard', 'email', 'tel', 'wifi'];
 let isGenerating = false;
 let ctaVariant = 0;
 let ctaMetrics = { impressions: [0, 0, 0], clicks: [0, 0, 0], conversions: [0, 0, 0] };
+let ctaPendingConversion = false;
 let generationHistory = [];
+let historyPins = [null, null];
+let customPresets = { slot1: null, slot2: null, slot3: null };
 
 const DESIGN_PRESETS = {
     business: {
@@ -186,8 +192,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     restoreCtaMetrics();
     initializeCtaVariant();
     restoreGenerationHistory();
+    restoreHistoryPins();
+    restoreCustomPresets();
     markPresetSelection();
     renderGenerationHistory();
+    renderHistoryPins();
+    refreshCustomPresetButtons();
     renderCtaAnalytics();
     createInitialQRCode();
     // Disable download buttons initially
@@ -252,6 +262,26 @@ function persistCtaMetrics() {
     }
 }
 
+function emitMetricEvent(kind, value) {
+    try {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', `cta_${kind}`, {
+                event_category: 'engagement',
+                event_label: `variant_${ctaVariant + 1}`,
+                value
+            });
+        }
+
+        const endpoint = localStorage.getItem(METRICS_ENDPOINT_KEY);
+        if (endpoint && navigator.sendBeacon) {
+            const payload = JSON.stringify({ kind, value, variant: ctaVariant + 1, timestamp: Date.now() });
+            navigator.sendBeacon(endpoint, payload);
+        }
+    } catch (error) {
+        // Ignore analytics transport errors
+    }
+}
+
 function trackCtaMetric(kind) {
     if (!ctaMetrics[kind] || typeof ctaMetrics[kind][ctaVariant] !== 'number') {
         return;
@@ -259,6 +289,7 @@ function trackCtaMetric(kind) {
 
     ctaMetrics[kind][ctaVariant] += 1;
     persistCtaMetrics();
+    emitMetricEvent(kind, ctaMetrics[kind][ctaVariant]);
     renderCtaAnalytics();
 }
 
@@ -335,13 +366,188 @@ function markPresetSelection(activePresetKey = null) {
     });
 }
 
+function getCurrentDesignSettings() {
+    return {
+        dotsType: document.getElementById('dots-type')?.value,
+        cornerSquareType: document.getElementById('corner-square-type')?.value,
+        cornerDotType: document.getElementById('corner-dot-type')?.value,
+        dotsColor: document.getElementById('dots-color')?.value,
+        backgroundColor: document.getElementById('background-color')?.value
+    };
+}
+
+function restoreCustomPresets() {
+    try {
+        const raw = localStorage.getItem(CUSTOM_PRESETS_KEY);
+        if (!raw) {
+            return;
+        }
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+            customPresets = {
+                slot1: parsed.slot1 || null,
+                slot2: parsed.slot2 || null,
+                slot3: parsed.slot3 || null
+            };
+        }
+    } catch (error) {
+        customPresets = { slot1: null, slot2: null, slot3: null };
+    }
+}
+
+function persistCustomPresets() {
+    try {
+        localStorage.setItem(CUSTOM_PRESETS_KEY, JSON.stringify(customPresets));
+    } catch (error) {
+        // Ignore storage write errors
+    }
+}
+
+function refreshCustomPresetButtons() {
+    const buttons = document.querySelectorAll('.custom-preset-btn[data-action="apply"]');
+    buttons.forEach((button) => {
+        const slot = button.dataset.slot;
+        button.disabled = !customPresets[slot];
+    });
+}
+
+function saveCustomPreset(slot) {
+    customPresets[slot] = getCurrentDesignSettings();
+    persistCustomPresets();
+    refreshCustomPresetButtons();
+    showNotification(t('preset.custom.saved'), 'success');
+}
+
+function applyCustomPreset(slot) {
+    const preset = customPresets[slot];
+    if (!preset) {
+        showNotification(t('preset.custom.empty'));
+        return;
+    }
+
+    Object.entries(preset).forEach(([idKey, value]) => {
+        const elementIdMap = {
+            dotsType: 'dots-type',
+            cornerSquareType: 'corner-square-type',
+            cornerDotType: 'corner-dot-type',
+            dotsColor: 'dots-color',
+            backgroundColor: 'background-color'
+        };
+        const element = document.getElementById(elementIdMap[idKey]);
+        if (element) {
+            element.value = value;
+        }
+    });
+
+    markPresetSelection();
+    saveRecentSettings();
+    generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
+    showNotification(t('preset.custom.applied'), 'success');
+}
+
+function restoreHistoryPins() {
+    try {
+        const raw = localStorage.getItem(HISTORY_PINS_KEY);
+        if (!raw) {
+            return;
+        }
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length === 2) {
+            historyPins = parsed;
+        }
+    } catch (error) {
+        historyPins = [null, null];
+    }
+}
+
+function persistHistoryPins() {
+    try {
+        localStorage.setItem(HISTORY_PINS_KEY, JSON.stringify(historyPins));
+    } catch (error) {
+        // Ignore storage write errors
+    }
+}
+
+function assignPin(slotIndex, itemId) {
+    historyPins[slotIndex] = itemId;
+    persistHistoryPins();
+    renderHistoryPins();
+}
+
+function renderHistoryPins() {
+    const pinButtons = document.querySelectorAll('.pin-slot');
+    pinButtons.forEach((button) => {
+        const slot = Number(button.dataset.slot);
+        const itemId = historyPins[slot];
+        const item = generationHistory.find((entry) => entry.id === itemId);
+        const content = button.querySelector('.pin-empty, .pin-content');
+
+        if (!item) {
+            if (content) {
+                content.className = 'pin-empty';
+                content.textContent = t('history.pin.empty');
+            }
+            return;
+        }
+
+        if (content) {
+            content.className = 'pin-content';
+            content.textContent = `${t(`type.${item.type}`)} - ${item.preview}`;
+        }
+    });
+}
+
+function evaluateScanQuality() {
+    const list = document.getElementById('quality-list');
+    if (!list) {
+        return;
+    }
+
+    const dotsColor = document.getElementById('dots-color')?.value || '#000000';
+    const backgroundColor = document.getElementById('background-color')?.value || '#ffffff';
+    const luminance = (hex) => {
+        const value = hex.replace('#', '');
+        const chunk = value.length === 3
+            ? value.split('').map((c) => c + c).join('')
+            : value;
+        const [r, g, b] = [chunk.slice(0, 2), chunk.slice(2, 4), chunk.slice(4, 6)].map((v) => parseInt(v, 16) / 255);
+        const convert = (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+        return 0.2126 * convert(r) + 0.7152 * convert(g) + 0.0722 * convert(b);
+    };
+
+    const l1 = luminance(dotsColor);
+    const l2 = luminance(backgroundColor);
+    const contrast = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+
+    const warnings = [];
+    if (contrast < 4.5) {
+        warnings.push({ key: 'quality.warn.contrast', warning: true });
+    }
+    if (logoImage) {
+        warnings.push({ key: 'quality.warn.logo', warning: true });
+    }
+    if (warnings.length === 0) {
+        warnings.push({ key: 'quality.ok', warning: false });
+    }
+
+    list.innerHTML = '';
+    warnings.forEach((entry) => {
+        const li = document.createElement('li');
+        li.className = entry.warning ? 'quality-item-warning' : 'quality-item-ok';
+        li.textContent = t(entry.key);
+        list.appendChild(li);
+    });
+}
+
 // Initialize all event listeners
 function initializeEventListeners() {
     document.addEventListener('languageChanged', (event) => {
         normalizeCountryOptionLabels(event.detail.language);
         applyCtaVariant();
         renderGenerationHistory();
+        renderHistoryPins();
         renderCtaAnalytics();
+        evaluateScanQuality();
     });
 
     // Type selector buttons
@@ -359,8 +565,11 @@ function initializeEventListeners() {
     if (clearHistoryButton) {
         clearHistoryButton.addEventListener('click', () => {
             generationHistory = [];
+            historyPins = [null, null];
             persistGenerationHistory();
+            persistHistoryPins();
             renderGenerationHistory();
+            renderHistoryPins();
             showNotification(t('history.cleared'), 'success');
         });
     }
@@ -382,6 +591,7 @@ function initializeEventListeners() {
     if (primaryHeroCta) {
         primaryHeroCta.addEventListener('click', () => {
             trackCtaMetric('clicks');
+            ctaPendingConversion = true;
         });
     }
 
@@ -389,6 +599,35 @@ function initializeEventListeners() {
     presetButtons.forEach((button) => {
         button.addEventListener('click', () => {
             applyDesignPreset(button.dataset.preset);
+        });
+    });
+
+    const customPresetButtons = document.querySelectorAll('.custom-preset-btn');
+    customPresetButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const slot = button.dataset.slot;
+            if (button.dataset.action === 'save') {
+                saveCustomPreset(slot);
+            }
+            if (button.dataset.action === 'apply') {
+                applyCustomPreset(slot);
+            }
+        });
+    });
+
+    const pinSlotButtons = document.querySelectorAll('.pin-slot');
+    pinSlotButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const slot = Number(button.dataset.slot);
+            const itemId = historyPins[slot];
+            const item = generationHistory.find((entry) => entry.id === itemId);
+            if (!item) {
+                return;
+            }
+            applyFormSnapshot(item.snapshot);
+            saveDraftInputs();
+            generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
+            showNotification(t('history.pin.applied'), 'success');
         });
     });
 
@@ -406,6 +645,21 @@ function initializeEventListeners() {
     // Download buttons
     document.getElementById('download-png').addEventListener('click', () => downloadQR('png'));
     document.getElementById('download-svg').addEventListener('click', () => downloadQR('svg'));
+
+    const mobileGenerate = document.getElementById('mobile-generate');
+    if (mobileGenerate) {
+        mobileGenerate.addEventListener('click', () => generateQRCode());
+    }
+
+    const mobileDownloadPng = document.getElementById('mobile-download-png');
+    if (mobileDownloadPng) {
+        mobileDownloadPng.addEventListener('click', () => downloadQR('png'));
+    }
+
+    const mobileDownloadSvg = document.getElementById('mobile-download-svg');
+    if (mobileDownloadSvg) {
+        mobileDownloadSvg.addEventListener('click', () => downloadQR('svg'));
+    }
 
     // Logo upload
     document.getElementById('logo-upload').addEventListener('change', handleLogoUpload);
@@ -699,11 +953,13 @@ function handleLogoUpload(e) {
         reader.onload = function(event) {
             logoImage = event.target.result;
             generateQRCode();
+            evaluateScanQuality();
         };
         reader.readAsDataURL(file);
     } else {
         logoImage = null;
         generateQRCode();
+        evaluateScanQuality();
     }
 }
 
@@ -921,6 +1177,7 @@ function createInitialQRCode() {
     setPreviewEmptyState(true);
     updatePreviewStatus('message.empty', true);
     updatePreviewZoomLabel();
+    evaluateScanQuality();
 }
 
 function persistGenerationHistory() {
@@ -1035,6 +1292,7 @@ function addGenerationHistoryItem(content) {
         fullContent: content,
         timestamp: Date.now(),
         favorite: false,
+        tag: currentType === 'wifi' ? 'wifi' : (currentType === 'vcard' ? 'business' : 'general'),
         snapshot: getCurrentFormSnapshot()
     };
 
@@ -1084,6 +1342,25 @@ function renderGenerationHistory() {
 
         const actions = document.createElement('div');
         actions.className = 'history-actions';
+
+        const tagSelect = document.createElement('select');
+        tagSelect.className = 'history-tag-select';
+        ['general', 'business', 'event', 'wifi'].forEach((tag) => {
+            const option = document.createElement('option');
+            option.value = tag;
+            option.textContent = t(`history.tag.${tag}`);
+            tagSelect.appendChild(option);
+        });
+        tagSelect.value = item.tag || 'general';
+        tagSelect.addEventListener('change', () => {
+            generationHistory = generationHistory.map((entry) => {
+                if (entry.id !== item.id) {
+                    return entry;
+                }
+                return { ...entry, tag: tagSelect.value };
+            });
+            persistGenerationHistory();
+        });
 
         const reuse = document.createElement('button');
         reuse.type = 'button';
@@ -1142,8 +1419,29 @@ function renderGenerationHistory() {
             });
         });
 
+        const pin1 = document.createElement('button');
+        pin1.type = 'button';
+        pin1.className = 'history-action-btn';
+        pin1.textContent = t('history.pin.1.short');
+        pin1.addEventListener('click', () => {
+            assignPin(0, item.id);
+            showNotification(t('history.pin.saved'), 'success');
+        });
+
+        const pin2 = document.createElement('button');
+        pin2.type = 'button';
+        pin2.className = 'history-action-btn';
+        pin2.textContent = t('history.pin.2.short');
+        pin2.addEventListener('click', () => {
+            assignPin(1, item.id);
+            showNotification(t('history.pin.saved'), 'success');
+        });
+
+        actions.appendChild(tagSelect);
         actions.appendChild(reuse);
         actions.appendChild(favorite);
+        actions.appendChild(pin1);
+        actions.appendChild(pin2);
         actions.appendChild(downloadPng);
         actions.appendChild(downloadSvg);
 
@@ -1152,6 +1450,8 @@ function renderGenerationHistory() {
         li.appendChild(actions);
         list.appendChild(li);
     });
+
+    renderHistoryPins();
 }
 
 function saveDraftInputs() {
@@ -1310,9 +1610,11 @@ function generateQRCode(options = {}) {
             if (recordHistory) {
                 addGenerationHistoryItem(content);
             }
-            if (countConversion) {
+            if (countConversion && ctaPendingConversion) {
                 trackCtaMetric('conversions');
+                ctaPendingConversion = false;
             }
+            evaluateScanQuality();
             if (!silent) {
                 showNotification(t('message.success.generated'), 'success');
             }
