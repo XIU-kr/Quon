@@ -21,6 +21,9 @@ window.en = {
     'preset.business': 'Business Card',
     'preset.event': 'Event Check-in',
     'preset.wifi': 'Wi-Fi Label',
+    'preset.cafe': 'Cafe Menu',
+    'preset.retail': 'Retail Coupon',
+    'preset.portfolio': 'Portfolio Card',
     'preset.applied': 'Design preset applied',
     'preset.save': 'Save',
     'preset.apply': 'Apply',
@@ -30,6 +33,14 @@ window.en = {
     'preset.custom.saved': 'Custom preset saved',
     'preset.custom.applied': 'Custom preset applied',
     'preset.custom.empty': 'This custom slot is empty',
+    'preset.market.title': 'Preset marketplace',
+    'preset.market.subtitle': 'Apply industry-focused style kits with one click.',
+    'preset.market.cafe.title': 'Cafe ordering',
+    'preset.market.cafe.desc': 'Warm contrast for counters and table cards.',
+    'preset.market.retail.title': 'Retail promo',
+    'preset.market.retail.desc': 'High-contrast coupon style for print flyers.',
+    'preset.market.portfolio.title': 'Portfolio profile',
+    'preset.market.portfolio.desc': 'Clean modern look for resumes and badges.',
     'nav.workspace': 'Workspace',
     'nav.faq': 'FAQ',
     'nav.privacy': 'Privacy',
@@ -167,6 +178,7 @@ window.en = {
     'button.generating': 'Generating...',
     'button.download.png': 'Download PNG',
     'button.download.svg': 'Download SVG',
+    'button.share': 'Share',
     'button.fill.example': 'Fill Example',
 
     // Accessibility labels
@@ -221,6 +233,18 @@ window.en = {
     'quality.warn.contrast': 'Low contrast detected. Increase foreground/background contrast.',
     'quality.warn.logo': 'Logo detected. Keep center logo compact for reliable scanning.',
     'quality.ok': 'Good balance. Current settings should scan reliably.',
+    'quality.fix.contrast': 'Apply contrast-safe colors',
+    'quality.fix.logo': 'Reduce logo impact',
+    'quality.fix.applied.contrast': 'Applied contrast-safe color set',
+    'quality.fix.applied.logo': 'Reduced logo impact for scan stability',
+
+    // Share
+    'share.title': 'QR from Quon',
+    'share.text': 'Shared from Quon QR generator',
+    'share.success': 'Shared successfully',
+    'share.copied': 'Copied QR content to clipboard',
+    'share.no_content': 'Generate a QR code first before sharing',
+    'share.failed': 'Share failed on this device',
     
     // Messages
     'message.empty': 'Enter content and click "Generate QR Code"',

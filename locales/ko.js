@@ -21,6 +21,9 @@ window.ko = {
     'preset.business': '명함용',
     'preset.event': '행사 체크인',
     'preset.wifi': '와이파이 안내',
+    'preset.cafe': '카페 메뉴',
+    'preset.retail': '리테일 쿠폰',
+    'preset.portfolio': '포트폴리오 카드',
     'preset.applied': '디자인 프리셋이 적용되었습니다',
     'preset.save': '저장',
     'preset.apply': '적용',
@@ -30,6 +33,14 @@ window.ko = {
     'preset.custom.saved': '커스텀 프리셋을 저장했습니다',
     'preset.custom.applied': '커스텀 프리셋을 적용했습니다',
     'preset.custom.empty': '이 슬롯은 아직 비어 있습니다',
+    'preset.market.title': '프리셋 마켓',
+    'preset.market.subtitle': '업종별 스타일 킷을 한 번에 적용하세요.',
+    'preset.market.cafe.title': '카페 주문',
+    'preset.market.cafe.desc': '카운터/테이블 카드에 어울리는 따뜻한 대비.',
+    'preset.market.retail.title': '리테일 프로모션',
+    'preset.market.retail.desc': '전단 쿠폰에 잘 보이는 고대비 스타일.',
+    'preset.market.portfolio.title': '포트폴리오 프로필',
+    'preset.market.portfolio.desc': '이력서/배지에 어울리는 깔끔한 모던 스타일.',
     'nav.workspace': '작업공간',
     'nav.faq': '자주 묻는 질문',
     'nav.privacy': '개인정보',
@@ -167,6 +178,7 @@ window.ko = {
     'button.generating': '생성 중...',
     'button.download.png': 'PNG 다운로드',
     'button.download.svg': 'SVG 다운로드',
+    'button.share': '공유',
     'button.fill.example': '예시 자동 입력',
 
     // Accessibility labels
@@ -221,6 +233,18 @@ window.ko = {
     'quality.warn.contrast': '대비가 낮습니다. 코드/배경 대비를 더 높여주세요.',
     'quality.warn.logo': '로고가 감지되었습니다. 중앙 로고를 작게 유지하세요.',
     'quality.ok': '현재 설정은 스캔 안정성이 좋은 편입니다.',
+    'quality.fix.contrast': '고대비 색상 자동 적용',
+    'quality.fix.logo': '로고 영향도 줄이기',
+    'quality.fix.applied.contrast': '스캔 친화 색상으로 적용했습니다',
+    'quality.fix.applied.logo': '스캔 안정성을 위해 로고 영향도를 낮췄습니다',
+
+    // Share
+    'share.title': 'Quon QR 공유',
+    'share.text': 'Quon QR 생성기에서 공유되었습니다',
+    'share.success': '공유 완료',
+    'share.copied': 'QR 내용이 클립보드에 복사되었습니다',
+    'share.no_content': '공유하려면 먼저 QR을 생성해주세요',
+    'share.failed': '이 기기에서 공유에 실패했습니다',
     
     // Messages
     'message.empty': '내용을 입력하고 "QR 코드 만들기"를 눌러주세요',
