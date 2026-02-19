@@ -146,6 +146,16 @@ function updateLanguage() {
             element.textContent = translation;
         }
     });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach(element => {
+        const key = element.getAttribute('data-i18n-aria');
+        element.setAttribute('aria-label', t(key));
+    });
+
+    document.querySelectorAll('[data-i18n-title]').forEach(element => {
+        const key = element.getAttribute('data-i18n-title');
+        element.setAttribute('title', t(key));
+    });
     
     // Update html lang attribute
     document.documentElement.lang = currentLanguage;
