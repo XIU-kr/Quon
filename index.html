@@ -538,6 +538,7 @@
                             <ul id="quality-list" class="quality-list">
                                 <li data-i18n="quality.default">Generate a QR code to review scan quality guidance.</li>
                             </ul>
+                            <div id="quality-actions" class="quality-actions"></div>
                         </div>
                         <button id="preview-fill-example" type="button" class="btn-secondary btn-tertiary" data-i18n="button.fill.example">Fill Example</button>
                         <div class="preview-actions">
@@ -556,6 +557,28 @@
                             <button type="button" class="preset-btn" data-preset="business" data-i18n="preset.business">Business Card</button>
                             <button type="button" class="preset-btn" data-preset="event" data-i18n="preset.event">Event Check-in</button>
                             <button type="button" class="preset-btn" data-preset="wifi" data-i18n="preset.wifi">Wi-Fi Label</button>
+                            <button type="button" class="preset-btn" data-preset="cafe" data-i18n="preset.cafe">Cafe Menu</button>
+                            <button type="button" class="preset-btn" data-preset="retail" data-i18n="preset.retail">Retail Coupon</button>
+                            <button type="button" class="preset-btn" data-preset="portfolio" data-i18n="preset.portfolio">Portfolio Card</button>
+                        </div>
+
+                        <div class="preset-market">
+                            <h3 data-i18n="preset.market.title">Preset marketplace</h3>
+                            <p data-i18n="preset.market.subtitle">Apply industry-focused style kits with one click.</p>
+                            <div class="preset-market-grid">
+                                <button type="button" class="preset-market-item" data-preset="cafe">
+                                    <strong data-i18n="preset.market.cafe.title">Cafe ordering</strong>
+                                    <span data-i18n="preset.market.cafe.desc">Warm contrast for counters and table cards.</span>
+                                </button>
+                                <button type="button" class="preset-market-item" data-preset="retail">
+                                    <strong data-i18n="preset.market.retail.title">Retail promo</strong>
+                                    <span data-i18n="preset.market.retail.desc">High-contrast coupon style for print flyers.</span>
+                                </button>
+                                <button type="button" class="preset-market-item" data-preset="portfolio">
+                                    <strong data-i18n="preset.market.portfolio.title">Portfolio profile</strong>
+                                    <span data-i18n="preset.market.portfolio.desc">Clean modern look for resumes and badges.</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="custom-preset-grid" aria-live="polite">
@@ -738,6 +761,7 @@
             <button type="button" id="mobile-generate" class="mobile-action primary" data-i18n="button.generate">Generate QR Code</button>
             <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">Download PNG</button>
             <button type="button" id="mobile-download-svg" class="mobile-action" data-i18n="button.download.svg">Download SVG</button>
+            <button type="button" id="mobile-share" class="mobile-action" data-i18n="button.share">Share</button>
         </div>
     </div>
 

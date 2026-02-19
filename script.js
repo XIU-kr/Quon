@@ -2,6 +2,8 @@
 let qrCode = null;
 let currentType = 'url';
 let logoImage = null;
+let logoScale = 0.4;
+let lastGeneratedContent = '';
 let previewZoom = 1;
 const PREVIEW_ZOOM_MIN = 0.75;
 const PREVIEW_ZOOM_MAX = 1.8;
@@ -46,6 +48,27 @@ const DESIGN_PRESETS = {
         cornerDotType: 'square',
         dotsColor: '#0d513a',
         backgroundColor: '#effff8'
+    },
+    cafe: {
+        dotsType: 'rounded',
+        cornerSquareType: 'extra-rounded',
+        cornerDotType: 'dot',
+        dotsColor: '#5b3a1f',
+        backgroundColor: '#fff5e8'
+    },
+    retail: {
+        dotsType: 'square',
+        cornerSquareType: 'square',
+        cornerDotType: 'dot',
+        dotsColor: '#1a2f5f',
+        backgroundColor: '#f4f8ff'
+    },
+    portfolio: {
+        dotsType: 'classy',
+        cornerSquareType: 'dot',
+        cornerDotType: 'dot',
+        dotsColor: '#11293f',
+        backgroundColor: '#f8fcff'
     }
 };
 
@@ -203,6 +226,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Disable download buttons initially
     document.getElementById('download-png').disabled = true;
     document.getElementById('download-svg').disabled = true;
+    const mobilePng = document.getElementById('mobile-download-png');
+    const mobileSvg = document.getElementById('mobile-download-svg');
+    if (mobilePng) mobilePng.disabled = true;
+    if (mobileSvg) mobileSvg.disabled = true;
 });
 
 function initializeCtaVariant() {
@@ -499,6 +526,7 @@ function renderHistoryPins() {
 
 function evaluateScanQuality() {
     const list = document.getElementById('quality-list');
+    const actions = document.getElementById('quality-actions');
     if (!list) {
         return;
     }
@@ -520,11 +548,16 @@ function evaluateScanQuality() {
     const contrast = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
 
     const warnings = [];
+    const actionButtons = [];
     if (contrast < 4.5) {
         warnings.push({ key: 'quality.warn.contrast', warning: true });
+        actionButtons.push({ action: 'contrast', labelKey: 'quality.fix.contrast' });
     }
     if (logoImage) {
         warnings.push({ key: 'quality.warn.logo', warning: true });
+        if (logoScale > 0.25) {
+            actionButtons.push({ action: 'logo', labelKey: 'quality.fix.logo' });
+        }
     }
     if (warnings.length === 0) {
         warnings.push({ key: 'quality.ok', warning: false });
@@ -537,6 +570,38 @@ function evaluateScanQuality() {
         li.textContent = t(entry.key);
         list.appendChild(li);
     });
+
+    if (actions) {
+        actions.innerHTML = '';
+        actionButtons.forEach((entry) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'quality-fix-btn';
+            button.dataset.action = entry.action;
+            button.textContent = t(entry.labelKey);
+            actions.appendChild(button);
+        });
+    }
+}
+
+function applyQualityFix(action) {
+    if (action === 'contrast') {
+        const dots = document.getElementById('dots-color');
+        const background = document.getElementById('background-color');
+        if (dots) dots.value = '#10243f';
+        if (background) background.value = '#ffffff';
+        markPresetSelection();
+        saveRecentSettings();
+        generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
+        showNotification(t('quality.fix.applied.contrast'), 'success');
+        return;
+    }
+
+    if (action === 'logo' && logoImage) {
+        logoScale = 0.24;
+        generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
+        showNotification(t('quality.fix.applied.logo'), 'success');
+    }
 }
 
 // Initialize all event listeners
@@ -602,6 +667,13 @@ function initializeEventListeners() {
         });
     });
 
+    const marketPresetButtons = document.querySelectorAll('.preset-market-item');
+    marketPresetButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            applyDesignPreset(button.dataset.preset);
+        });
+    });
+
     const customPresetButtons = document.querySelectorAll('.custom-preset-btn');
     customPresetButtons.forEach((button) => {
         button.addEventListener('click', () => {
@@ -659,6 +731,26 @@ function initializeEventListeners() {
     const mobileDownloadSvg = document.getElementById('mobile-download-svg');
     if (mobileDownloadSvg) {
         mobileDownloadSvg.addEventListener('click', () => downloadQR('svg'));
+    }
+
+    const mobileShare = document.getElementById('mobile-share');
+    if (mobileShare) {
+        mobileShare.addEventListener('click', shareCurrentQr);
+    }
+
+    const qualityActions = document.getElementById('quality-actions');
+    if (qualityActions) {
+        qualityActions.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLElement)) {
+                return;
+            }
+            const action = target.dataset.action;
+            if (!action) {
+                return;
+            }
+            applyQualityFix(action);
+        });
     }
 
     // Logo upload
@@ -952,6 +1044,7 @@ function handleLogoUpload(e) {
         const reader = new FileReader();
         reader.onload = function(event) {
             logoImage = event.target.result;
+            logoScale = 0.4;
             generateQRCode();
             evaluateScanQuality();
         };
@@ -1142,7 +1235,7 @@ function getQROptions() {
         },
         imageOptions: {
             hideBackgroundDots: true,
-            imageSize: 0.4,
+            imageSize: logoScale,
             margin: 5
         },
         dotsOptions: {
@@ -1582,6 +1675,8 @@ function generateQRCode(options = {}) {
         return;
     }
 
+    lastGeneratedContent = content;
+
     setGeneratingState(true);
     window.requestAnimationFrame(() => {
         try {
@@ -1602,6 +1697,10 @@ function generateQRCode(options = {}) {
             const downloadSvgButton = document.getElementById('download-svg');
             downloadPngButton.disabled = false;
             downloadSvgButton.disabled = false;
+            const mobilePng = document.getElementById('mobile-download-png');
+            const mobileSvg = document.getElementById('mobile-download-svg');
+            if (mobilePng) mobilePng.disabled = false;
+            if (mobileSvg) mobileSvg.disabled = false;
             if (focusDownload) {
                 downloadPngButton.focus({ preventScroll: true });
             }
@@ -1630,6 +1729,44 @@ function generateQRCode(options = {}) {
             setGeneratingState(false);
         }
     });
+}
+
+async function shareCurrentQr() {
+    const shareContent = lastGeneratedContent || getQRContent();
+    if (!shareContent) {
+        showNotification(t('share.no_content'));
+        return;
+    }
+
+    const payload = {
+        title: t('share.title'),
+        text: t('share.text')
+    };
+
+    if (shareContent.startsWith('http://') || shareContent.startsWith('https://')) {
+        payload.url = shareContent;
+    } else {
+        payload.text = `${t('share.text')}\n${shareContent}`;
+    }
+
+    try {
+        if (navigator.share) {
+            await navigator.share(payload);
+            showNotification(t('share.success'), 'success');
+            return;
+        }
+
+        if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(shareContent);
+            showNotification(t('share.copied'), 'success');
+            return;
+        }
+    } catch (error) {
+        showNotification(t('share.failed'));
+        return;
+    }
+
+    showNotification(t('share.failed'));
 }
 
 // Download QR code
