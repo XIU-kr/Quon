@@ -9,8 +9,13 @@ const PREVIEW_ZOOM_STEP = 0.1;
 const DESIGN_PANEL_STATE_KEY = 'quon_design_panel_state';
 const RECENT_SETTINGS_KEY = 'quon_recent_settings';
 const DRAFT_INPUTS_KEY = 'quon_draft_inputs';
+const CTA_VARIANT_KEY = 'quon_cta_variant';
+const GENERATION_HISTORY_KEY = 'quon_generation_history';
+const MAX_HISTORY_ITEMS = 5;
 const QR_TYPES = ['url', 'text', 'vcard', 'email', 'tel', 'wifi'];
 let isGenerating = false;
+let ctaVariant = 0;
+let generationHistory = [];
 
 function initializeAdsenseUnits() {
     const adUnits = document.querySelectorAll('.adsbygoogle');
@@ -152,16 +157,45 @@ document.addEventListener('DOMContentLoaded', async function() {
     normalizeCountryOptionLabels(getCurrentLanguage());
     restoreRecentSettings();
     restoreDraftInputs();
+    initializeCtaVariant();
+    restoreGenerationHistory();
+    renderGenerationHistory();
     createInitialQRCode();
     // Disable download buttons initially
     document.getElementById('download-png').disabled = true;
     document.getElementById('download-svg').disabled = true;
 });
 
+function initializeCtaVariant() {
+    const candidates = [0, 1, 2];
+    const saved = Number(localStorage.getItem(CTA_VARIANT_KEY));
+    if (Number.isInteger(saved) && candidates.includes(saved)) {
+        ctaVariant = saved;
+    } else {
+        ctaVariant = Math.floor(Math.random() * candidates.length);
+        localStorage.setItem(CTA_VARIANT_KEY, String(ctaVariant));
+    }
+
+    applyCtaVariant();
+}
+
+function applyCtaVariant() {
+    const cta = document.querySelector('.hero-actions .btn-primary');
+    if (!cta) {
+        return;
+    }
+
+    const keyMap = ['hero.cta.primary.variant1', 'hero.cta.primary.variant2', 'hero.cta.primary.variant3'];
+    const key = keyMap[ctaVariant] || keyMap[0];
+    cta.textContent = t(key);
+}
+
 // Initialize all event listeners
 function initializeEventListeners() {
     document.addEventListener('languageChanged', (event) => {
         normalizeCountryOptionLabels(event.detail.language);
+        applyCtaVariant();
+        renderGenerationHistory();
     });
 
     // Type selector buttons
@@ -174,6 +208,16 @@ function initializeEventListeners() {
 
     // Generate button
     document.getElementById('generate-btn').addEventListener('click', generateQRCode);
+
+    const clearHistoryButton = document.getElementById('clear-history-btn');
+    if (clearHistoryButton) {
+        clearHistoryButton.addEventListener('click', () => {
+            generationHistory = [];
+            persistGenerationHistory();
+            renderGenerationHistory();
+            showNotification(t('history.cleared'), 'success');
+        });
+    }
 
     const fillExampleButton = document.getElementById('preview-fill-example');
     if (fillExampleButton) {
@@ -718,6 +762,178 @@ function createInitialQRCode() {
     updatePreviewZoomLabel();
 }
 
+function persistGenerationHistory() {
+    try {
+        localStorage.setItem(GENERATION_HISTORY_KEY, JSON.stringify(generationHistory));
+    } catch (error) {
+        // Ignore storage write errors
+    }
+}
+
+function restoreGenerationHistory() {
+    try {
+        const raw = localStorage.getItem(GENERATION_HISTORY_KEY);
+        if (!raw) {
+            generationHistory = [];
+            return;
+        }
+
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) {
+            generationHistory = [];
+            return;
+        }
+
+        generationHistory = parsed.filter((item) => item && typeof item === 'object').slice(0, MAX_HISTORY_ITEMS);
+    } catch (error) {
+        generationHistory = [];
+    }
+}
+
+function formatRelativeTime(timestamp) {
+    const diffMs = Date.now() - timestamp;
+    const minute = 60 * 1000;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+
+    if (diffMs < minute) return t('history.time.now');
+    if (diffMs < hour) return t('history.time.min').replace('{n}', String(Math.max(1, Math.floor(diffMs / minute))));
+    if (diffMs < day) return t('history.time.hour').replace('{n}', String(Math.max(1, Math.floor(diffMs / hour))));
+    return t('history.time.day').replace('{n}', String(Math.max(1, Math.floor(diffMs / day))));
+}
+
+function getCurrentFormSnapshot() {
+    const fields = document.querySelectorAll('.input-field');
+    const formValues = {};
+
+    fields.forEach((field) => {
+        if (!field.id || field.type === 'file') {
+            return;
+        }
+        formValues[field.id] = field.value;
+    });
+
+    ['vcard-use-country-code', 'tel-use-country-code', 'wifi-hidden'].forEach((id) => {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+            formValues[id] = checkbox.checked;
+        }
+    });
+
+    return {
+        type: currentType,
+        formValues
+    };
+}
+
+function applyFormSnapshot(snapshot) {
+    if (!snapshot || typeof snapshot !== 'object') {
+        return;
+    }
+
+    if (snapshot.type && QR_TYPES.includes(snapshot.type)) {
+        switchQRType(snapshot.type);
+    }
+
+    if (snapshot.formValues && typeof snapshot.formValues === 'object') {
+        Object.entries(snapshot.formValues).forEach(([id, value]) => {
+            const el = document.getElementById(id);
+            if (!el) {
+                return;
+            }
+            if (el.type === 'checkbox') {
+                el.checked = Boolean(value);
+            } else if (typeof value === 'string') {
+                el.value = value;
+            }
+        });
+    }
+
+    const vcardUseCountry = document.getElementById('vcard-use-country-code');
+    const vcardCountryGroup = document.getElementById('vcard-country-group');
+    if (vcardUseCountry && vcardCountryGroup) {
+        vcardCountryGroup.style.display = vcardUseCountry.checked ? 'block' : 'none';
+    }
+
+    const telUseCountry = document.getElementById('tel-use-country-code');
+    const telCountryGroup = document.getElementById('tel-country-group');
+    if (telUseCountry && telCountryGroup) {
+        telCountryGroup.style.display = telUseCountry.checked ? 'block' : 'none';
+    }
+}
+
+function addGenerationHistoryItem(content) {
+    const typeLabel = t(`type.${currentType}`);
+    const trimmed = content.replace(/\s+/g, ' ').trim();
+    const entry = {
+        id: Date.now(),
+        type: currentType,
+        typeLabel,
+        preview: trimmed.slice(0, 68),
+        timestamp: Date.now(),
+        snapshot: getCurrentFormSnapshot()
+    };
+
+    generationHistory = [entry, ...generationHistory].slice(0, MAX_HISTORY_ITEMS);
+    persistGenerationHistory();
+    renderGenerationHistory();
+}
+
+function renderGenerationHistory() {
+    const list = document.getElementById('recent-history-list');
+    if (!list) {
+        return;
+    }
+
+    list.innerHTML = '';
+    if (!generationHistory.length) {
+        const li = document.createElement('li');
+        li.className = 'history-empty';
+        li.textContent = t('history.empty');
+        list.appendChild(li);
+        return;
+    }
+
+    generationHistory.forEach((item) => {
+        const li = document.createElement('li');
+        li.className = 'history-item';
+
+        const top = document.createElement('div');
+        top.className = 'history-item-top';
+
+        const type = document.createElement('span');
+        type.className = 'history-type';
+        type.textContent = t(`type.${item.type}`);
+
+        const time = document.createElement('span');
+        time.className = 'history-time';
+        time.textContent = formatRelativeTime(item.timestamp);
+
+        top.appendChild(type);
+        top.appendChild(time);
+
+        const preview = document.createElement('p');
+        preview.className = 'history-content';
+        preview.textContent = item.preview;
+
+        const reuse = document.createElement('button');
+        reuse.type = 'button';
+        reuse.className = 'history-reuse-btn';
+        reuse.textContent = t('history.reuse');
+        reuse.addEventListener('click', () => {
+            applyFormSnapshot(item.snapshot);
+            saveDraftInputs();
+            generateQRCode();
+            showNotification(t('history.reused'), 'success');
+        });
+
+        li.appendChild(top);
+        li.appendChild(preview);
+        li.appendChild(reuse);
+        list.appendChild(li);
+    });
+}
+
 function saveDraftInputs() {
     const fields = document.querySelectorAll('.input-field');
     const draft = {};
@@ -859,6 +1075,7 @@ function generateQRCode() {
             downloadPngButton.focus({ preventScroll: true });
 
             updatePreviewStatus('message.success.generated', false);
+            addGenerationHistoryItem(content);
             showNotification(t('message.success.generated'), 'success');
         } catch (error) {
             updatePreviewStatus('message.error.network', true);

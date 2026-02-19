@@ -6,10 +6,13 @@
     <title>Quon - Free QR Code Generator</title>
     <meta name="description" content="Create QR codes for URLs, text, contacts, email, phone, and Wi-Fi with modern customization.">
     <link rel="icon" type="image/webp" href="quon.webp">
+    <link rel="preload" as="image" href="quon.webp" type="image/webp">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4697521862423903" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <a class="skip-link" href="#workspace" data-i18n="a11y.skip">Skip to workspace</a>
+
     <!-- Ad-block Detection Script - Loads early to check for ad blockers -->
     <script src="adblock-detector.js"></script>
     
@@ -17,7 +20,7 @@
         <header class="site-header">
             <div class="topbar">
                 <a class="brand" href="#top" aria-label="Quon Home">
-                    <img src="quon.webp" alt="Quon" class="title-logo">
+                    <img src="quon.webp" alt="Quon" class="title-logo" fetchpriority="high">
                     <span data-i18n="header.title">Quon - Free QR Code Generator</span>
                 </a>
 
@@ -67,6 +70,17 @@
                 <article>
                     <h2 data-i18n="trust.design.title">Design control</h2>
                     <p data-i18n="trust.design.body">Tune shape, color, corners, and logo with predictable results.</p>
+                </article>
+            </section>
+
+            <section class="scan-guide" aria-label="Scan quality guidance">
+                <article>
+                    <h2 data-i18n="guide.logo.title">Logo size guideline</h2>
+                    <p data-i18n="guide.logo.body">Keep logos under 25% of code width to maintain scan reliability.</p>
+                </article>
+                <article>
+                    <h2 data-i18n="guide.contrast.title">Contrast guideline</h2>
+                    <p data-i18n="guide.contrast.body">Use dark foreground on light background for best camera detection.</p>
                 </article>
             </section>
         </header>
@@ -464,8 +478,19 @@
                             </div>
                         </div>
 
-                        <button id="generate-btn" class="btn-primary" data-i18n="button.generate">Generate QR Code</button>
+                        <button id="generate-btn" class="btn-primary" data-i18n="button.generate" data-i18n-aria="a11y.generate">Generate QR Code</button>
                         <p class="form-hint" data-i18n="hint.generate.shortcut">Tip: Press Ctrl+Enter to generate quickly.</p>
+
+                        <div class="history-panel" aria-live="polite">
+                            <div class="history-header">
+                                <h3 data-i18n="history.title">Recent generations</h3>
+                                <button type="button" id="clear-history-btn" class="history-clear-btn" data-i18n="history.clear">Clear</button>
+                            </div>
+                            <p class="history-hint" data-i18n="history.hint">Reuse your latest QR setups instantly.</p>
+                            <ul id="recent-history-list" class="history-list">
+                                <li class="history-empty" data-i18n="history.empty">No history yet. Generate your first QR.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -475,10 +500,10 @@
                         <div class="preview-header-row">
                             <h2 data-i18n="section.preview">QR Preview</h2>
                             <div class="preview-zoom-controls">
-                                <button type="button" id="preview-zoom-out" class="btn-secondary btn-zoom" data-i18n="preview.zoom.out">-</button>
+                                <button type="button" id="preview-zoom-out" class="btn-secondary btn-zoom" data-i18n="preview.zoom.out" data-i18n-aria="a11y.zoom.out">-</button>
                                 <span id="preview-zoom-level">100%</span>
-                                <button type="button" id="preview-zoom-in" class="btn-secondary btn-zoom" data-i18n="preview.zoom.in">+</button>
-                                <button type="button" id="preview-zoom-reset" class="btn-secondary btn-zoom" data-i18n="preview.zoom.reset">Reset</button>
+                                <button type="button" id="preview-zoom-in" class="btn-secondary btn-zoom" data-i18n="preview.zoom.in" data-i18n-aria="a11y.zoom.in">+</button>
+                                <button type="button" id="preview-zoom-reset" class="btn-secondary btn-zoom" data-i18n="preview.zoom.reset" data-i18n-aria="a11y.zoom.reset">Reset</button>
                             </div>
                         </div>
                         <div class="preview-stage">
@@ -489,8 +514,8 @@
                         <p id="preview-status" class="preview-status" aria-live="polite" data-i18n="message.empty">Enter content and click "Generate QR Code"</p>
                         <button id="preview-fill-example" type="button" class="btn-secondary btn-tertiary" data-i18n="button.fill.example">Fill Example</button>
                         <div class="preview-actions">
-                            <button id="download-png" class="btn-secondary" disabled data-i18n="button.download.png">Download PNG</button>
-                            <button id="download-svg" class="btn-secondary" disabled data-i18n="button.download.svg">Download SVG</button>
+                            <button id="download-png" class="btn-secondary" disabled data-i18n="button.download.png" data-i18n-aria="a11y.download.png">Download PNG</button>
+                            <button id="download-svg" class="btn-secondary" disabled data-i18n="button.download.svg" data-i18n-aria="a11y.download.svg">Download SVG</button>
                         </div>
                     </div>
                 </div>
@@ -564,7 +589,7 @@
 
                     <div class="ad-container ad-side">
                         <div class="ad-label" data-i18n="ad.header">Advertisement</div>
-                        <div class="ad-content">
+                        <div class="ad-content ad-content-fixed">
                             <ins class="adsbygoogle"
                                  style="display:block"
                                  data-ad-client="ca-pub-4697521862423903"
@@ -580,7 +605,7 @@
         <!-- Bottom Advertisement Section -->
         <div class="ad-container ad-bottom">
             <div class="ad-label" data-i18n="ad.header">Advertisement</div>
-            <div class="ad-content">
+            <div class="ad-content ad-content-fixed">
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-4697521862423903"
