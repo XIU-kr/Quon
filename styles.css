@@ -721,6 +721,23 @@ small {
   margin-top: 0.2rem;
 }
 
+.history-toolbar {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 0.38rem;
+  margin-top: 0.45rem;
+}
+
+.history-search,
+.history-filter {
+  border: 1px solid #36517b;
+  border-radius: 9px;
+  background: rgba(56, 84, 128, 0.14);
+  color: #dbe8fb;
+  padding: 0.35rem 0.45rem;
+  font-size: 0.72rem;
+}
+
 .history-pins {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -881,6 +898,22 @@ small {
   margin-bottom: 0.45rem;
 }
 
+.preset-market-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  margin-bottom: 0.4rem;
+}
+
+.preset-market-select {
+  border: 1px solid #38557f;
+  border-radius: 9px;
+  background: rgba(53, 82, 126, 0.12);
+  color: #d7e6fd;
+  padding: 0.3rem 0.42rem;
+  font-size: 0.72rem;
+}
+
 .preset-market-grid {
   display: grid;
   gap: 0.35rem;
@@ -900,6 +933,25 @@ small {
 
 .preset-market-item strong {
   font-size: 0.76rem;
+}
+
+.preset-market-thumb {
+  width: 100%;
+  height: 34px;
+  border-radius: 7px;
+  border: 1px solid rgba(142, 170, 213, 0.45);
+}
+
+.preset-thumb-cafe {
+  background: linear-gradient(135deg, #5b3a1f 0%, #d7ab84 100%);
+}
+
+.preset-thumb-retail {
+  background: linear-gradient(135deg, #1a2f5f 0%, #7aa2ff 100%);
+}
+
+.preset-thumb-portfolio {
+  background: linear-gradient(135deg, #11293f 0%, #5ba2d4 100%);
 }
 
 .preset-market-item span {
@@ -959,6 +1011,26 @@ small {
   margin-bottom: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
+}
+
+.quality-score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: #c8daf5;
+  font-size: 0.77rem;
+  margin-bottom: 0.2rem;
+}
+
+.quality-score-row strong {
+  font-size: 0.95rem;
+  color: #e8f2ff;
+}
+
+.quality-recommendation {
+  color: #a7bfdf;
+  font-size: 0.74rem;
+  margin-bottom: 0.3rem;
 }
 
 .quality-list {
@@ -1120,7 +1192,7 @@ small {
   right: 0;
   bottom: 0;
   display: none;
-  grid-template-columns: 1.1fr 1fr 1fr 0.9fr;
+  grid-template-columns: 1.1fr 1fr 1fr 0.9fr 0.95fr;
   gap: 0.4rem;
   padding: 0.5rem calc(0.55rem + env(safe-area-inset-right)) calc(0.5rem + env(safe-area-inset-bottom)) calc(0.55rem + env(safe-area-inset-left));
   border-top: 1px solid #2b3e5f;
@@ -1143,6 +1215,10 @@ small {
   border-color: transparent;
   background: linear-gradient(120deg, #72e8bd, #48ca97);
   color: #062519;
+}
+
+.mobile-action:disabled {
+  opacity: 0.45;
 }
 
 footer {
@@ -1362,6 +1438,11 @@ footer a:hover {
   .footer-grid,
   .preset-row,
   .use-cases-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-toolbar,
+  .preset-market-toolbar {
     grid-template-columns: 1fr;
   }
 

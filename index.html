@@ -498,6 +498,16 @@
                                 <button type="button" id="clear-history-btn" class="history-clear-btn" data-i18n="history.clear">Clear</button>
                             </div>
                             <p class="history-hint" data-i18n="history.hint">Reuse your latest QR setups instantly.</p>
+                            <div class="history-toolbar">
+                                <input id="history-search" class="history-search" type="search" data-i18n="history.search.placeholder" placeholder="Search history">
+                                <select id="history-filter" class="history-filter">
+                                    <option value="all" data-i18n="history.filter.all">All tags</option>
+                                    <option value="general" data-i18n="history.tag.general">General</option>
+                                    <option value="business" data-i18n="history.tag.business">Business</option>
+                                    <option value="event" data-i18n="history.tag.event">Event</option>
+                                    <option value="wifi" data-i18n="history.tag.wifi">Wi-Fi</option>
+                                </select>
+                            </div>
                             <div class="history-pins" id="history-pins">
                                 <button type="button" class="pin-slot" data-slot="0">
                                     <span class="pin-label" data-i18n="history.pin.1">Pinned Slot 1</span>
@@ -535,6 +545,11 @@
                         <p id="preview-status" class="preview-status" aria-live="polite" data-i18n="message.empty">Enter content and click "Generate QR Code"</p>
                         <div class="quality-check" id="quality-check">
                             <p class="quality-title" data-i18n="quality.title">Scan quality check</p>
+                            <div class="quality-score-row">
+                                <span data-i18n="quality.score.label">Quality score</span>
+                                <strong id="quality-score">--</strong>
+                            </div>
+                            <p id="quality-recommendation" class="quality-recommendation" data-i18n="quality.recommendation.default">Generate a QR code to get recommendations.</p>
                             <ul id="quality-list" class="quality-list">
                                 <li data-i18n="quality.default">Generate a QR code to review scan quality guidance.</li>
                             </ul>
@@ -565,16 +580,31 @@
                         <div class="preset-market">
                             <h3 data-i18n="preset.market.title">Preset marketplace</h3>
                             <p data-i18n="preset.market.subtitle">Apply industry-focused style kits with one click.</p>
+                            <div class="preset-market-toolbar">
+                                <select id="preset-market-filter" class="preset-market-select">
+                                    <option value="all" data-i18n="preset.market.filter.all">All industries</option>
+                                    <option value="food" data-i18n="preset.market.filter.food">Food & Cafe</option>
+                                    <option value="retail" data-i18n="preset.market.filter.retail">Retail</option>
+                                    <option value="personal" data-i18n="preset.market.filter.personal">Personal Brand</option>
+                                </select>
+                                <select id="preset-market-sort" class="preset-market-select">
+                                    <option value="popular" data-i18n="preset.market.sort.popular">Most popular</option>
+                                    <option value="newest" data-i18n="preset.market.sort.newest">Newest</option>
+                                </select>
+                            </div>
                             <div class="preset-market-grid">
-                                <button type="button" class="preset-market-item" data-preset="cafe">
+                                <button type="button" class="preset-market-item" data-preset="cafe" data-category="food" data-popularity="92" data-order="3">
+                                    <span class="preset-market-thumb preset-thumb-cafe" aria-hidden="true"></span>
                                     <strong data-i18n="preset.market.cafe.title">Cafe ordering</strong>
                                     <span data-i18n="preset.market.cafe.desc">Warm contrast for counters and table cards.</span>
                                 </button>
-                                <button type="button" class="preset-market-item" data-preset="retail">
+                                <button type="button" class="preset-market-item" data-preset="retail" data-category="retail" data-popularity="88" data-order="2">
+                                    <span class="preset-market-thumb preset-thumb-retail" aria-hidden="true"></span>
                                     <strong data-i18n="preset.market.retail.title">Retail promo</strong>
                                     <span data-i18n="preset.market.retail.desc">High-contrast coupon style for print flyers.</span>
                                 </button>
-                                <button type="button" class="preset-market-item" data-preset="portfolio">
+                                <button type="button" class="preset-market-item" data-preset="portfolio" data-category="personal" data-popularity="81" data-order="1">
+                                    <span class="preset-market-thumb preset-thumb-portfolio" aria-hidden="true"></span>
                                     <strong data-i18n="preset.market.portfolio.title">Portfolio profile</strong>
                                     <span data-i18n="preset.market.portfolio.desc">Clean modern look for resumes and badges.</span>
                                 </button>
@@ -762,6 +792,7 @@
             <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">Download PNG</button>
             <button type="button" id="mobile-download-svg" class="mobile-action" data-i18n="button.download.svg">Download SVG</button>
             <button type="button" id="mobile-share" class="mobile-action" data-i18n="button.share">Share</button>
+            <button type="button" id="mobile-last-preset" class="mobile-action" data-i18n="button.last_preset">Last Preset</button>
         </div>
     </div>
 

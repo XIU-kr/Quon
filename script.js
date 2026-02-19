@@ -17,6 +17,8 @@ const GENERATION_HISTORY_KEY = 'quon_generation_history';
 const HISTORY_PINS_KEY = 'quon_history_pins';
 const CUSTOM_PRESETS_KEY = 'quon_custom_presets';
 const METRICS_ENDPOINT_KEY = 'quon_metrics_endpoint';
+const HISTORY_VIEW_KEY = 'quon_history_view';
+const LAST_PRESET_KEY = 'quon_last_preset';
 const MAX_HISTORY_ITEMS = 5;
 const QR_TYPES = ['url', 'text', 'vcard', 'email', 'tel', 'wifi'];
 let isGenerating = false;
@@ -26,6 +28,9 @@ let ctaPendingConversion = false;
 let generationHistory = [];
 let historyPins = [null, null];
 let customPresets = { slot1: null, slot2: null, slot3: null };
+let historyFilter = 'all';
+let historyQuery = '';
+let lastAppliedPresetKey = '';
 
 const DESIGN_PRESETS = {
     business: {
@@ -217,10 +222,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     restoreGenerationHistory();
     restoreHistoryPins();
     restoreCustomPresets();
+    restoreHistoryView();
+    restoreLastPreset();
     markPresetSelection();
     renderGenerationHistory();
     renderHistoryPins();
+    renderPresetMarket();
     refreshCustomPresetButtons();
+    updateMobileLastPresetButton();
     renderCtaAnalytics();
     createInitialQRCode();
     // Disable download buttons initially
@@ -359,6 +368,9 @@ function applyDesignPreset(presetKey) {
     });
 
     markPresetSelection(presetKey);
+    lastAppliedPresetKey = presetKey;
+    persistLastPreset();
+    updateMobileLastPresetButton();
     saveRecentSettings();
     generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
     showNotification(t('preset.applied'), 'success');
@@ -401,6 +413,105 @@ function getCurrentDesignSettings() {
         dotsColor: document.getElementById('dots-color')?.value,
         backgroundColor: document.getElementById('background-color')?.value
     };
+}
+
+function persistLastPreset() {
+    try {
+        localStorage.setItem(LAST_PRESET_KEY, lastAppliedPresetKey || '');
+    } catch (error) {
+        // Ignore storage write errors
+    }
+}
+
+function restoreLastPreset() {
+    try {
+        lastAppliedPresetKey = localStorage.getItem(LAST_PRESET_KEY) || '';
+    } catch (error) {
+        lastAppliedPresetKey = '';
+    }
+}
+
+function updateMobileLastPresetButton() {
+    const button = document.getElementById('mobile-last-preset');
+    if (!button) {
+        return;
+    }
+    button.disabled = !lastAppliedPresetKey;
+}
+
+function persistHistoryView() {
+    try {
+        localStorage.setItem(HISTORY_VIEW_KEY, JSON.stringify({ filter: historyFilter, query: historyQuery }));
+    } catch (error) {
+        // Ignore storage write errors
+    }
+}
+
+function restoreHistoryView() {
+    try {
+        const raw = localStorage.getItem(HISTORY_VIEW_KEY);
+        if (!raw) {
+            return;
+        }
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+            historyFilter = parsed.filter || 'all';
+            historyQuery = parsed.query || '';
+        }
+    } catch (error) {
+        historyFilter = 'all';
+        historyQuery = '';
+    }
+
+    const filterEl = document.getElementById('history-filter');
+    const searchEl = document.getElementById('history-search');
+    if (filterEl) {
+        filterEl.value = historyFilter;
+    }
+    if (searchEl) {
+        searchEl.value = historyQuery;
+    }
+}
+
+function renderPresetMarket() {
+    const container = document.querySelector('.preset-market-grid');
+    const filterEl = document.getElementById('preset-market-filter');
+    const sortEl = document.getElementById('preset-market-sort');
+    if (!container) {
+        return;
+    }
+
+    const filter = filterEl?.value || 'all';
+    const sort = sortEl?.value || 'popular';
+    const items = Array.from(container.querySelectorAll('.preset-market-item'));
+
+    items
+        .sort((a, b) => {
+            if (sort === 'newest') {
+                return Number(b.dataset.order || 0) - Number(a.dataset.order || 0);
+            }
+            return Number(b.dataset.popularity || 0) - Number(a.dataset.popularity || 0);
+        })
+        .forEach((item) => {
+            const match = filter === 'all' || item.dataset.category === filter;
+            item.hidden = !match;
+            container.appendChild(item);
+        });
+}
+
+function applyLastPreset() {
+    if (!lastAppliedPresetKey) {
+        showNotification(t('preset.last.empty'));
+        return;
+    }
+
+    if (lastAppliedPresetKey.startsWith('custom:')) {
+        const slot = lastAppliedPresetKey.split(':')[1];
+        applyCustomPreset(slot);
+        return;
+    }
+
+    applyDesignPreset(lastAppliedPresetKey);
 }
 
 function restoreCustomPresets() {
@@ -467,6 +578,9 @@ function applyCustomPreset(slot) {
     });
 
     markPresetSelection();
+    lastAppliedPresetKey = `custom:${slot}`;
+    persistLastPreset();
+    updateMobileLastPresetButton();
     saveRecentSettings();
     generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
     showNotification(t('preset.custom.applied'), 'success');
@@ -527,7 +641,20 @@ function renderHistoryPins() {
 function evaluateScanQuality() {
     const list = document.getElementById('quality-list');
     const actions = document.getElementById('quality-actions');
+    const scoreEl = document.getElementById('quality-score');
+    const recommendationEl = document.getElementById('quality-recommendation');
     if (!list) {
+        return;
+    }
+
+    if (!lastGeneratedContent) {
+        list.innerHTML = '';
+        const li = document.createElement('li');
+        li.textContent = t('quality.default');
+        list.appendChild(li);
+        if (actions) actions.innerHTML = '';
+        if (scoreEl) scoreEl.textContent = '--';
+        if (recommendationEl) recommendationEl.textContent = t('quality.recommendation.default');
         return;
     }
 
@@ -549,19 +676,30 @@ function evaluateScanQuality() {
 
     const warnings = [];
     const actionButtons = [];
+    let score = 100;
+    let recommendationKey = 'quality.recommendation.good';
+
     if (contrast < 4.5) {
         warnings.push({ key: 'quality.warn.contrast', warning: true });
         actionButtons.push({ action: 'contrast', labelKey: 'quality.fix.contrast' });
+        score -= 38;
+        recommendationKey = 'quality.recommendation.contrast';
     }
     if (logoImage) {
         warnings.push({ key: 'quality.warn.logo', warning: true });
+        score -= logoScale > 0.25 ? 24 : 12;
         if (logoScale > 0.25) {
             actionButtons.push({ action: 'logo', labelKey: 'quality.fix.logo' });
+            recommendationKey = recommendationKey === 'quality.recommendation.contrast'
+                ? 'quality.recommendation.multi'
+                : 'quality.recommendation.logo';
         }
     }
     if (warnings.length === 0) {
         warnings.push({ key: 'quality.ok', warning: false });
     }
+
+    score = Math.max(25, Math.min(100, Math.round(score)));
 
     list.innerHTML = '';
     warnings.forEach((entry) => {
@@ -570,6 +708,14 @@ function evaluateScanQuality() {
         li.textContent = t(entry.key);
         list.appendChild(li);
     });
+
+    if (scoreEl) {
+        scoreEl.textContent = `${score}/100`;
+    }
+
+    if (recommendationEl) {
+        recommendationEl.textContent = t(recommendationKey);
+    }
 
     if (actions) {
         actions.innerHTML = '';
@@ -611,6 +757,7 @@ function initializeEventListeners() {
         applyCtaVariant();
         renderGenerationHistory();
         renderHistoryPins();
+        renderPresetMarket();
         renderCtaAnalytics();
         evaluateScanQuality();
     });
@@ -636,6 +783,24 @@ function initializeEventListeners() {
             renderGenerationHistory();
             renderHistoryPins();
             showNotification(t('history.cleared'), 'success');
+        });
+    }
+
+    const historyFilterEl = document.getElementById('history-filter');
+    if (historyFilterEl) {
+        historyFilterEl.addEventListener('change', () => {
+            historyFilter = historyFilterEl.value;
+            persistHistoryView();
+            renderGenerationHistory();
+        });
+    }
+
+    const historySearchEl = document.getElementById('history-search');
+    if (historySearchEl) {
+        historySearchEl.addEventListener('input', () => {
+            historyQuery = historySearchEl.value.trim().toLowerCase();
+            persistHistoryView();
+            renderGenerationHistory();
         });
     }
 
@@ -673,6 +838,15 @@ function initializeEventListeners() {
             applyDesignPreset(button.dataset.preset);
         });
     });
+
+    const marketFilter = document.getElementById('preset-market-filter');
+    const marketSort = document.getElementById('preset-market-sort');
+    if (marketFilter) {
+        marketFilter.addEventListener('change', renderPresetMarket);
+    }
+    if (marketSort) {
+        marketSort.addEventListener('change', renderPresetMarket);
+    }
 
     const customPresetButtons = document.querySelectorAll('.custom-preset-btn');
     customPresetButtons.forEach((button) => {
@@ -736,6 +910,11 @@ function initializeEventListeners() {
     const mobileShare = document.getElementById('mobile-share');
     if (mobileShare) {
         mobileShare.addEventListener('click', shareCurrentQr);
+    }
+
+    const mobileLastPreset = document.getElementById('mobile-last-preset');
+    if (mobileLastPreset) {
+        mobileLastPreset.addEventListener('click', applyLastPreset);
     }
 
     const qualityActions = document.getElementById('quality-actions');
@@ -1403,15 +1582,23 @@ function renderGenerationHistory() {
     }
 
     list.innerHTML = '';
-    if (!generationHistory.length) {
+    const filtered = generationHistory.filter((item) => {
+        const matchTag = historyFilter === 'all' || (item.tag || 'general') === historyFilter;
+        const searchBase = `${item.preview || ''} ${(item.tag || '')} ${item.type || ''}`.toLowerCase();
+        const matchQuery = !historyQuery || searchBase.includes(historyQuery);
+        return matchTag && matchQuery;
+    });
+
+    if (!filtered.length) {
         const li = document.createElement('li');
         li.className = 'history-empty';
-        li.textContent = t('history.empty');
+        li.textContent = generationHistory.length ? t('history.empty.filtered') : t('history.empty');
         list.appendChild(li);
+        renderHistoryPins();
         return;
     }
 
-    generationHistory.forEach((item) => {
+    filtered.forEach((item) => {
         const li = document.createElement('li');
         li.className = 'history-item';
 
@@ -1751,6 +1938,20 @@ async function shareCurrentQr() {
 
     try {
         if (navigator.share) {
+            const canvas = document.querySelector('#qr-code-container canvas');
+            if (canvas && navigator.canShare) {
+                const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+                if (blob) {
+                    const file = new File([blob], `quon-${Date.now()}.png`, { type: 'image/png' });
+                    const filePayload = { ...payload, files: [file] };
+                    if (navigator.canShare(filePayload)) {
+                        await navigator.share(filePayload);
+                        showNotification(t('share.success'), 'success');
+                        return;
+                    }
+                }
+            }
+
             await navigator.share(payload);
             showNotification(t('share.success'), 'success');
             return;
