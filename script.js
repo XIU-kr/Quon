@@ -7,6 +7,9 @@ const PREVIEW_ZOOM_MIN = 0.75;
 const PREVIEW_ZOOM_MAX = 1.8;
 const PREVIEW_ZOOM_STEP = 0.1;
 const DESIGN_PANEL_STATE_KEY = 'quon_design_panel_state';
+const RECENT_SETTINGS_KEY = 'quon_recent_settings';
+const QR_TYPES = ['url', 'text', 'vcard', 'email', 'tel', 'wifi'];
+let isGenerating = false;
 
 function initializeAdsenseUnits() {
     const adUnits = document.querySelectorAll('.adsbygoogle');
@@ -48,6 +51,7 @@ function applyPreviewZoom() {
 function setPreviewZoom(nextZoom) {
     previewZoom = Math.max(PREVIEW_ZOOM_MIN, Math.min(PREVIEW_ZOOM_MAX, nextZoom));
     applyPreviewZoom();
+    saveRecentSettings();
 }
 
 function initializeDesignPanelState() {
@@ -145,6 +149,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     initializeEventListeners();
     syncCountryCodeOptions();
     normalizeCountryOptionLabels(getCurrentLanguage());
+    restoreRecentSettings();
     createInitialQRCode();
     // Disable download buttons initially
     document.getElementById('download-png').disabled = true;
@@ -167,6 +172,11 @@ function initializeEventListeners() {
 
     // Generate button
     document.getElementById('generate-btn').addEventListener('click', generateQRCode);
+
+    const fillExampleButton = document.getElementById('preview-fill-example');
+    if (fillExampleButton) {
+        fillExampleButton.addEventListener('click', fillExampleContent);
+    }
 
     const zoomInButton = document.getElementById('preview-zoom-in');
     const zoomOutButton = document.getElementById('preview-zoom-out');
@@ -195,11 +205,14 @@ function initializeEventListeners() {
     customizationInputs.forEach(id => {
         const element = document.getElementById(id);
         if (element) {
-            element.addEventListener('change', generateQRCode);
+            element.addEventListener('change', () => {
+                saveRecentSettings();
+                generateQRCode();
+            });
         }
     });
 
-    // Input fields - generate on Enter key
+    // Input fields - generate on Enter key and clear inline errors
     const inputFields = document.querySelectorAll('.input-field');
     inputFields.forEach(field => {
         if (field.tagName === 'INPUT' || field.tagName === 'TEXTAREA') {
@@ -209,6 +222,21 @@ function initializeEventListeners() {
                     generateQRCode();
                 }
             });
+        }
+
+        field.addEventListener('input', () => {
+            field.classList.remove('is-invalid');
+            const sibling = field.nextElementSibling;
+            if (sibling && sibling.classList && sibling.classList.contains('field-error')) {
+                sibling.remove();
+            }
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+            event.preventDefault();
+            generateQRCode();
         }
     });
 
@@ -225,9 +253,212 @@ function initializeEventListeners() {
     });
 }
 
+function togglePreviewExampleButton(visible) {
+    const fillButton = document.getElementById('preview-fill-example');
+    if (!fillButton) {
+        return;
+    }
+
+    fillButton.classList.toggle('is-hidden', !visible);
+}
+
+function setPreviewEmptyState(isEmpty) {
+    const previewStage = document.querySelector('.preview-stage');
+    const previewContainer = document.getElementById('qr-code-container');
+
+    if (previewStage) {
+        previewStage.classList.toggle('is-empty', isEmpty);
+    }
+
+    if (previewContainer) {
+        previewContainer.classList.toggle('is-empty', isEmpty);
+    }
+}
+
+function saveRecentSettings() {
+    const settings = {
+        type: currentType,
+        previewZoom,
+        dotsType: document.getElementById('dots-type')?.value,
+        cornerSquareType: document.getElementById('corner-square-type')?.value,
+        cornerDotType: document.getElementById('corner-dot-type')?.value,
+        dotsColor: document.getElementById('dots-color')?.value,
+        backgroundColor: document.getElementById('background-color')?.value
+    };
+
+    try {
+        localStorage.setItem(RECENT_SETTINGS_KEY, JSON.stringify(settings));
+    } catch (error) {
+        // Ignore storage write errors
+    }
+}
+
+function restoreRecentSettings() {
+    try {
+        const raw = localStorage.getItem(RECENT_SETTINGS_KEY);
+        if (!raw) {
+            return;
+        }
+
+        const saved = JSON.parse(raw);
+        if (saved && QR_TYPES.includes(saved.type)) {
+            switchQRType(saved.type);
+        }
+
+        const selectMappings = [
+            ['dots-type', saved.dotsType],
+            ['corner-square-type', saved.cornerSquareType],
+            ['corner-dot-type', saved.cornerDotType],
+            ['dots-color', saved.dotsColor],
+            ['background-color', saved.backgroundColor]
+        ];
+
+        selectMappings.forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element && value) {
+                element.value = value;
+            }
+        });
+
+        if (typeof saved.previewZoom === 'number' && Number.isFinite(saved.previewZoom)) {
+            setPreviewZoom(saved.previewZoom);
+        } else {
+            updatePreviewZoomLabel();
+        }
+    } catch (error) {
+        updatePreviewZoomLabel();
+    }
+}
+
+function fillExampleContent() {
+    if (currentType === 'url') {
+        document.getElementById('url-input').value = 'https://www.sn0wman.kr';
+    }
+
+    if (currentType === 'text') {
+        document.getElementById('text-input').value = 'Scan this code to view a quick demo message.';
+    }
+
+    if (currentType === 'vcard') {
+        document.getElementById('vcard-fullname').value = 'Hong Gil Dong';
+        document.getElementById('vcard-tel').value = '01012345678';
+        document.getElementById('vcard-email').value = 'hello@example.com';
+        document.getElementById('vcard-org').value = 'Quon Team';
+    }
+
+    if (currentType === 'email') {
+        document.getElementById('email-to').value = 'hello@example.com';
+        document.getElementById('email-subject').value = 'Quick hello from Quon';
+        document.getElementById('email-body').value = 'Hi! This is a sample email QR code.';
+    }
+
+    if (currentType === 'tel') {
+        document.getElementById('tel-number').value = '01012345678';
+    }
+
+    if (currentType === 'wifi') {
+        document.getElementById('wifi-ssid').value = 'Quon_WiFi';
+        document.getElementById('wifi-password').value = 'sample-password';
+    }
+
+    generateQRCode();
+    showNotification(t('message.success.prefilled'), 'success');
+}
+
+function updatePreviewStatus(messageKey, showFillAction = false) {
+    const statusElement = document.getElementById('preview-status');
+    if (!statusElement) {
+        return;
+    }
+
+    statusElement.textContent = t(messageKey);
+    togglePreviewExampleButton(showFillAction);
+}
+
+function clearValidationErrors() {
+    document.querySelectorAll('.input-field.is-invalid').forEach((field) => {
+        field.classList.remove('is-invalid');
+    });
+
+    document.querySelectorAll('.field-error').forEach((entry) => {
+        entry.remove();
+    });
+}
+
+function setFieldError(fieldId, messageKey) {
+    const field = document.getElementById(fieldId);
+    if (!field) {
+        return;
+    }
+
+    field.classList.add('is-invalid');
+    const error = document.createElement('div');
+    error.className = 'field-error';
+    error.textContent = t(messageKey);
+    error.setAttribute('role', 'alert');
+    field.insertAdjacentElement('afterend', error);
+}
+
+function validateCurrentInput() {
+    clearValidationErrors();
+
+    if (currentType === 'url' && !document.getElementById('url-input').value.trim()) {
+        setFieldError('url-input', 'message.error.empty');
+        return false;
+    }
+
+    if (currentType === 'vcard') {
+        const fullName = document.getElementById('vcard-fullname').value.trim();
+        const lastName = document.getElementById('vcard-lastname').value.trim();
+        const firstName = document.getElementById('vcard-firstname').value.trim();
+        const tel = document.getElementById('vcard-tel').value.trim();
+
+        if (!fullName && !lastName && !firstName) {
+            setFieldError('vcard-fullname', 'message.error.name');
+            return false;
+        }
+
+        if (!tel) {
+            setFieldError('vcard-tel', 'message.error.tel');
+            return false;
+        }
+    }
+
+    if (currentType === 'email' && !document.getElementById('email-to').value.trim()) {
+        setFieldError('email-to', 'message.error.email');
+        return false;
+    }
+
+    if (currentType === 'tel' && !document.getElementById('tel-number').value.trim()) {
+        setFieldError('tel-number', 'message.error.tel');
+        return false;
+    }
+
+    if (currentType === 'wifi' && !document.getElementById('wifi-ssid').value.trim()) {
+        setFieldError('wifi-ssid', 'message.error.wifi');
+        return false;
+    }
+
+    return true;
+}
+
+function setGeneratingState(nextState) {
+    isGenerating = nextState;
+    const generateButton = document.getElementById('generate-btn');
+    if (!generateButton) {
+        return;
+    }
+
+    generateButton.disabled = nextState;
+    generateButton.classList.toggle('is-loading', nextState);
+    generateButton.textContent = nextState ? t('button.generating') : t('button.generate');
+}
+
 // Switch between QR code types
 function switchQRType(type) {
     currentType = type;
+    clearValidationErrors();
+    saveRecentSettings();
 
     // Update active button
     document.querySelectorAll('.type-btn').forEach(btn => {
@@ -469,6 +700,8 @@ function getQROptions() {
 function createInitialQRCode() {
     const container = document.getElementById('qr-code-container');
     container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>' + t('message.empty') + '</p></div>';
+    setPreviewEmptyState(true);
+    updatePreviewStatus('message.empty', true);
     updatePreviewZoomLabel();
 }
 
@@ -478,6 +711,8 @@ function showNotification(message, type = 'error') {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.textContent = message;
+    notification.setAttribute('role', 'status');
+    notification.setAttribute('aria-live', 'polite');
     document.body.appendChild(notification);
     
     // Show notification
@@ -492,6 +727,15 @@ function showNotification(message, type = 'error') {
 
 // Generate QR code
 function generateQRCode() {
+    if (isGenerating) {
+        return;
+    }
+
+    if (!validateCurrentInput()) {
+        showNotification(t('message.error.fixFields'));
+        return;
+    }
+
     const content = getQRContent();
 
     if (content === null) {
@@ -499,24 +743,42 @@ function generateQRCode() {
     }
 
     if (!content) {
+        updatePreviewStatus('message.error.empty', true);
         showNotification(t('message.error.empty'));
         return;
     }
 
-    const options = getQROptions();
-    options.data = content;
+    setGeneratingState(true);
+    window.requestAnimationFrame(() => {
+        try {
+            const options = getQROptions();
+            options.data = content;
 
-    const container = document.getElementById('qr-code-container');
-    container.innerHTML = '';
+            const container = document.getElementById('qr-code-container');
+            container.innerHTML = '';
 
-    // Create new QR code
-    qrCode = new QRCodeStyling(options);
-    qrCode.append(container);
-    applyPreviewZoom();
+            // Create new QR code
+            qrCode = new QRCodeStyling(options);
+            qrCode.append(container);
+            applyPreviewZoom();
+            setPreviewEmptyState(false);
 
-    // Enable download buttons
-    document.getElementById('download-png').disabled = false;
-    document.getElementById('download-svg').disabled = false;
+            // Enable download buttons
+            const downloadPngButton = document.getElementById('download-png');
+            const downloadSvgButton = document.getElementById('download-svg');
+            downloadPngButton.disabled = false;
+            downloadSvgButton.disabled = false;
+            downloadPngButton.focus({ preventScroll: true });
+
+            updatePreviewStatus('message.success.generated', false);
+            showNotification(t('message.success.generated'), 'success');
+        } catch (error) {
+            updatePreviewStatus('message.error.network', true);
+            showNotification(t('message.error.network'));
+        } finally {
+            setGeneratingState(false);
+        }
+    });
 }
 
 // Download QR code

@@ -7,12 +7,12 @@
 :root {
   --bg: #06080e;
   --bg-soft: #0f1422;
-  --surface: #11192b;
-  --surface-2: #17233a;
-  --line: #24324d;
-  --line-soft: #1b2640;
+  --surface: #121d31;
+  --surface-2: #1a2a45;
+  --line: #324566;
+  --line-soft: #273855;
   --text: #eef4ff;
-  --text-muted: #9fb1ce;
+  --text-muted: #b0c0dc;
   --accent: #6de0b1;
   --accent-strong: #38c48d;
   --danger: #ff6868;
@@ -23,7 +23,7 @@
 }
 
 body {
-  font-family: 'Pretendard', 'Inter', 'Noto Sans KR', 'Segoe UI', sans-serif;
+  font-family: 'SUIT Variable', 'Pretendard', 'Noto Sans KR', 'Segoe UI', sans-serif;
   color: var(--text);
   line-height: 1.55;
   min-height: 100vh;
@@ -100,8 +100,25 @@ header h1 {
 
 .content-wrapper {
   display: grid;
-  grid-template-columns: minmax(290px, 0.9fr) minmax(460px, 1.35fr) minmax(290px, 0.85fr);
-  gap: 0.9rem;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(460px, 1.35fr);
+  grid-template-areas:
+    'input preview'
+    'design design';
+  gap: 1rem;
+  align-items: start;
+}
+
+.input-panel {
+  grid-area: input;
+}
+
+.preview-panel {
+  grid-area: preview;
+}
+
+.design-panel {
+  grid-area: design;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
   align-items: start;
 }
 
@@ -109,7 +126,7 @@ header h1 {
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   background: linear-gradient(165deg, rgba(19, 29, 48, 0.93), rgba(12, 18, 31, 0.97));
-  padding: 1.15rem;
+  padding: 1.3rem;
   box-shadow: var(--shadow-md);
 }
 
@@ -121,10 +138,11 @@ header h1 {
 }
 
 .section h2 {
-  font-size: 1rem;
-  margin-bottom: 0.95rem;
+  font-size: 1.08rem;
+  margin-bottom: 1rem;
   color: var(--text);
-  font-weight: 640;
+  font-weight: 680;
+  letter-spacing: -0.01em;
 }
 
 .type-selector {
@@ -185,8 +203,8 @@ header h1 {
 
 .form-group label {
   display: block;
-  margin-bottom: 0.35rem;
-  font-size: 0.84rem;
+  margin-bottom: 0.38rem;
+  font-size: 0.87rem;
   color: var(--text-muted);
 }
 
@@ -220,7 +238,8 @@ header h1 {
   font-family: inherit;
 }
 
-.input-field:focus {
+.input-field:focus,
+.input-field:focus-visible {
   outline: none;
   border-color: #3f6399;
   box-shadow: 0 0 0 3px rgba(86, 140, 226, 0.2);
@@ -253,7 +272,34 @@ small {
   display: block;
   margin-top: 0.32rem;
   color: #879cc2;
-  font-size: 0.76rem;
+  font-size: 0.79rem;
+}
+
+.advanced-details {
+  margin-bottom: 0.9rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 11px;
+  background: rgba(9, 15, 27, 0.6);
+  overflow: hidden;
+}
+
+.advanced-details > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.68rem 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  color: #c2d2ec;
+}
+
+.advanced-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.advanced-details-body {
+  padding: 0.15rem 0.78rem 0.5rem;
 }
 
 .checkbox-label {
@@ -272,6 +318,7 @@ small {
 
 .btn-primary,
 .btn-secondary {
+  min-height: 44px;
   border-radius: 12px;
   border: 1px solid var(--line);
   padding: 0.72rem 0.9rem;
@@ -286,11 +333,25 @@ small {
   color: #052317;
   background: linear-gradient(120deg, #71e5b8, #43c896);
   box-shadow: 0 8px 22px rgba(56, 196, 141, 0.3);
+  font-size: 0.99rem;
 }
 
 .btn-secondary {
-  color: var(--text);
-  background: #101a2f;
+  color: #c7d6ef;
+  background: #0d172a;
+  border-color: #2a3a57;
+}
+
+.btn-tertiary {
+  margin: 0.15rem 0 0.85rem;
+  width: 100%;
+  border-style: dashed;
+  color: #b7c8e7;
+  background: rgba(16, 26, 47, 0.55);
+}
+
+.btn-tertiary.is-hidden {
+  display: none;
 }
 
 .btn-primary:hover,
@@ -298,8 +359,12 @@ small {
   transform: translateY(-1px);
 }
 
+.btn-primary:hover {
+  box-shadow: 0 10px 24px rgba(56, 196, 141, 0.42);
+}
+
 .btn-secondary:disabled {
-  opacity: 0.45;
+  opacity: 0.36;
   cursor: not-allowed;
   transform: none;
 }
@@ -354,9 +419,13 @@ small {
 }
 
 .preview-stage {
-  min-height: 510px;
+  min-height: 420px;
   display: grid;
   place-items: center;
+}
+
+.preview-stage.is-empty {
+  min-height: 320px;
 }
 
 .preview-canvas-shell {
@@ -374,13 +443,17 @@ small {
 #qr-code-container {
   width: 100%;
   max-width: 460px;
-  min-height: 460px;
+  min-height: 360px;
   display: grid;
   place-items: center;
   border-radius: 15px;
   border: 1px solid var(--line);
   background: linear-gradient(180deg, #0b1221, #0a1020);
   margin-bottom: 0.9rem;
+}
+
+#qr-code-container.is-empty {
+  min-height: 250px;
 }
 
 #qr-code-container canvas,
@@ -406,17 +479,45 @@ small {
   gap: 0.58rem;
 }
 
+.form-hint {
+  margin-top: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.preview-status {
+  margin: 0.2rem 0 0.8rem;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.input-field.is-invalid {
+  border-color: rgba(255, 104, 104, 0.9);
+  box-shadow: 0 0 0 3px rgba(255, 104, 104, 0.16);
+}
+
+.field-error {
+  margin-top: 0.32rem;
+  color: #ff9f9f;
+  font-size: 0.76rem;
+}
+
+.btn-primary.is-loading {
+  opacity: 0.82;
+  cursor: progress;
+}
+
 .ad-container {
-  border: 1px dashed #324362;
+  border: 1px dashed #2a3750;
   border-radius: var(--radius-sm);
-  background: rgba(10, 16, 29, 0.7);
+  background: rgba(8, 13, 24, 0.54);
   padding: 0.82rem;
 }
 
 .ad-label {
   font-size: 0.73rem;
   text-transform: uppercase;
-  color: #87a7d7;
+  color: #6f85ac;
   letter-spacing: 0.08em;
   margin-bottom: 0.34rem;
 }
@@ -469,6 +570,11 @@ small {
 
 .ad-note {
   margin-top: 0.5rem;
+  opacity: 0.82;
+}
+
+.ad-side {
+  margin-top: 0.2rem;
 }
 
 footer {
@@ -584,11 +690,19 @@ footer a:hover {
 @media (max-width: 1100px) {
   .content-wrapper {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      'input'
+      'preview'
+      'design';
   }
 
   .preview-panel,
   .design-panel {
     position: static;
+  }
+
+  .design-panel {
+    grid-template-columns: 1fr;
   }
 
   #qr-code-container {
@@ -620,6 +734,13 @@ footer a:hover {
     padding: 0.92rem;
   }
 
+  .input-panel .section:first-child {
+    position: sticky;
+    top: 0.35rem;
+    z-index: 12;
+    backdrop-filter: blur(10px);
+  }
+
   .type-selector {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -644,7 +765,15 @@ footer a:hover {
     max-width: 100%;
   }
 
+  #qr-code-container.is-empty {
+    min-height: 220px;
+  }
+
   .preview-stage {
     min-height: 280px;
+  }
+
+  .preview-stage.is-empty {
+    min-height: 240px;
   }
 }
