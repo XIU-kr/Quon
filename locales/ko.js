@@ -41,6 +41,9 @@ window.ko = {
     'preset.market.filter.personal': '개인 브랜딩',
     'preset.market.sort.popular': '인기순',
     'preset.market.sort.newest': '최신순',
+    'preset.badge.best_for_print': '인쇄 최적화',
+    'preset.badge.high_scan': '고스캔 안정성',
+    'preset.badge.modern': '모던 스타일',
     'preset.market.cafe.title': '카페 주문',
     'preset.market.cafe.desc': '카운터/테이블 카드에 어울리는 따뜻한 대비.',
     'preset.market.retail.title': '리테일 프로모션',
@@ -186,6 +189,7 @@ window.ko = {
     'button.download.svg': 'SVG 다운로드',
     'button.share': '공유',
     'button.last_preset': '최근 프리셋',
+    'button.more': '더보기',
     'button.fill.example': '예시 자동 입력',
 
     // Accessibility labels
@@ -227,6 +231,9 @@ window.ko = {
     'history.time.day': '{n}일 전',
     'history.search.placeholder': '기록 검색',
     'history.filter.all': '전체 태그',
+    'history.sort.recent': '최신순',
+    'history.sort.favorite': '즐겨찾기 우선',
+    'history.sort.oldest': '오래된순',
 
     // Use cases
     'cases.title': '활용 사례',
@@ -240,6 +247,9 @@ window.ko = {
     // Scan quality
     'quality.title': '스캔 품질 점검',
     'quality.score.label': '품질 점수',
+    'quality.breakdown.contrast': '대비',
+    'quality.breakdown.logo': '로고 안정성',
+    'quality.breakdown.structure': '구조 안정성',
     'quality.recommendation.default': 'QR을 생성하면 맞춤 추천을 확인할 수 있습니다.',
     'quality.recommendation.good': '균형이 좋습니다. 바로 배포해도 안정적인 상태입니다.',
     'quality.recommendation.contrast': '먼저 대비를 높이면 스캔 속도가 개선됩니다.',

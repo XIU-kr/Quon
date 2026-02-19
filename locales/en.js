@@ -41,6 +41,9 @@ window.en = {
     'preset.market.filter.personal': 'Personal Brand',
     'preset.market.sort.popular': 'Most popular',
     'preset.market.sort.newest': 'Newest',
+    'preset.badge.best_for_print': 'Best for print',
+    'preset.badge.high_scan': 'High scan rate',
+    'preset.badge.modern': 'Modern look',
     'preset.market.cafe.title': 'Cafe ordering',
     'preset.market.cafe.desc': 'Warm contrast for counters and table cards.',
     'preset.market.retail.title': 'Retail promo',
@@ -186,6 +189,7 @@ window.en = {
     'button.download.svg': 'Download SVG',
     'button.share': 'Share',
     'button.last_preset': 'Last Preset',
+    'button.more': 'More',
     'button.fill.example': 'Fill Example',
 
     // Accessibility labels
@@ -227,6 +231,9 @@ window.en = {
     'history.time.day': '{n}d ago',
     'history.search.placeholder': 'Search history',
     'history.filter.all': 'All tags',
+    'history.sort.recent': 'Recent first',
+    'history.sort.favorite': 'Favorites first',
+    'history.sort.oldest': 'Oldest first',
 
     // Use cases
     'cases.title': 'Use cases',
@@ -240,6 +247,9 @@ window.en = {
     // Scan quality
     'quality.title': 'Scan quality check',
     'quality.score.label': 'Quality score',
+    'quality.breakdown.contrast': 'Contrast',
+    'quality.breakdown.logo': 'Logo safety',
+    'quality.breakdown.structure': 'Structure',
     'quality.recommendation.default': 'Generate a QR code to get recommendations.',
     'quality.recommendation.good': 'Great balance. You can publish this QR confidently.',
     'quality.recommendation.contrast': 'Increase contrast first for faster scanning.',
