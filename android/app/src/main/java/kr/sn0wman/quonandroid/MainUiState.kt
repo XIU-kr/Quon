@@ -9,6 +9,7 @@ data class MainUiState(
     val form: QrFormState = QrFormState(),
     val qrBitmap: Bitmap? = null,
     val logoBitmap: Bitmap? = null,
+    val adsRemoved: Boolean = false,
     val autoApplyScan: Boolean = true,
     val zoom: Float = 1f,
     val qrSize: Float = 900f,

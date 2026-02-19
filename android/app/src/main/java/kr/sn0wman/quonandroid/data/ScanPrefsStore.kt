@@ -16,6 +16,7 @@ private val Context.scanPrefsDataStore: DataStore<Preferences> by preferencesDat
 class ScanPrefsStore(private val context: Context) {
     private val keyAutoApply = booleanPreferencesKey("scan_auto_apply")
     private val keyLastType = stringPreferencesKey("scan_last_type")
+    private val keyAdsRemoved = booleanPreferencesKey("ads_removed")
 
     suspend fun readAutoApply(defaultValue: Boolean = true): Boolean {
         return context.scanPrefsDataStore.data.map { it[keyAutoApply] ?: defaultValue }.first()
@@ -35,6 +36,16 @@ class ScanPrefsStore(private val context: Context) {
     suspend fun writeLastType(type: QrType) {
         context.scanPrefsDataStore.edit { prefs ->
             prefs[keyLastType] = type.name
+        }
+    }
+
+    suspend fun readAdsRemoved(defaultValue: Boolean = false): Boolean {
+        return context.scanPrefsDataStore.data.map { it[keyAdsRemoved] ?: defaultValue }.first()
+    }
+
+    suspend fun writeAdsRemoved(value: Boolean) {
+        context.scanPrefsDataStore.edit { prefs ->
+            prefs[keyAdsRemoved] = value
         }
     }
 }

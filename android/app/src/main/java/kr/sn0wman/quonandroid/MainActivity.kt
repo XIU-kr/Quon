@@ -1,5 +1,6 @@
 package kr.sn0wman.quonandroid
 
+import android.app.Activity
 import android.os.Bundle
 import android.os.Build
 import android.os.VibrationEffect
@@ -27,6 +28,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -66,6 +68,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -95,7 +98,11 @@ import kr.sn0wman.quonandroid.core.ImageStore
 import kr.sn0wman.quonandroid.core.QrPalette
 import kr.sn0wman.quonandroid.core.QrType
 import kr.sn0wman.quonandroid.data.ScanPrefsStore
+import kr.sn0wman.quonandroid.monetization.BannerAd
+import kr.sn0wman.quonandroid.monetization.BillingManager
+import kr.sn0wman.quonandroid.monetization.MonetizationConfig
 import kr.sn0wman.quonandroid.scan.QrScannerOverlay
+import com.google.android.gms.ads.MobileAds
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,13 +117,25 @@ class MainActivity : ComponentActivity() {
 private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
     val ui by vm.uiState.collectAsState()
     val context = LocalContext.current
+    val activity = context as? Activity
     val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()
     val snackHost = remember { SnackbarHostState() }
     var previewPulse by remember { mutableStateOf(false) }
     var focusType by remember { mutableStateOf<QrType?>(null) }
     var scannerOpen by rememberSaveable { mutableStateOf(false) }
+    var billingErrorRes by remember { mutableStateOf<Int?>(null) }
     val prefsStore = remember(context) { ScanPrefsStore(context) }
+    val billingManager = remember(context) {
+        BillingManager(
+            context = context,
+            onAdFreeChanged = { removed ->
+                vm.setAdsRemoved(removed)
+                scope.launch { prefsStore.writeAdsRemoved(removed) }
+            },
+            onError = { resId -> billingErrorRes = resId }
+        )
+    }
 
     fun triggerScanFeedback(type: QrType) {
         previewPulse = true
@@ -138,6 +157,21 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
     LaunchedEffect(Unit) {
         vm.setAutoApplyScan(prefsStore.readAutoApply(defaultValue = true))
         prefsStore.readLastType()?.let(vm::setType)
+        vm.setAdsRemoved(prefsStore.readAdsRemoved(defaultValue = false))
+    }
+
+    LaunchedEffect(billingErrorRes) {
+        val resId = billingErrorRes ?: return@LaunchedEffect
+        snackHost.showSnackbar(context.getString(resId))
+        billingErrorRes = null
+    }
+
+    DisposableEffect(Unit) {
+        MobileAds.initialize(context)
+        billingManager.start()
+        onDispose {
+            billingManager.end()
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -178,6 +212,14 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Scaffold(
                 snackbarHost = { SnackbarHost(hostState = snackHost) },
+                bottomBar = {
+                    if (!ui.adsRemoved) {
+                        BannerAd(
+                            adUnitId = MonetizationConfig.BANNER_AD_UNIT_ID,
+                            modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface)
+                        )
+                    }
+                },
                 topBar = {
                     TopAppBar(
                         title = { Text(stringResource(R.string.app_name)) },
@@ -202,17 +244,52 @@ private fun QuonNativeApp(vm: MainViewModel = viewModel()) {
                             }, label = { Text(stringResource(R.string.action_scan_qr)) }, leadingIcon = {
                                 Icon(Icons.Default.QrCodeScanner, contentDescription = stringResource(R.string.cd_scan_qr))
                             })
+
+                            Spacer(modifier = Modifier.width(6.dp))
+
+                            if (ui.adsRemoved) {
+                                AssistChip(
+                                    onClick = {},
+                                    enabled = false,
+                                    label = { Text(stringResource(R.string.premium_active)) }
+                                )
+                            } else {
+                                TextButton(onClick = {
+                                    if (activity == null) {
+                                        billingErrorRes = R.string.billing_not_ready
+                                    } else {
+                                        billingManager.launchRemoveAdsPurchase(activity)
+                                    }
+                                }) {
+                                    Text(stringResource(R.string.action_remove_ads))
+                                }
+                            }
                         }
                     )
                 }
             ) { padding ->
                 BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(padding).padding(12.dp)) {
-                    val wide = maxWidth > 980.dp
-                    if (wide) {
+                    val ultraWide = maxWidth >= 1240.dp
+                    val tablet = maxWidth >= 860.dp
+
+                    if (ultraWide) {
                         Row(modifier = Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                            LeftPanel(modifier = Modifier.weight(0.9f), ui = ui, vm = vm, focusType = focusType)
-                            PreviewPanel(modifier = Modifier.weight(1.35f), ui = ui, vm = vm, pulse = previewPulse)
-                            RightPanel(modifier = Modifier.weight(0.85f), compact = false, ui = ui, palettes = vm.palettes, vm = vm, onPickLogo = {
+                            LeftPanel(modifier = Modifier.weight(0.88f).widthIn(max = 420.dp), ui = ui, vm = vm, focusType = focusType)
+                            PreviewPanel(modifier = Modifier.weight(1.5f).widthIn(min = 520.dp), ui = ui, vm = vm, pulse = previewPulse)
+                            RightPanel(modifier = Modifier.weight(0.82f).widthIn(max = 420.dp), compact = false, ui = ui, palettes = vm.palettes, vm = vm, onPickLogo = {
+                                logoPicker.launch("image/*")
+                            })
+                        }
+                    } else if (tablet) {
+                        Column(
+                            modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                LeftPanel(modifier = Modifier.weight(1f), ui = ui, vm = vm, focusType = focusType)
+                                PreviewPanel(modifier = Modifier.weight(1.2f), ui = ui, vm = vm, pulse = previewPulse)
+                            }
+                            RightPanel(modifier = Modifier.fillMaxWidth(), compact = true, ui = ui, palettes = vm.palettes, vm = vm, onPickLogo = {
                                 logoPicker.launch("image/*")
                             })
                         }

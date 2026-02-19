@@ -46,6 +46,7 @@ class MainViewModel : ViewModel() {
     )
 
     fun setType(type: QrType) = _uiState.update { it.copy(type = type) }
+    fun setAdsRemoved(value: Boolean) = _uiState.update { it.copy(adsRemoved = value) }
     fun setAutoApplyScan(value: Boolean) = _uiState.update { it.copy(autoApplyScan = value) }
     fun setZoom(value: Float) = _uiState.update { it.copy(zoom = value.coerceIn(0.7f, 1.8f)) }
     fun zoomIn() = setZoom(_uiState.value.zoom + 0.1f)

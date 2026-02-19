@@ -47,7 +47,9 @@
     <string name="action_expand">Expand</string>
     <string name="action_collapse">Collapse</string>
     <string name="action_scan_qr">Scan QR</string>
+    <string name="action_remove_ads">Remove Ads</string>
     <string name="scan_auto_apply">Auto Apply</string>
+    <string name="premium_active">Premium Active</string>
     <string name="open_saved">Open</string>
     <string name="scan_prompt">Align QR code inside the frame</string>
     <string name="scan_applied">Scanned QR data applied to form</string>
@@ -67,6 +69,8 @@
     <string name="preview_empty">Generate a QR code to preview</string>
     <string name="save_failed">Failed to save image</string>
     <string name="saved_with_path">Saved: %1$s</string>
+    <string name="billing_not_ready">Purchase is not ready yet. Try again in a moment.</string>
+    <string name="billing_purchase_failed">Purchase failed. Please try again.</string>
 
     <string name="error_generate_first">Generate QR first</string>
     <string name="error_url_required">Enter a URL</string>
