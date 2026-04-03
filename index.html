@@ -7,6 +7,9 @@
     <meta name="description" content="Create QR codes for URLs, text, contacts, email, phone, and Wi-Fi with modern customization.">
     <link rel="icon" type="image/webp" href="quon.webp">
     <link rel="preload" as="image" href="quon.webp" type="image/webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4697521862423903" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -38,13 +41,49 @@
             </div>
 
             <section class="hero" id="top">
+                <!-- Animated background orbs -->
+                <div class="hero-orb hero-orb--1" aria-hidden="true"></div>
+                <div class="hero-orb hero-orb--2" aria-hidden="true"></div>
+                <div class="hero-orb hero-orb--3" aria-hidden="true"></div>
+
                 <div class="hero-copy">
                     <p class="hero-kicker" data-i18n="hero.kicker">Professional QR workflow</p>
-                    <h1 data-i18n="hero.title">Create polished QR assets in seconds</h1>
+                    <h1 class="hero-title-gradient" data-i18n="hero.title">Create polished QR assets in seconds</h1>
                     <p class="subtitle" data-i18n="hero.subtitle">Generate secure QR codes for links, contacts, Wi-Fi, email, and more. Fine-tune style, preview instantly, and export production-ready files.</p>
                     <div class="hero-actions">
                         <a href="#workspace" class="btn-primary hero-btn" data-i18n="hero.cta.primary">Start Creating</a>
                         <button type="button" id="hero-example-btn" class="btn-secondary hero-btn" data-i18n="hero.cta.secondary">Try Sample</button>
+                    </div>
+                    <div class="hero-chips" aria-hidden="true">
+                        <span class="hero-chip">URL</span>
+                        <span class="hero-chip">vCard</span>
+                        <span class="hero-chip">Wi-Fi</span>
+                        <span class="hero-chip">Email</span>
+                        <span class="hero-chip">Phone</span>
+                        <span class="hero-chip">Text</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="hero-qr-mockup">
+                        <div class="hero-qr-grid" aria-hidden="true">
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="hero-qr-logo">Q</div>
+                    </div>
+                    <div class="hero-stat-card hero-stat-card--1">
+                        <span class="hero-stat-icon">&#9679;</span>
+                        <span class="hero-stat-label" data-i18n="hero.stat.scan">Scan Ready</span>
+                    </div>
+                    <div class="hero-stat-card hero-stat-card--2">
+                        <span class="hero-stat-icon">&#9830;</span>
+                        <span class="hero-stat-label" data-i18n="hero.stat.style">6 Presets</span>
                     </div>
                 </div>
             </section>
@@ -720,9 +759,13 @@
         </div>
 
         <footer>
+            <div class="footer-glow" aria-hidden="true"></div>
             <div class="footer-grid">
-                <div>
-                    <p class="footer-title" data-i18n="footer.product">Quon</p>
+                <div class="footer-brand">
+                    <div class="footer-brand-row">
+                        <img src="quon.webp" alt="" class="footer-logo" width="28" height="28">
+                        <p class="footer-title" data-i18n="footer.product">Quon</p>
+                    </div>
                     <p data-i18n="footer.product.desc">A focused QR generation workspace for creators and teams.</p>
                 </div>
                 <div>

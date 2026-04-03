@@ -61,6 +61,8 @@ window.en = {
     'hero.cta.primary.variant2': 'Build Your QR Now',
     'hero.cta.primary.variant3': 'Create First QR',
     'hero.cta.secondary': 'Try Sample',
+    'hero.stat.scan': 'Scan Ready',
+    'hero.stat.style': '6 Presets',
     'hero.card.title': 'Why creators choose Quon',
     'hero.card.item1': 'Live preview with instant style controls',
     'hero.card.item2': 'No account required for core generation',

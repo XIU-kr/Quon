@@ -61,6 +61,8 @@ window.ko = {
     'hero.cta.primary.variant2': 'QR 바로 만들기',
     'hero.cta.primary.variant3': '첫 QR 생성하기',
     'hero.cta.secondary': '샘플로 체험하기',
+    'hero.stat.scan': '스캔 준비 완료',
+    'hero.stat.style': '프리셋 6종',
     'hero.card.title': 'Quon을 선택하는 이유',
     'hero.card.item1': '실시간 미리보기와 즉시 반영되는 스타일 제어',
     'hero.card.item2': '핵심 기능은 로그인 없이 바로 사용',
