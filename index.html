@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quon — Free Custom QR Code Generator</title>
     <meta name="description" content="Create custom QR codes for URLs, vCards, Wi-Fi, email, phone, and text. Free, fast, privacy-first. Customize colors, shapes, and logos. No signup required.">
-    <meta name="keywords" content="QR code generator, free QR code, custom QR code, vCard QR, Wi-Fi QR, URL QR code, QR 코드 생성기, 무료 QR 코드, 맞춤형 QR 코드, Quon">
+    <meta name="keywords" content="qr코드 생성기, qr코드 만들기, 무료 qr코드, 와이파이 qr코드, 명함 qr코드, vcard qr, 링크 qr, 이메일 qr, 전화번호 qr, qr 코드 생성, 맞춤형 qr코드, qr 코드 만드는 법, QR code generator, free QR code, custom QR code, vCard QR, Wi-Fi QR, URL QR code, Quon">
     <meta name="author" content="XIU">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#1aad6c">
@@ -75,6 +75,109 @@
     }
     </script>
 
+    <!-- JSON-LD: FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Quon은 무료인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네, Quon은 완전히 무료입니다. 회원가입이나 결제 없이 무제한으로 QR 코드를 생성하고 다운로드할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "어떤 종류의 QR 코드를 만들 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "URL(링크), 일반 텍스트, 연락처(vCard), 이메일, 전화번호, 와이파이 접속 정보 등 6가지 타입을 지원합니다. 명함 QR, 와이파이 공유 QR, 링크 QR 등 다양한 용도로 활용할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "QR 코드에 로고를 넣을 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네, 중앙에 로고 이미지를 삽입할 수 있으며 크기 조절도 가능합니다. 스캔 안정성을 위해 오류 정정 레벨이 자동으로 관리됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "생성한 QR 코드는 어디에 저장되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "모든 QR 코드는 사용자의 브라우저에서만 생성되며 서버로 전송되지 않습니다. 최근 생성 이력은 로컬 저장소(localStorage)에만 저장되어 개인정보가 안전합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "어떤 파일 형식으로 다운로드할 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PNG(래스터) 또는 SVG(벡터) 형식으로 다운로드할 수 있습니다. 인쇄물에는 SVG가, 웹/앱에는 PNG가 적합합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "상업적 용도로 사용할 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네, 생성한 QR 코드는 개인 용도는 물론 명함, 마케팅 자료, 매장 안내, 제품 포장 등 상업적 용도로도 자유롭게 사용할 수 있습니다."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD: HowTo -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Quon으로 QR 코드 만드는 법",
+      "description": "Quon에서 무료로 맞춤형 QR 코드를 생성하는 단계별 가이드",
+      "totalTime": "PT1M",
+      "supply": [],
+      "tool": [
+        { "@type": "HowToTool", "name": "웹 브라우저" }
+      ],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "QR 코드 타입 선택",
+          "text": "URL, 텍스트, 연락처(vCard), 이메일, 전화번호, 와이파이 중 원하는 타입을 선택합니다.",
+          "url": "https://quon.xiu.kr/#workspace"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "내용 입력",
+          "text": "선택한 타입에 맞는 정보를 입력합니다. 예: 링크 주소, 와이파이 SSID와 비밀번호, 이름과 전화번호 등.",
+          "url": "https://quon.xiu.kr/#workspace"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "디자인 커스터마이징",
+          "text": "색상, 점 모양, 모서리 스타일을 조정하고 원하면 중앙에 로고를 삽입합니다. 6개의 내장 프리셋 중 선택하거나 직접 꾸밀 수 있습니다.",
+          "url": "https://quon.xiu.kr/#workspace"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "다운로드",
+          "text": "생성된 QR 코드를 PNG 또는 SVG 파일로 다운로드해 바로 사용합니다.",
+          "url": "https://quon.xiu.kr/#workspace"
+        }
+      ]
+    }
+    </script>
+
     <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
@@ -99,6 +202,13 @@
 </head>
 <body>
     <a class="skip-link" href="#workspace" data-i18n="a11y.skip">Skip to workspace</a>
+    <noscript>
+        <div style="max-width:640px;margin:3rem auto;padding:2rem;border:1px solid #1aad6c;border-radius:12px;background:#0e0e15;color:#e4e4ec;font-family:system-ui,-apple-system,sans-serif;line-height:1.6;">
+            <h1 style="color:#22c478;margin:0 0 1rem;font-size:1.5rem;">Quon — QR 코드 생성기</h1>
+            <p><strong>JavaScript가 필요합니다.</strong> Quon은 브라우저에서 QR 코드를 즉시 생성하기 위해 JavaScript를 사용합니다. 브라우저 설정에서 JavaScript를 활성화한 후 페이지를 새로고침해 주세요.</p>
+            <p style="color:#a8a8c0;font-size:0.9rem;"><strong>This site requires JavaScript.</strong> Quon generates QR codes directly in your browser. Please enable JavaScript and reload the page.</p>
+        </div>
+    </noscript>
     <div class="atmosphere" aria-hidden="true">
         <div class="atmosphere-grid"></div>
         <div class="atmosphere-glow atmosphere-glow--emerald"></div>
@@ -129,6 +239,13 @@
 
         <!-- Main App Body -->
         <main id="workspace" class="app-body">
+            <!-- SEO/accessibility: static page intro for crawlers & screen readers -->
+            <section class="sr-only" aria-label="About Quon">
+                <h1>Quon — 무료 맞춤형 QR 코드 생성기 · Free Custom QR Code Generator</h1>
+                <p lang="ko">Quon은 URL, 텍스트, 연락처(vCard), 이메일, 전화번호, 와이파이를 위한 무료 QR 코드 생성기입니다. 회원가입 없이 즉시 QR 코드를 만들고, 색상·모양·로고를 자유롭게 커스터마이징해 PNG 또는 SVG로 다운로드할 수 있습니다. 모든 데이터는 브라우저에서 처리되며 서버로 전송되지 않습니다. qr코드 생성기, qr코드 만들기, 무료 qr코드, 와이파이 qr코드, 명함 qr코드, vcard qr, 링크 qr, 이메일 qr, 전화번호 qr 등 다양한 용도를 지원합니다.</p>
+                <p lang="en">Quon is a free QR code generator for URLs, text, contacts (vCard), email, phone numbers, and Wi-Fi networks. Create QR codes instantly with no signup, customize colors, shapes, and logos, and export as PNG or SVG. All processing happens in your browser — nothing is sent to a server. Privacy-first, open, and works on any device.</p>
+            </section>
+
             <!-- Left: Content Tabs -->
             <div class="app-content">
                 <nav class="tab-bar" role="tablist" aria-label="Main navigation">
