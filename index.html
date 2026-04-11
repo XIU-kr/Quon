@@ -3,515 +3,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quon - Free QR Code Generator</title>
-    <meta name="description" content="Create QR codes for URLs, text, contacts, email, phone, and Wi-Fi with modern customization.">
+    <title>Quon — Free Custom QR Code Generator</title>
+    <meta name="description" content="Create custom QR codes for URLs, vCards, Wi-Fi, email, phone, and text. Free, fast, privacy-first. Customize colors, shapes, and logos. No signup required.">
+    <meta name="keywords" content="QR code generator, free QR code, custom QR code, vCard QR, Wi-Fi QR, URL QR code, QR 코드 생성기, 무료 QR 코드, 맞춤형 QR 코드, Quon">
+    <meta name="author" content="XIU">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#1aad6c">
+    <link rel="canonical" href="https://quon.xiu.kr/">
+    <link rel="alternate" hreflang="en" href="https://quon.xiu.kr/">
+    <link rel="alternate" hreflang="ko" href="https://quon.xiu.kr/">
+    <link rel="alternate" hreflang="x-default" href="https://quon.xiu.kr/">
+
+    <!-- Open Graph / Facebook / KakaoTalk -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Quon">
+    <meta property="og:url" content="https://quon.xiu.kr/">
+    <meta property="og:title" content="Quon — Free Custom QR Code Generator">
+    <meta property="og:description" content="Create custom QR codes for URLs, vCards, Wi-Fi, email, phone, and text. Free, fast, privacy-first. Customize colors, shapes, and logos.">
+    <meta property="og:image" content="https://quon.xiu.kr/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Quon — Free Custom QR Code Generator">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ko_KR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://quon.xiu.kr/">
+    <meta name="twitter:title" content="Quon — Free Custom QR Code Generator">
+    <meta name="twitter:description" content="Create custom QR codes for URLs, vCards, Wi-Fi, email, phone, and text. Free, fast, privacy-first.">
+    <meta name="twitter:image" content="https://quon.xiu.kr/og-image.png">
+    <meta name="twitter:image:alt" content="Quon — Free Custom QR Code Generator">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Quon",
+      "alternateName": "Quon QR Code Generator",
+      "url": "https://quon.xiu.kr/",
+      "description": "Free custom QR code generator for URLs, vCards, Wi-Fi, email, phone, and text. Customize colors, shapes, and logos with no signup required.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "inLanguage": ["en", "ko"],
+      "image": "https://quon.xiu.kr/og-image.png",
+      "screenshot": "https://quon.xiu.kr/og-image.png",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "URL QR codes",
+        "vCard contact QR codes",
+        "Wi-Fi QR codes",
+        "Email and phone QR codes",
+        "Customizable colors and shapes",
+        "Center logo embedding",
+        "PNG and SVG export",
+        "Multilingual (English, Korean)"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "XIU",
+        "url": "https://xiu.kr/"
+      }
+    }
+    </script>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
     <link rel="icon" type="image/webp" href="quon.webp">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="preload" as="image" href="quon.webp" type="image/webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4697521862423903" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MFME4NE56B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-MFME4NE56B');
+    </script>
+    <link rel="stylesheet" href="styles.css?v=xiu5">
 </head>
 <body>
     <a class="skip-link" href="#workspace" data-i18n="a11y.skip">Skip to workspace</a>
-
-    <!-- Ad-block Detection Script - Loads early to check for ad blockers -->
+    <div class="atmosphere" aria-hidden="true">
+        <div class="atmosphere-grid"></div>
+        <div class="atmosphere-glow atmosphere-glow--emerald"></div>
+        <div class="atmosphere-glow atmosphere-glow--teal"></div>
+        <div class="atmosphere-noise"></div>
+    </div>
     <script src="adblock-detector.js"></script>
-    
-    <div class="container">
-        <header class="site-header">
-            <div class="topbar">
-                <a class="brand" href="#top" aria-label="Quon Home">
-                    <img src="quon.webp" alt="Quon" class="title-logo" fetchpriority="high">
-                    <span data-i18n="header.title">Quon - Free QR Code Generator</span>
-                </a>
 
-                <nav class="site-nav" aria-label="Primary">
-                    <a href="#workspace" data-i18n="nav.workspace">Workspace</a>
-                    <a href="https://www.sn0wman.kr/privacy-policy/" target="_blank" rel="noopener noreferrer" data-i18n="nav.privacy">Privacy</a>
-                </nav>
-
+    <div class="app-shell">
+        <!-- App Bar -->
+        <header class="app-bar">
+            <a class="brand" href="#" aria-label="Quon Home">
+                <img src="quon.webp" alt="Quon" class="title-logo" fetchpriority="high">
+                <div class="brand-text">
+                    <span class="brand-name" data-i18n="footer.product">Quon</span>
+                    <span class="brand-tagline">Free QR Code Generator</span>
+                </div>
+            </a>
+            <div class="app-bar-end">
                 <div class="language-switcher-container">
-                    <label class="lang-label" for="language-switcher" data-i18n="lang.select">Language</label>
-                    <select id="language-switcher" class="language-switcher">
-                        <!-- Language options will be dynamically inserted here by i18n.js -->
+                    <select id="language-switcher" class="language-switcher" aria-label="Language">
+                        <!-- Dynamically inserted by i18n.js -->
                     </select>
                 </div>
+                <a href="https://xiu.kr/privacy.html" target="_blank" rel="noopener noreferrer" class="app-bar-link" data-i18n="nav.privacy">Privacy</a>
             </div>
-
-            <section class="hero" id="top">
-                <!-- Animated background orbs -->
-                <div class="hero-orb hero-orb--1" aria-hidden="true"></div>
-                <div class="hero-orb hero-orb--2" aria-hidden="true"></div>
-                <div class="hero-orb hero-orb--3" aria-hidden="true"></div>
-
-                <div class="hero-copy">
-                    <p class="hero-kicker" data-i18n="hero.kicker">Professional QR workflow</p>
-                    <h1 class="hero-title-gradient" data-i18n="hero.title">Create polished QR assets in seconds</h1>
-                    <p class="subtitle" data-i18n="hero.subtitle">Generate secure QR codes for links, contacts, Wi-Fi, email, and more. Fine-tune style, preview instantly, and export production-ready files.</p>
-                    <div class="hero-actions">
-                        <a href="#workspace" class="btn-primary hero-btn" data-i18n="hero.cta.primary">Start Creating</a>
-                        <button type="button" id="hero-example-btn" class="btn-secondary hero-btn" data-i18n="hero.cta.secondary">Try Sample</button>
-                    </div>
-                    <div class="hero-chips" aria-hidden="true">
-                        <span class="hero-chip">URL</span>
-                        <span class="hero-chip">vCard</span>
-                        <span class="hero-chip">Wi-Fi</span>
-                        <span class="hero-chip">Email</span>
-                        <span class="hero-chip">Phone</span>
-                        <span class="hero-chip">Text</span>
-                    </div>
-                </div>
-
-                <div class="hero-visual">
-                    <div class="hero-qr-mockup">
-                        <div class="hero-qr-grid" aria-hidden="true">
-                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                        </div>
-                        <div class="hero-qr-logo">Q</div>
-                    </div>
-                    <div class="hero-stat-card hero-stat-card--1">
-                        <span class="hero-stat-icon">&#9679;</span>
-                        <span class="hero-stat-label" data-i18n="hero.stat.scan">Scan Ready</span>
-                    </div>
-                    <div class="hero-stat-card hero-stat-card--2">
-                        <span class="hero-stat-icon">&#9830;</span>
-                        <span class="hero-stat-label" data-i18n="hero.stat.style">6 Presets</span>
-                    </div>
-                </div>
-            </section>
         </header>
 
-        <main id="workspace">
-            <section class="workspace-intro">
-                <div>
-                    <h2 data-i18n="workspace.title">Professional Workspace</h2>
-                    <p data-i18n="workspace.subtitle">Use the three-panel flow: enter content, verify preview, then fine-tune design for export.</p>
-                </div>
-                <aside class="cta-analytics" id="cta-analytics" aria-live="polite">
-                    <p class="cta-analytics-title" data-i18n="analytics.title">CTA performance (local)</p>
-                    <div class="cta-analytics-grid">
-                        <p><span data-i18n="analytics.impressions">Impressions</span> <strong id="analytics-impressions">0</strong></p>
-                        <p><span data-i18n="analytics.clicks">Clicks</span> <strong id="analytics-clicks">0</strong></p>
-                        <p><span data-i18n="analytics.conversions">Conversions</span> <strong id="analytics-conversions">0</strong></p>
-                        <p><span data-i18n="analytics.rate">Conversion rate</span> <strong id="analytics-rate">0%</strong></p>
-                    </div>
-                </aside>
-            </section>
-            <div class="content-wrapper">
-                <!-- Left Panel: QR Code Type Selection and Content -->
-                <div class="input-panel">
-                    <div class="section">
-                        <h2 data-i18n="section.type">Select Code Type</h2>
-                        <div class="type-selector">
-                            <button class="type-btn active" data-type="url">
-                                <span class="icon">🔗</span>
-                                <span data-i18n="type.url">URL</span>
-                            </button>
-                            <button class="type-btn" data-type="text">
-                                <span class="icon">📝</span>
-                                <span data-i18n="type.text">Text</span>
-                            </button>
-                            <button class="type-btn" data-type="vcard">
-                                <span class="icon">👤</span>
-                                <span data-i18n="type.vcard">Contact</span>
-                            </button>
-                            <button class="type-btn" data-type="email">
-                                <span class="icon">✉️</span>
-                                <span data-i18n="type.email">Email</span>
-                            </button>
-                            <button class="type-btn" data-type="tel">
-                                <span class="icon">📞</span>
-                                <span data-i18n="type.tel">Phone</span>
-                            </button>
-                            <button class="type-btn" data-type="wifi">
-                                <span class="icon">📶</span>
-                                <span data-i18n="type.wifi">Wi-Fi</span>
-                            </button>
-                        </div>
-                    </div>
+        <!-- Main App Body -->
+        <main id="workspace" class="app-body">
+            <!-- Left: Content Tabs -->
+            <div class="app-content">
+                <nav class="tab-bar" role="tablist" aria-label="Main navigation">
+                    <button class="tab-btn active" data-tab="create" role="tab" aria-selected="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        <span data-i18n="tab.create">Create</span>
+                    </button>
+                    <button class="tab-btn" data-tab="design" role="tab" aria-selected="false">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg>
+                        <span data-i18n="tab.design">Design</span>
+                    </button>
+                    <button class="tab-btn" data-tab="export" role="tab" aria-selected="false">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span data-i18n="tab.export">Export</span>
+                    </button>
+                    <button class="tab-btn" data-tab="history" role="tab" aria-selected="false">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span data-i18n="tab.history">History</span>
+                    </button>
+                </nav>
 
-                    <!-- Content Forms -->
-                    <div class="section">
-                        <h2 data-i18n="section.content">Enter Content</h2>
-                        
-                        <!-- URL Form -->
-                        <div class="form-container active" id="form-url">
-                            <div class="form-group">
-                                <label for="url-input" data-i18n="url.label">URL Address</label>
-                                <input type="url" id="url-input" data-i18n="url.placeholder" placeholder="https://example.com" class="input-field">
+                <div class="tab-panels">
+                    <!-- ===================== CREATE TAB ===================== -->
+                    <div class="tab-panel active" data-panel="create" role="tabpanel">
+                        <div class="panel-section">
+                            <h2 class="panel-title" data-i18n="section.type">Select Code Type</h2>
+                            <div class="type-selector">
+                                <button class="type-btn active" data-type="url">
+                                    <span class="icon">🔗</span>
+                                    <span data-i18n="type.url">URL</span>
+                                </button>
+                                <button class="type-btn" data-type="text">
+                                    <span class="icon">📝</span>
+                                    <span data-i18n="type.text">Text</span>
+                                </button>
+                                <button class="type-btn" data-type="vcard">
+                                    <span class="icon">👤</span>
+                                    <span data-i18n="type.vcard">Contact</span>
+                                </button>
+                                <button class="type-btn" data-type="email">
+                                    <span class="icon">✉️</span>
+                                    <span data-i18n="type.email">Email</span>
+                                </button>
+                                <button class="type-btn" data-type="tel">
+                                    <span class="icon">📞</span>
+                                    <span data-i18n="type.tel">Phone</span>
+                                </button>
+                                <button class="type-btn" data-type="wifi">
+                                    <span class="icon">📶</span>
+                                    <span data-i18n="type.wifi">Wi-Fi</span>
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Text Form -->
-                        <div class="form-container" id="form-text">
-                            <div class="form-group">
-                                <label for="text-input" data-i18n="text.label">Text Content</label>
-                                <textarea id="text-input" rows="4" data-i18n="text.placeholder" placeholder="Enter your text here..." class="input-field"></textarea>
-                            </div>
-                        </div>
+                        <div class="panel-section">
+                            <h2 class="panel-title" data-i18n="section.content">Enter Content</h2>
 
-                        <!-- V-Card Form -->
-                        <div class="form-container" id="form-vcard">
-                            <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
-                            <div class="form-group">
-                                <label for="vcard-fullname"><span data-i18n="vcard.fullname">Full Name</span> <span class="required" data-i18n="form.required">*</span></label>
-                                <input type="text" id="vcard-fullname" data-i18n="vcard.fullname.placeholder" placeholder="John Doe" class="input-field">
-                                <small data-i18n="vcard.fullname.help">Or enter last and first name separately below</small>
-                            </div>
-                            <div class="form-row">
+                            <!-- URL Form -->
+                            <div class="form-container active" id="form-url">
                                 <div class="form-group">
-                                    <label for="vcard-lastname" data-i18n="vcard.lastname">Last Name</label>
-                                    <input type="text" id="vcard-lastname" data-i18n="vcard.lastname.placeholder" placeholder="Doe" class="input-field">
-                                </div>
-                                <div class="form-group">
-                                    <label for="vcard-firstname" data-i18n="vcard.firstname">First Name</label>
-                                    <input type="text" id="vcard-firstname" data-i18n="vcard.firstname.placeholder" placeholder="John" class="input-field">
+                                    <label for="url-input" data-i18n="url.label">URL Address</label>
+                                    <input type="url" id="url-input" data-i18n="url.placeholder" placeholder="https://quon.xiu.kr" class="input-field">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="vcard-tel"><span data-i18n="vcard.tel">Phone Number</span> <span class="required" data-i18n="form.required">*</span></label>
-                                <input type="tel" id="vcard-tel" data-i18n="vcard.tel.placeholder" placeholder="1234567890" class="input-field" required>
+
+                            <!-- Text Form -->
+                            <div class="form-container" id="form-text">
+                                <div class="form-group">
+                                    <label for="text-input" data-i18n="text.label">Text Content</label>
+                                    <textarea id="text-input" rows="4" data-i18n="text.placeholder" placeholder="Enter your text here..." class="input-field"></textarea>
+                                </div>
                             </div>
-                            <details class="advanced-details">
-                                <summary>
-                                    <span data-i18n="vcard.country.use">Use country code</span>
-                                    <span class="optional" data-i18n="form.optional">(optional)</span>
-                                </summary>
-                                <div class="advanced-details-body">
+
+                            <!-- V-Card Form -->
+                            <div class="form-container" id="form-vcard">
+                                <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
+                                <div class="form-group">
+                                    <label for="vcard-fullname"><span data-i18n="vcard.fullname">Full Name</span> <span class="required">*</span></label>
+                                    <input type="text" id="vcard-fullname" data-i18n="vcard.fullname.placeholder" placeholder="John Doe" class="input-field">
+                                    <small data-i18n="vcard.fullname.help">Or enter last and first name separately below</small>
+                                </div>
+                                <div class="form-row">
                                     <div class="form-group">
-                                        <label class="checkbox-label">
-                                            <input type="checkbox" id="vcard-use-country-code">
-                                            <span data-i18n="vcard.country.use">Use country code</span>
-                                        </label>
+                                        <label for="vcard-lastname" data-i18n="vcard.lastname">Last Name</label>
+                                        <input type="text" id="vcard-lastname" data-i18n="vcard.lastname.placeholder" placeholder="Doe" class="input-field">
                                     </div>
-                                    <div class="form-group" id="vcard-country-group" style="display: none;">
-                                        <label for="vcard-tel-country" data-i18n="vcard.country.select">Select Country</label>
-                                        <select id="vcard-tel-country" class="input-field">
-                                    <option value="+82" data-i18n="country.kr">South Korea (+82)</option>
-                                    <option value="+1" data-i18n="country.us">USA/Canada (+1)</option>
-                                    <option value="+7">러시아/카자흐스탄 (+7)</option>
-                                    <option value="+20">이집트 (+20)</option>
-                                    <option value="+27">남아프리카 공화국 (+27)</option>
-                                    <option value="+30">그리스 (+30)</option>
-                                    <option value="+31">네덜란드 (+31)</option>
-                                    <option value="+32">벨기에 (+32)</option>
-                                    <option value="+33">프랑스 (+33)</option>
-                                    <option value="+34">스페인 (+34)</option>
-                                    <option value="+36">헝가리 (+36)</option>
-                                    <option value="+39">이탈리아 (+39)</option>
-                                    <option value="+40">루마니아 (+40)</option>
-                                    <option value="+41">스위스 (+41)</option>
-                                    <option value="+43">오스트리아 (+43)</option>
-                                    <option value="+44">영국 (+44)</option>
-                                    <option value="+45">덴마크 (+45)</option>
-                                    <option value="+46">스웨덴 (+46)</option>
-                                    <option value="+47">노르웨이 (+47)</option>
-                                    <option value="+48">폴란드 (+48)</option>
-                                    <option value="+49">독일 (+49)</option>
-                                    <option value="+51">페루 (+51)</option>
-                                    <option value="+52">멕시코 (+52)</option>
-                                    <option value="+53">쿠바 (+53)</option>
-                                    <option value="+54">아르헨티나 (+54)</option>
-                                    <option value="+55">브라질 (+55)</option>
-                                    <option value="+56">칠레 (+56)</option>
-                                    <option value="+57">콜롬비아 (+57)</option>
-                                    <option value="+58">베네수엘라 (+58)</option>
-                                    <option value="+60">말레이시아 (+60)</option>
-                                    <option value="+61">호주 (+61)</option>
-                                    <option value="+62">인도네시아 (+62)</option>
-                                    <option value="+63">필리핀 (+63)</option>
-                                    <option value="+64">뉴질랜드 (+64)</option>
-                                    <option value="+65">싱가포르 (+65)</option>
-                                    <option value="+66">태국 (+66)</option>
-                                    <option value="+81">일본 (+81)</option>
-                                    <option value="+84">베트남 (+84)</option>
-                                    <option value="+86">중국 (+86)</option>
-                                    <option value="+90">터키 (+90)</option>
-                                    <option value="+91">인도 (+91)</option>
-                                    <option value="+92">파키스탄 (+92)</option>
-                                    <option value="+93">아프가니스탄 (+93)</option>
-                                    <option value="+94">스리랑카 (+94)</option>
-                                    <option value="+95">미얀마 (+95)</option>
-                                    <option value="+98">이란 (+98)</option>
-                                    <option value="+212">모로코 (+212)</option>
-                                    <option value="+213">알제리 (+213)</option>
-                                    <option value="+216">튀니지 (+216)</option>
-                                    <option value="+218">리비아 (+218)</option>
-                                    <option value="+220">감비아 (+220)</option>
-                                    <option value="+221">세네갈 (+221)</option>
-                                    <option value="+222">모리타니 (+222)</option>
-                                    <option value="+223">말리 (+223)</option>
-                                    <option value="+224">기니 (+224)</option>
-                                    <option value="+225">코트디부아르 (+225)</option>
-                                    <option value="+226">부르키나파소 (+226)</option>
-                                    <option value="+227">니제르 (+227)</option>
-                                    <option value="+228">토고 (+228)</option>
-                                    <option value="+229">베냉 (+229)</option>
-                                    <option value="+230">모리셔스 (+230)</option>
-                                    <option value="+231">라이베리아 (+231)</option>
-                                    <option value="+232">시에라리온 (+232)</option>
-                                    <option value="+233">가나 (+233)</option>
-                                    <option value="+234">나이지리아 (+234)</option>
-                                    <option value="+235">차드 (+235)</option>
-                                    <option value="+236">중앙아프리카 공화국 (+236)</option>
-                                    <option value="+237">카메룬 (+237)</option>
-                                    <option value="+238">카보베르데 (+238)</option>
-                                    <option value="+239">상투메 프린시페 (+239)</option>
-                                    <option value="+240">적도 기니 (+240)</option>
-                                    <option value="+241">가봉 (+241)</option>
-                                    <option value="+242">콩고 (+242)</option>
-                                    <option value="+243">콩고 민주 공화국 (+243)</option>
-                                    <option value="+244">앙골라 (+244)</option>
-                                    <option value="+245">기니비사우 (+245)</option>
-                                    <option value="+246">디에고 가르시아 (+246)</option>
-                                    <option value="+248">세이셸 (+248)</option>
-                                    <option value="+249">수단 (+249)</option>
-                                    <option value="+250">르완다 (+250)</option>
-                                    <option value="+251">에티오피아 (+251)</option>
-                                    <option value="+252">소말리아 (+252)</option>
-                                    <option value="+253">지부티 (+253)</option>
-                                    <option value="+254">케냐 (+254)</option>
-                                    <option value="+255">탄자니아 (+255)</option>
-                                    <option value="+256">우간다 (+256)</option>
-                                    <option value="+257">부룬디 (+257)</option>
-                                    <option value="+258">모잠비크 (+258)</option>
-                                    <option value="+260">잠비아 (+260)</option>
-                                    <option value="+261">마다가스카르 (+261)</option>
-                                    <option value="+262">레위니옹 (+262)</option>
-                                    <option value="+263">짐바브웨 (+263)</option>
-                                    <option value="+264">나미비아 (+264)</option>
-                                    <option value="+265">말라위 (+265)</option>
-                                    <option value="+266">레소토 (+266)</option>
-                                    <option value="+267">보츠와나 (+267)</option>
-                                    <option value="+268">에스와티니 (+268)</option>
-                                    <option value="+269">코모로 (+269)</option>
-                                    <option value="+290">세인트헬레나 (+290)</option>
-                                    <option value="+291">에리트레아 (+291)</option>
-                                    <option value="+297">아루바 (+297)</option>
-                                    <option value="+298">페로 제도 (+298)</option>
-                                    <option value="+299">그린란드 (+299)</option>
-                                    <option value="+350">지브롤터 (+350)</option>
-                                    <option value="+351">포르투갈 (+351)</option>
-                                    <option value="+352">룩셈부르크 (+352)</option>
-                                    <option value="+353">아일랜드 (+353)</option>
-                                    <option value="+354">아이슬란드 (+354)</option>
-                                    <option value="+355">알바니아 (+355)</option>
-                                    <option value="+356">몰타 (+356)</option>
-                                    <option value="+357">키프로스 (+357)</option>
-                                    <option value="+358">핀란드 (+358)</option>
-                                    <option value="+359">불가리아 (+359)</option>
-                                    <option value="+370">리투아니아 (+370)</option>
-                                    <option value="+371">라트비아 (+371)</option>
-                                    <option value="+372">에스토니아 (+372)</option>
-                                    <option value="+373">몰도바 (+373)</option>
-                                    <option value="+374">아르메니아 (+374)</option>
-                                    <option value="+375">벨라루스 (+375)</option>
-                                    <option value="+376">안도라 (+376)</option>
-                                    <option value="+377">모나코 (+377)</option>
-                                    <option value="+378">산마리노 (+378)</option>
-                                    <option value="+380">우크라이나 (+380)</option>
-                                    <option value="+381">세르비아 (+381)</option>
-                                    <option value="+382">몬테네그로 (+382)</option>
-                                    <option value="+383">코소보 (+383)</option>
-                                    <option value="+385">크로아티아 (+385)</option>
-                                    <option value="+386">슬로베니아 (+386)</option>
-                                    <option value="+387">보스니아 헤르체고비나 (+387)</option>
-                                    <option value="+389">북마케도니아 (+389)</option>
-                                    <option value="+420">체코 (+420)</option>
-                                    <option value="+421">슬로바키아 (+421)</option>
-                                    <option value="+423">리히텐슈타인 (+423)</option>
-                                    <option value="+500">포클랜드 제도 (+500)</option>
-                                    <option value="+501">벨리즈 (+501)</option>
-                                    <option value="+502">과테말라 (+502)</option>
-                                    <option value="+503">엘살바도르 (+503)</option>
-                                    <option value="+504">온두라스 (+504)</option>
-                                    <option value="+505">니카라과 (+505)</option>
-                                    <option value="+506">코스타리카 (+506)</option>
-                                    <option value="+507">파나마 (+507)</option>
-                                    <option value="+509">아이티 (+509)</option>
-                                    <option value="+590">과들루프 (+590)</option>
-                                    <option value="+591">볼리비아 (+591)</option>
-                                    <option value="+592">가이아나 (+592)</option>
-                                    <option value="+593">에콰도르 (+593)</option>
-                                    <option value="+594">프랑스령 기아나 (+594)</option>
-                                    <option value="+595">파라과이 (+595)</option>
-                                    <option value="+596">마르티니크 (+596)</option>
-                                    <option value="+597">수리남 (+597)</option>
-                                    <option value="+598">우루과이 (+598)</option>
-                                    <option value="+599">네덜란드령 카리브 (+599)</option>
-                                    <option value="+670">동티모르 (+670)</option>
-                                    <option value="+672">남극 (+672)</option>
-                                    <option value="+673">브루나이 (+673)</option>
-                                    <option value="+674">나우루 (+674)</option>
-                                    <option value="+675">파푸아뉴기니 (+675)</option>
-                                    <option value="+676">통가 (+676)</option>
-                                    <option value="+677">솔로몬 제도 (+677)</option>
-                                    <option value="+678">바누아투 (+678)</option>
-                                    <option value="+679">피지 (+679)</option>
-                                    <option value="+680">팔라우 (+680)</option>
-                                    <option value="+681">왈리스 푸투나 (+681)</option>
-                                    <option value="+682">쿡 제도 (+682)</option>
-                                    <option value="+683">니우에 (+683)</option>
-                                    <option value="+685">사모아 (+685)</option>
-                                    <option value="+686">키리바시 (+686)</option>
-                                    <option value="+687">뉴칼레도니아 (+687)</option>
-                                    <option value="+688">투발루 (+688)</option>
-                                    <option value="+689">프랑스령 폴리네시아 (+689)</option>
-                                    <option value="+690">토켈라우 (+690)</option>
-                                    <option value="+691">미크로네시아 (+691)</option>
-                                    <option value="+692">마셜 제도 (+692)</option>
-                                    <option value="+850">북한 (+850)</option>
-                                    <option value="+852">홍콩 (+852)</option>
-                                    <option value="+853">마카오 (+853)</option>
-                                    <option value="+855">캄보디아 (+855)</option>
-                                    <option value="+856">라오스 (+856)</option>
-                                    <option value="+880">방글라데시 (+880)</option>
-                                    <option value="+886">대만 (+886)</option>
-                                    <option value="+960">몰디브 (+960)</option>
-                                    <option value="+961">레바논 (+961)</option>
-                                    <option value="+962">요르단 (+962)</option>
-                                    <option value="+963">시리아 (+963)</option>
-                                    <option value="+964">이라크 (+964)</option>
-                                    <option value="+965">쿠웨이트 (+965)</option>
-                                    <option value="+966">사우디아라비아 (+966)</option>
-                                    <option value="+967">예멘 (+967)</option>
-                                    <option value="+968">오만 (+968)</option>
-                                    <option value="+970">팔레스타인 (+970)</option>
-                                    <option value="+971">아랍에미리트 (+971)</option>
-                                    <option value="+972">이스라엘 (+972)</option>
-                                    <option value="+973">바레인 (+973)</option>
-                                    <option value="+974">카타르 (+974)</option>
-                                    <option value="+975">부탄 (+975)</option>
-                                    <option value="+976">몽골 (+976)</option>
-                                    <option value="+977">네팔 (+977)</option>
-                                    <option value="+992">타지키스탄 (+992)</option>
-                                    <option value="+993">투르크메니스탄 (+993)</option>
-                                    <option value="+994">아제르바이잔 (+994)</option>
-                                    <option value="+995">조지아 (+995)</option>
-                                    <option value="+996">키르기스스탄 (+996)</option>
-                                    <option value="+998">우즈베키스탄 (+998)</option>
+                                    <div class="form-group">
+                                        <label for="vcard-firstname" data-i18n="vcard.firstname">First Name</label>
+                                        <input type="text" id="vcard-firstname" data-i18n="vcard.firstname.placeholder" placeholder="John" class="input-field">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vcard-tel"><span data-i18n="vcard.tel">Phone Number</span> <span class="required">*</span></label>
+                                    <input type="tel" id="vcard-tel" data-i18n="vcard.tel.placeholder" placeholder="1234567890" class="input-field" required>
+                                </div>
+                                <details class="advanced-details">
+                                    <summary>
+                                        <span data-i18n="vcard.country.use">Use country code</span>
+                                        <span class="optional" data-i18n="form.optional">(optional)</span>
+                                    </summary>
+                                    <div class="advanced-details-body">
+                                        <div class="form-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="vcard-use-country-code">
+                                                <span data-i18n="vcard.country.use">Use country code</span>
+                                            </label>
+                                        </div>
+                                        <div class="form-group" id="vcard-country-group" style="display: none;">
+                                            <label for="vcard-tel-country" data-i18n="vcard.country.select">Select Country</label>
+                                            <select id="vcard-tel-country" class="input-field">
+                                                <option value="+82" data-i18n="country.kr">South Korea (+82)</option>
+                                                <option value="+1" data-i18n="country.us">USA/Canada (+1)</option>
+                                                <option value="+7">Russia/Kazakhstan (+7)</option>
+                                                <option value="+20">Egypt (+20)</option>
+                                                <option value="+27">South Africa (+27)</option>
+                                                <option value="+30">Greece (+30)</option>
+                                                <option value="+31">Netherlands (+31)</option>
+                                                <option value="+33">France (+33)</option>
+                                                <option value="+34">Spain (+34)</option>
+                                                <option value="+39">Italy (+39)</option>
+                                                <option value="+44">UK (+44)</option>
+                                                <option value="+49">Germany (+49)</option>
+                                                <option value="+55">Brazil (+55)</option>
+                                                <option value="+61">Australia (+61)</option>
+                                                <option value="+81">Japan (+81)</option>
+                                                <option value="+86">China (+86)</option>
+                                                <option value="+91">India (+91)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </details>
+                                <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
+                                <div class="form-group">
+                                    <label for="vcard-org"><span data-i18n="vcard.org">Company/Organization</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                    <input type="text" id="vcard-org" data-i18n="vcard.org.placeholder" placeholder="Company Name" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vcard-email"><span data-i18n="vcard.email">Email</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                    <input type="email" id="vcard-email" data-i18n="vcard.email.placeholder" placeholder="email@example.com" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vcard-url"><span data-i18n="vcard.url">Website</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                    <input type="url" id="vcard-url" data-i18n="vcard.url.placeholder" placeholder="https://quon.xiu.kr" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vcard-address"><span data-i18n="vcard.address">Address</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                    <textarea id="vcard-address" rows="2" data-i18n="vcard.address.placeholder" placeholder="Enter address" class="input-field"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Email Form -->
+                            <div class="form-container" id="form-email">
+                                <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
+                                <div class="form-group">
+                                    <label for="email-to"><span data-i18n="email.to">Recipient Email</span> <span class="required">*</span></label>
+                                    <input type="email" id="email-to" data-i18n="email.to.placeholder" placeholder="recipient@example.com" class="input-field" required>
+                                </div>
+                                <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
+                                <div class="form-group">
+                                    <label for="email-subject"><span data-i18n="email.subject">Subject</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                    <input type="text" id="email-subject" data-i18n="email.subject.placeholder" placeholder="Email subject" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email-body"><span data-i18n="email.body">Body</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                    <textarea id="email-body" rows="4" data-i18n="email.body.placeholder" placeholder="Email content..." class="input-field"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Tel Form -->
+                            <div class="form-container" id="form-tel">
+                                <div class="form-group">
+                                    <label for="tel-number"><span data-i18n="tel.number">Phone Number</span> <span class="required">*</span></label>
+                                    <input type="tel" id="tel-number" data-i18n="tel.number.placeholder" placeholder="1234567890" class="input-field" required>
+                                </div>
+                                <details class="advanced-details">
+                                    <summary>
+                                        <span data-i18n="vcard.country.use">Use country code</span>
+                                        <span class="optional" data-i18n="form.optional">(optional)</span>
+                                    </summary>
+                                    <div class="advanced-details-body">
+                                        <div class="form-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="tel-use-country-code">
+                                                <span data-i18n="vcard.country.use">Use country code</span>
+                                            </label>
+                                        </div>
+                                        <div class="form-group" id="tel-country-group" style="display: none;">
+                                            <label for="tel-country" data-i18n="vcard.country.select">Select Country</label>
+                                            <select id="tel-country" class="input-field"></select>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+
+                            <!-- Wi-Fi Form -->
+                            <div class="form-container" id="form-wifi">
+                                <div class="form-group">
+                                    <label for="wifi-ssid" data-i18n="wifi.ssid">Network Name (SSID)</label>
+                                    <input type="text" id="wifi-ssid" data-i18n="wifi.ssid.placeholder" placeholder="MyWiFi" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="wifi-password" data-i18n="wifi.password">Password</label>
+                                    <input type="text" id="wifi-password" data-i18n="wifi.password.placeholder" placeholder="password123" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="wifi-encryption" data-i18n="wifi.encryption">Security Type</label>
+                                    <select id="wifi-encryption" class="input-field">
+                                        <option value="WPA" data-i18n="wifi.encryption.wpa">WPA/WPA2</option>
+                                        <option value="WEP" data-i18n="wifi.encryption.wep">WEP</option>
+                                        <option value="nopass" data-i18n="wifi.encryption.none">None</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="wifi-hidden">
+                                        <span data-i18n="wifi.hidden">Hidden Network</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button id="generate-btn" class="btn-generate" data-i18n="button.generate" data-i18n-aria="a11y.generate">Generate QR Code</button>
+                            <p class="form-hint" data-i18n="hint.generate.shortcut">Tip: Press Ctrl+Enter to generate quickly.</p>
+                        </div>
+                    </div>
+
+                    <!-- ===================== DESIGN TAB ===================== -->
+                    <div class="tab-panel" data-panel="design" role="tabpanel">
+                        <div class="panel-section">
+                            <div class="panel-title-row">
+                                <h2 class="panel-title" data-i18n="section.design">Customize Design</h2>
+                                <button type="button" id="design-reset-btn" class="btn-sm" data-i18n="design.reset">Reset</button>
+                            </div>
+
+                        </div>
+
+                        <div class="panel-section">
+                            <details class="design-group" open data-group="shape">
+                                <summary data-i18n="design.group.shape">Shape</summary>
+                                <div class="design-group-body">
+                                    <div class="form-group">
+                                        <label for="dots-type" data-i18n="design.dots.type">Dot Style</label>
+                                        <select id="dots-type" class="input-field">
+                                            <option value="rounded" data-i18n="design.dots.rounded">Rounded Square</option>
+                                            <option value="dots" data-i18n="design.dots.dots">Dots</option>
+                                            <option value="classy" data-i18n="design.dots.classy">Classy</option>
+                                            <option value="classy-rounded" data-i18n="design.dots.classy-rounded">Classy Rounded</option>
+                                            <option value="square" data-i18n="design.dots.square">Square</option>
+                                            <option value="extra-rounded" data-i18n="design.dots.extra-rounded">Extra Rounded</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="corner-square-type" data-i18n="design.corner.square">Corner Square Style</label>
+                                        <select id="corner-square-type" class="input-field">
+                                            <option value="dot" data-i18n="design.corner.square.dot">Dot</option>
+                                            <option value="square" data-i18n="design.corner.square.square">Square</option>
+                                            <option value="extra-rounded" data-i18n="design.corner.square.extra-rounded">Extra Rounded</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="corner-dot-type" data-i18n="design.corner.dot">Corner Dot Style</label>
+                                        <select id="corner-dot-type" class="input-field">
+                                            <option value="dot" data-i18n="design.corner.dot.dot">Dot</option>
+                                            <option value="square" data-i18n="design.corner.dot.square">Square</option>
                                         </select>
                                     </div>
                                 </div>
                             </details>
-                            <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
-                            <div class="form-group">
-                                <label for="vcard-org"><span data-i18n="vcard.org">Company/Organization</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                <input type="text" id="vcard-org" data-i18n="vcard.org.placeholder" placeholder="Company Name" class="input-field">
-                            </div>
-                            <div class="form-group">
-                                <label for="vcard-email"><span data-i18n="vcard.email">Email</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                <input type="email" id="vcard-email" data-i18n="vcard.email.placeholder" placeholder="email@example.com" class="input-field">
-                            </div>
-                            <div class="form-group">
-                                <label for="vcard-url"><span data-i18n="vcard.url">Website</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                <input type="url" id="vcard-url" data-i18n="vcard.url.placeholder" placeholder="https://example.com" class="input-field">
-                            </div>
-                            <div class="form-group">
-                                <label for="vcard-address"><span data-i18n="vcard.address">Address</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                <textarea id="vcard-address" rows="2" data-i18n="vcard.address.placeholder" placeholder="Enter address" class="input-field"></textarea>
-                            </div>
-                        </div>
 
-                        <!-- Email Form -->
-                        <div class="form-container" id="form-email">
-                            <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
-                            <div class="form-group">
-                                <label for="email-to"><span data-i18n="email.to">Recipient Email</span> <span class="required" data-i18n="form.required">*</span></label>
-                                <input type="email" id="email-to" data-i18n="email.to.placeholder" placeholder="recipient@example.com" class="input-field" required>
-                            </div>
-                            <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
-                            <div class="form-group">
-                                <label for="email-subject"><span data-i18n="email.subject">Subject</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                <input type="text" id="email-subject" data-i18n="email.subject.placeholder" placeholder="Email subject" class="input-field">
-                            </div>
-                            <div class="form-group">
-                                <label for="email-body"><span data-i18n="email.body">Body</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                <textarea id="email-body" rows="4" data-i18n="email.body.placeholder" placeholder="Email content..." class="input-field"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Tel Form -->
-                        <div class="form-container" id="form-tel">
-                            <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
-                            <div class="form-group">
-                                <label for="tel-number"><span data-i18n="tel.number">Phone Number</span> <span class="required" data-i18n="form.required">*</span></label>
-                                <input type="tel" id="tel-number" data-i18n="tel.number.placeholder" placeholder="1234567890" class="input-field" required>
-                            </div>
-                            <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
-                            <details class="advanced-details">
-                                <summary>
-                                    <span data-i18n="vcard.country.use">Use country code</span>
-                                    <span class="optional" data-i18n="form.optional">(optional)</span>
-                                </summary>
-                                <div class="advanced-details-body">
-                                    <div class="form-group">
-                                        <label class="checkbox-label">
-                                            <input type="checkbox" id="tel-use-country-code">
-                                            <span data-i18n="vcard.country.use">Use country code</span>
-                                        </label>
+                            <details class="design-group" data-group="color">
+                                <summary data-i18n="design.group.color">Color</summary>
+                                <div class="design-group-body">
+                                    <div class="color-row">
+                                        <div class="form-group">
+                                            <label for="dots-color" data-i18n="design.color.dots">Code Color</label>
+                                            <input type="color" id="dots-color" value="#51A273" class="color-input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="background-color" data-i18n="design.color.background">Background Color</label>
+                                            <input type="color" id="background-color" value="#ffffff" class="color-input">
+                                        </div>
                                     </div>
-                                    <div class="form-group" id="tel-country-group" style="display: none;">
-                                        <label for="tel-country" data-i18n="vcard.country.select">Select Country</label>
-                                        <select id="tel-country" class="input-field"></select>
+                                </div>
+                            </details>
+
+                            <details class="design-group" data-group="logo">
+                                <summary data-i18n="design.group.logo">Logo</summary>
+                                <div class="design-group-body">
+                                    <div class="form-group">
+                                        <label for="logo-upload" data-i18n="design.logo">Logo Image (optional)</label>
+                                        <input type="file" id="logo-upload" accept="image/*" class="input-field">
+                                        <small data-i18n="design.logo.help">Upload a logo to place in the center of the code</small>
                                     </div>
                                 </div>
                             </details>
                         </div>
+                    </div>
 
-                        <!-- Wi-Fi Form -->
-                        <div class="form-container" id="form-wifi">
-                            <div class="form-group">
-                                <label for="wifi-ssid" data-i18n="wifi.ssid">Network Name (SSID)</label>
-                                <input type="text" id="wifi-ssid" data-i18n="wifi.ssid.placeholder" placeholder="MyWiFi" class="input-field">
-                            </div>
-                            <div class="form-group">
-                                <label for="wifi-password" data-i18n="wifi.password">Password</label>
-                                <input type="text" id="wifi-password" data-i18n="wifi.password.placeholder" placeholder="password123" class="input-field">
-                            </div>
-                            <div class="form-group">
-                                <label for="wifi-encryption" data-i18n="wifi.encryption">Security Type</label>
-                                <select id="wifi-encryption" class="input-field">
-                                    <option value="WPA" data-i18n="wifi.encryption.wpa">WPA/WPA2</option>
-                                    <option value="WEP" data-i18n="wifi.encryption.wep">WEP</option>
-                                    <option value="nopass" data-i18n="wifi.encryption.none">None</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="wifi-hidden">
-                                    <span data-i18n="wifi.hidden">Hidden Network</span>
-                                </label>
+                    <!-- ===================== EXPORT TAB ===================== -->
+                    <div class="tab-panel" data-panel="export" role="tabpanel">
+                        <div class="panel-section">
+                            <h2 class="panel-title" data-i18n="tab.export">Export</h2>
+                            <div class="export-actions">
+                                <button id="download-png" class="btn-export" disabled data-i18n="button.download.png" data-i18n-aria="a11y.download.png">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    Download PNG
+                                </button>
+                                <button id="download-svg" class="btn-export btn-export--outline" disabled data-i18n="button.download.svg" data-i18n-aria="a11y.download.svg">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    Download SVG
+                                </button>
                             </div>
                         </div>
 
-                        <button id="generate-btn" class="btn-primary" data-i18n="button.generate" data-i18n-aria="a11y.generate">Generate QR Code</button>
-                        <p class="form-hint" data-i18n="hint.generate.shortcut">Tip: Press Ctrl+Enter to generate quickly.</p>
+                    </div>
 
-                        <div class="history-panel" aria-live="polite">
-                            <div class="history-header">
-                                <h3 data-i18n="history.title">Recent generations</h3>
-                                <button type="button" id="clear-history-btn" class="history-clear-btn" data-i18n="history.clear">Clear</button>
+                    <!-- ===================== HISTORY TAB ===================== -->
+                    <div class="tab-panel" data-panel="history" role="tabpanel">
+                        <div class="panel-section">
+                            <div class="panel-title-row">
+                                <h2 class="panel-title" data-i18n="history.title">Recent generations</h2>
+                                <button type="button" id="clear-history-btn" class="btn-sm btn-sm--danger" data-i18n="history.clear">Clear</button>
                             </div>
                             <p class="history-hint" data-i18n="history.hint">Reuse your latest QR setups instantly.</p>
                             <div class="history-toolbar">
-                                <input id="history-search" class="history-search" type="search" data-i18n="history.search.placeholder" placeholder="Search history">
-                                <select id="history-filter" class="history-filter">
+                                <input id="history-search" class="input-field input-sm" type="search" data-i18n="history.search.placeholder" placeholder="Search history">
+                                <select id="history-filter" class="select-sm">
                                     <option value="all" data-i18n="history.filter.all">All tags</option>
                                     <option value="general" data-i18n="history.tag.general">General</option>
                                     <option value="business" data-i18n="history.tag.business">Business</option>
                                     <option value="event" data-i18n="history.tag.event">Event</option>
                                     <option value="wifi" data-i18n="history.tag.wifi">Wi-Fi</option>
                                 </select>
-                                <select id="history-sort" class="history-filter">
+                                <select id="history-sort" class="select-sm">
                                     <option value="recent" data-i18n="history.sort.recent">Recent first</option>
                                     <option value="favorite" data-i18n="history.sort.favorite">Favorites first</option>
                                     <option value="oldest" data-i18n="history.sort.oldest">Oldest first</option>
@@ -533,258 +482,36 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Center Panel: QR Code Preview -->
-                <div class="preview-panel">
-                    <div class="section preview-section">
-                        <div class="preview-header-row">
-                            <h2 data-i18n="section.preview">QR Preview</h2>
-                            <div class="preview-zoom-controls">
-                                <button type="button" id="preview-zoom-out" class="btn-secondary btn-zoom" data-i18n="preview.zoom.out" data-i18n-aria="a11y.zoom.out">-</button>
-                                <span id="preview-zoom-level">100%</span>
-                                <button type="button" id="preview-zoom-in" class="btn-secondary btn-zoom" data-i18n="preview.zoom.in" data-i18n-aria="a11y.zoom.in">+</button>
-                                <button type="button" id="preview-zoom-reset" class="btn-secondary btn-zoom" data-i18n="preview.zoom.reset" data-i18n-aria="a11y.zoom.reset">Reset</button>
-                            </div>
-                        </div>
-                        <div class="preview-stage">
-                            <div class="preview-canvas-shell">
-                                <div id="qr-code-container"></div>
-                            </div>
-                        </div>
-                        <p id="preview-status" class="preview-status" aria-live="polite" data-i18n="message.empty">Enter content and click "Generate QR Code"</p>
-                        <div class="quality-check" id="quality-check">
-                            <p class="quality-title" data-i18n="quality.title">Scan quality check</p>
-                            <div class="quality-score-row">
-                                <span data-i18n="quality.score.label">Quality score</span>
-                                <strong id="quality-score">--</strong>
-                            </div>
-                            <div class="quality-breakdown" id="quality-breakdown" aria-hidden="true">
-                                <div class="quality-break-item">
-                                    <span data-i18n="quality.breakdown.contrast">Contrast</span>
-                                    <div class="quality-break-track"><div id="quality-break-contrast" class="quality-break-fill"></div></div>
-                                </div>
-                                <div class="quality-break-item">
-                                    <span data-i18n="quality.breakdown.logo">Logo safety</span>
-                                    <div class="quality-break-track"><div id="quality-break-logo" class="quality-break-fill"></div></div>
-                                </div>
-                                <div class="quality-break-item">
-                                    <span data-i18n="quality.breakdown.structure">Structure</span>
-                                    <div class="quality-break-track"><div id="quality-break-structure" class="quality-break-fill"></div></div>
-                                </div>
-                            </div>
-                            <p id="quality-recommendation" class="quality-recommendation" data-i18n="quality.recommendation.default">Generate a QR code to get recommendations.</p>
-                            <ul id="quality-list" class="quality-list">
-                                <li data-i18n="quality.default">Generate a QR code to review scan quality guidance.</li>
-                            </ul>
-                            <div id="quality-actions" class="quality-actions"></div>
-                        </div>
-                        <button id="preview-fill-example" type="button" class="btn-secondary btn-tertiary" data-i18n="button.fill.example">Fill Example</button>
-                        <div class="preview-actions">
-                            <button id="download-png" class="btn-secondary" disabled data-i18n="button.download.png" data-i18n-aria="a11y.download.png">Download PNG</button>
-                            <button id="download-svg" class="btn-secondary" disabled data-i18n="button.download.svg" data-i18n-aria="a11y.download.svg">Download SVG</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Panel: Design -->
-                <div class="design-panel">
-                    <div class="section">
-                        <h2 data-i18n="section.design">Customize Design</h2>
-
-                        <div class="design-quick-actions">
-                            <button type="button" id="design-reset-btn" class="btn-secondary design-reset-btn" data-i18n="design.reset">Reset Design</button>
-                        </div>
-
-                        <div class="preset-row" role="group" data-i18n-aria="preset.group.aria">
-                            <button type="button" class="preset-btn" data-preset="business" data-i18n="preset.business">Business Card</button>
-                            <button type="button" class="preset-btn" data-preset="event" data-i18n="preset.event">Event Check-in</button>
-                            <button type="button" class="preset-btn" data-preset="wifi" data-i18n="preset.wifi">Wi-Fi Label</button>
-                            <button type="button" class="preset-btn" data-preset="cafe" data-i18n="preset.cafe">Cafe Menu</button>
-                            <button type="button" class="preset-btn" data-preset="retail" data-i18n="preset.retail">Retail Coupon</button>
-                            <button type="button" class="preset-btn" data-preset="portfolio" data-i18n="preset.portfolio">Portfolio Card</button>
-                        </div>
-
-                        <div class="preset-market">
-                            <h3 data-i18n="preset.market.title">Preset marketplace</h3>
-                            <p data-i18n="preset.market.subtitle">Apply industry-focused style kits with one click.</p>
-                            <div class="preset-market-toolbar">
-                                <select id="preset-market-filter" class="preset-market-select">
-                                    <option value="all" data-i18n="preset.market.filter.all">All industries</option>
-                                    <option value="food" data-i18n="preset.market.filter.food">Food & Cafe</option>
-                                    <option value="retail" data-i18n="preset.market.filter.retail">Retail</option>
-                                    <option value="personal" data-i18n="preset.market.filter.personal">Personal Brand</option>
-                                </select>
-                                <select id="preset-market-sort" class="preset-market-select">
-                                    <option value="popular" data-i18n="preset.market.sort.popular">Most popular</option>
-                                    <option value="newest" data-i18n="preset.market.sort.newest">Newest</option>
-                                </select>
-                            </div>
-                            <div class="preset-market-grid">
-                                <button type="button" class="preset-market-item" data-preset="cafe" data-category="food" data-popularity="92" data-order="3">
-                                    <span class="preset-market-thumb preset-thumb-cafe" aria-hidden="true"></span>
-                                    <em class="preset-badge" data-i18n="preset.badge.best_for_print">Best for print</em>
-                                    <strong data-i18n="preset.market.cafe.title">Cafe ordering</strong>
-                                    <span data-i18n="preset.market.cafe.desc">Warm contrast for counters and table cards.</span>
-                                </button>
-                                <button type="button" class="preset-market-item" data-preset="retail" data-category="retail" data-popularity="88" data-order="2">
-                                    <span class="preset-market-thumb preset-thumb-retail" aria-hidden="true"></span>
-                                    <em class="preset-badge" data-i18n="preset.badge.high_scan">High scan rate</em>
-                                    <strong data-i18n="preset.market.retail.title">Retail promo</strong>
-                                    <span data-i18n="preset.market.retail.desc">High-contrast coupon style for print flyers.</span>
-                                </button>
-                                <button type="button" class="preset-market-item" data-preset="portfolio" data-category="personal" data-popularity="81" data-order="1">
-                                    <span class="preset-market-thumb preset-thumb-portfolio" aria-hidden="true"></span>
-                                    <em class="preset-badge" data-i18n="preset.badge.modern">Modern look</em>
-                                    <strong data-i18n="preset.market.portfolio.title">Portfolio profile</strong>
-                                    <span data-i18n="preset.market.portfolio.desc">Clean modern look for resumes and badges.</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="custom-preset-grid" aria-live="polite">
-                            <article class="custom-preset-item">
-                                <h3 data-i18n="preset.custom.1">Custom Slot 1</h3>
-                                <div class="custom-preset-actions">
-                                    <button type="button" class="custom-preset-btn" data-action="save" data-slot="slot1" data-i18n="preset.save">Save</button>
-                                    <button type="button" class="custom-preset-btn" data-action="apply" data-slot="slot1" data-i18n="preset.apply">Apply</button>
-                                </div>
-                            </article>
-                            <article class="custom-preset-item">
-                                <h3 data-i18n="preset.custom.2">Custom Slot 2</h3>
-                                <div class="custom-preset-actions">
-                                    <button type="button" class="custom-preset-btn" data-action="save" data-slot="slot2" data-i18n="preset.save">Save</button>
-                                    <button type="button" class="custom-preset-btn" data-action="apply" data-slot="slot2" data-i18n="preset.apply">Apply</button>
-                                </div>
-                            </article>
-                            <article class="custom-preset-item">
-                                <h3 data-i18n="preset.custom.3">Custom Slot 3</h3>
-                                <div class="custom-preset-actions">
-                                    <button type="button" class="custom-preset-btn" data-action="save" data-slot="slot3" data-i18n="preset.save">Save</button>
-                                    <button type="button" class="custom-preset-btn" data-action="apply" data-slot="slot3" data-i18n="preset.apply">Apply</button>
-                                </div>
-                            </article>
-                        </div>
-
-                        <details class="design-group" data-group="shape">
-                            <summary data-i18n="design.group.shape">Shape</summary>
-                            <div class="design-group-body">
-                                <div class="form-group">
-                                    <label for="dots-type" data-i18n="design.dots.type">Dot Style</label>
-                                    <select id="dots-type" class="input-field">
-                                        <option value="rounded" data-i18n="design.dots.rounded">Rounded Square</option>
-                                        <option value="dots" data-i18n="design.dots.dots">Dots</option>
-                                        <option value="classy" data-i18n="design.dots.classy">Classy</option>
-                                        <option value="classy-rounded" data-i18n="design.dots.classy-rounded">Classy Rounded</option>
-                                        <option value="square" data-i18n="design.dots.square">Square</option>
-                                        <option value="extra-rounded" data-i18n="design.dots.extra-rounded">Extra Rounded</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="corner-square-type" data-i18n="design.corner.square">Corner Square Style</label>
-                                    <select id="corner-square-type" class="input-field">
-                                        <option value="dot" data-i18n="design.corner.square.dot">Dot</option>
-                                        <option value="square" data-i18n="design.corner.square.square">Square</option>
-                                        <option value="extra-rounded" data-i18n="design.corner.square.extra-rounded">Extra Rounded</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="corner-dot-type" data-i18n="design.corner.dot">Corner Dot Style</label>
-                                    <select id="corner-dot-type" class="input-field">
-                                        <option value="dot" data-i18n="design.corner.dot.dot">Dot</option>
-                                        <option value="square" data-i18n="design.corner.dot.square">Square</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </details>
-
-                        <details class="design-group" data-group="color">
-                            <summary data-i18n="design.group.color">Color</summary>
-                            <div class="design-group-body">
-                                <div class="color-row">
-                                    <div class="form-group">
-                                        <label for="dots-color" data-i18n="design.color.dots">Code Color</label>
-                                        <input type="color" id="dots-color" value="#51A273" class="color-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="background-color" data-i18n="design.color.background">Background Color</label>
-                                        <input type="color" id="background-color" value="#ffffff" class="color-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </details>
-
-                        <details class="design-group" data-group="logo">
-                            <summary data-i18n="design.group.logo">Logo</summary>
-                            <div class="design-group-body">
-                                <div class="form-group">
-                                    <label for="logo-upload" data-i18n="design.logo">Logo Image (optional)</label>
-                                    <input type="file" id="logo-upload" accept="image/*" class="input-field">
-                                    <small data-i18n="design.logo.help">Upload a logo to place in the center of the code</small>
-                                </div>
-                            </div>
-                        </details>
-                    </div>
-
-                    <div class="ad-container ad-side">
-                        <div class="ad-label" data-i18n="ad.header">Advertisement</div>
-                        <div class="ad-content ad-content-fixed">
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-4697521862423903"
-                                 data-ad-slot="1341071907"
-                                 data-ad-format="auto"
-                                 data-full-width-responsive="true"></ins>
-                        </div>
-                    </div>
-                </div>
             </div>
+
+            <!-- Right: Preview Sidebar -->
+            <aside class="app-preview">
+                <div class="preview-card">
+                    <div class="preview-stage">
+                        <div class="preview-canvas-shell">
+                            <div id="qr-code-container"></div>
+                        </div>
+                    </div>
+                    <p id="preview-status" class="preview-status" aria-live="polite" data-i18n="message.empty">Enter content and click "Generate"</p>
+                    <div class="preview-zoom-controls">
+                        <button type="button" id="preview-zoom-out" class="btn-icon" data-i18n-aria="a11y.zoom.out">-</button>
+                        <span id="preview-zoom-level">100%</span>
+                        <button type="button" id="preview-zoom-in" class="btn-icon" data-i18n-aria="a11y.zoom.in">+</button>
+                        <button type="button" id="preview-zoom-reset" class="btn-icon" data-i18n-aria="a11y.zoom.reset" aria-label="Reset zoom">↺</button>
+                    </div>
+                </div>
+            </aside>
         </main>
 
-        <!-- Bottom Advertisement Section -->
-        <div class="ad-container ad-bottom">
-            <div class="ad-label" data-i18n="ad.header">Advertisement</div>
-            <div class="ad-content ad-content-fixed">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-4697521862423903"
-                     data-ad-slot="1341071907"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-            </div>
-            <div class="ad-note">
-                <small data-i18n="ad.note">Ads help keep this service free. Future mobile app will offer ad-free experience with in-app purchase.</small>
-            </div>
+        <!-- Bottom Ad Banner -->
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4697521862423903" data-ad-slot="1341071907" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
         </div>
 
-        <footer>
-            <div class="footer-glow" aria-hidden="true"></div>
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-brand-row">
-                        <img src="quon.webp" alt="" class="footer-logo" width="28" height="28">
-                        <p class="footer-title" data-i18n="footer.product">Quon</p>
-                    </div>
-                    <p data-i18n="footer.product.desc">A focused QR generation workspace for creators and teams.</p>
-                </div>
-                <div>
-                    <p class="footer-title" data-i18n="footer.links">Links</p>
-                    <p class="footer-links">
-                        <a href="#workspace" data-i18n="nav.workspace">Workspace</a>
-                        <a href="https://www.sn0wman.kr/privacy-policy/" target="_blank" rel="noopener noreferrer" data-i18n="footer.privacy">Privacy Policy</a>
-                    </p>
-                </div>
-                <div>
-                    <p class="footer-title" data-i18n="footer.author.title">Author</p>
-                    <p><span data-i18n="footer.made">Made with ❤️ by</span> <a href="https://github.com/sn0wmankr" target="_blank" rel="noopener noreferrer">sn0wmankr</a></p>
-                </div>
-            </div>
-        </footer>
-
+        <!-- Mobile Action Bar -->
         <div class="mobile-action-bar" aria-label="Quick actions">
-            <button type="button" id="mobile-generate" class="mobile-action primary" data-i18n="button.generate">Generate QR Code</button>
-            <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">Download PNG</button>
+            <button type="button" id="mobile-generate" class="mobile-action primary" data-i18n="button.generate">Generate</button>
+            <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">PNG</button>
             <button type="button" id="mobile-share" class="mobile-action" data-i18n="button.share">Share</button>
             <button type="button" id="mobile-more-toggle" class="mobile-action" data-i18n="button.more" aria-expanded="false" aria-controls="mobile-more-panel">More</button>
             <div id="mobile-more-panel" class="mobile-more-panel" hidden>
@@ -793,6 +520,24 @@
             </div>
         </div>
     </div>
+
+    <!-- Tab Switching -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tabBtns = document.querySelectorAll('.tab-btn');
+        var tabPanels = document.querySelectorAll('.tab-panel');
+        tabBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                tabBtns.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+                tabPanels.forEach(function(p) { p.classList.remove('active'); });
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+                var panel = document.querySelector('[data-panel="' + btn.dataset.tab + '"]');
+                if (panel) panel.classList.add('active');
+            });
+        });
+    });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <script src="i18n.js"></script>

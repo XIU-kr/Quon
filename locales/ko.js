@@ -52,14 +52,14 @@ window.ko = {
     'preset.market.portfolio.desc': '이력서/배지에 어울리는 깔끔한 모던 스타일.',
     'nav.workspace': '작업공간',
     'nav.faq': '자주 묻는 질문',
-    'nav.privacy': '개인정보',
+    'nav.privacy': '개인정보처리방침',
+    'tab.create': '만들기',
+    'tab.design': '디자인',
+    'tab.export': '내보내기',
+    'tab.history': '기록',
     'hero.kicker': '전문적인 QR 제작 워크플로우',
     'hero.title': '몇 초 만에 완성도 높은 QR을 만드세요',
     'hero.subtitle': '링크, 연락처, 와이파이, 이메일 등 다양한 QR을 빠르게 생성하고 실시간 미리보기로 완성도를 높인 뒤 바로 내보내세요.',
-    'hero.cta.primary': '지금 시작하기',
-    'hero.cta.primary.variant1': '지금 시작하기',
-    'hero.cta.primary.variant2': 'QR 바로 만들기',
-    'hero.cta.primary.variant3': '첫 QR 생성하기',
     'hero.cta.secondary': '샘플로 체험하기',
     'hero.stat.scan': '스캔 준비 완료',
     'hero.stat.style': '프리셋 6종',
@@ -194,7 +194,6 @@ window.ko = {
     'button.share': '공유',
     'button.last_preset': '최근 프리셋',
     'button.more': '더보기',
-    'button.fill.example': '예시 자동 입력',
 
     // Accessibility labels
     'a11y.skip': '작업공간으로 건너뛰기',
@@ -251,26 +250,6 @@ window.ko = {
     'cases.c3.title': '포트폴리오 공유',
     'cases.c3.body': '이력서, 부스, 인쇄물에 완성도 높은 QR 카드를 연결하세요.',
 
-    // Scan quality
-    'quality.title': '스캔 품질 점검',
-    'quality.score.label': '품질 점수',
-    'quality.breakdown.contrast': '대비',
-    'quality.breakdown.logo': '로고 안정성',
-    'quality.breakdown.structure': '구조 안정성',
-    'quality.recommendation.default': 'QR을 생성하면 맞춤 추천을 확인할 수 있습니다.',
-    'quality.recommendation.good': '균형이 좋습니다. 바로 배포해도 안정적인 상태입니다.',
-    'quality.recommendation.contrast': '먼저 대비를 높이면 스캔 속도가 개선됩니다.',
-    'quality.recommendation.logo': '로고 영향도를 낮추면 스캔 안정성이 올라갑니다.',
-    'quality.recommendation.multi': '대비와 로고 크기를 함께 조정하면 가장 좋습니다.',
-    'quality.default': 'QR을 생성하면 스캔 품질 가이드를 확인할 수 있습니다.',
-    'quality.warn.contrast': '대비가 낮습니다. 코드/배경 대비를 더 높여주세요.',
-    'quality.warn.logo': '로고가 감지되었습니다. 중앙 로고를 작게 유지하세요.',
-    'quality.ok': '현재 설정은 스캔 안정성이 좋은 편입니다.',
-    'quality.fix.contrast': '고대비 색상 자동 적용',
-    'quality.fix.logo': '로고 영향도 줄이기',
-    'quality.fix.applied.contrast': '스캔 친화 색상으로 적용했습니다',
-    'quality.fix.applied.logo': '스캔 안정성을 위해 로고 영향도를 낮췄습니다',
-
     // Share
     'share.title': 'Quon QR 공유',
     'share.text': 'Quon QR 생성기에서 공유되었습니다',
@@ -291,7 +270,6 @@ window.ko = {
     'message.error.fixFields': '필수 입력 항목을 확인해주세요',
     'message.error.wifi': '와이파이 네트워크 이름을 입력해주세요',
     'message.success.generated': 'QR 코드가 생성되었습니다',
-    'message.success.prefilled': '예시 내용이 자동으로 채워졌습니다',
     
     // Footer
     'footer.made': '❤️로 만든 사람',

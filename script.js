@@ -11,20 +11,14 @@ const PREVIEW_ZOOM_STEP = 0.1;
 const DESIGN_PANEL_STATE_KEY = 'quon_design_panel_state';
 const RECENT_SETTINGS_KEY = 'quon_recent_settings';
 const DRAFT_INPUTS_KEY = 'quon_draft_inputs';
-const CTA_VARIANT_KEY = 'quon_cta_variant';
-const CTA_METRICS_KEY = 'quon_cta_metrics';
 const GENERATION_HISTORY_KEY = 'quon_generation_history';
 const HISTORY_PINS_KEY = 'quon_history_pins';
 const CUSTOM_PRESETS_KEY = 'quon_custom_presets';
-const METRICS_ENDPOINT_KEY = 'quon_metrics_endpoint';
 const HISTORY_VIEW_KEY = 'quon_history_view';
 const LAST_PRESET_KEY = 'quon_last_preset';
 const MAX_HISTORY_ITEMS = 5;
 const QR_TYPES = ['url', 'text', 'vcard', 'email', 'tel', 'wifi'];
 let isGenerating = false;
-let ctaVariant = 0;
-let ctaMetrics = { impressions: [0, 0, 0], clicks: [0, 0, 0], conversions: [0, 0, 0] };
-let ctaPendingConversion = false;
 let generationHistory = [];
 let historyPins = [null, null];
 let customPresets = { slot1: null, slot2: null, slot3: null };
@@ -227,8 +221,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     normalizeCountryOptionLabels(getCurrentLanguage());
     restoreRecentSettings();
     restoreDraftInputs();
-    restoreCtaMetrics();
-    initializeCtaVariant();
     restoreGenerationHistory();
     restoreHistoryPins();
     restoreCustomPresets();
@@ -237,10 +229,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     markPresetSelection();
     renderGenerationHistory();
     renderHistoryPins();
-    renderPresetMarket();
     refreshCustomPresetButtons();
     updateMobileLastPresetButton();
-    renderCtaAnalytics();
     createInitialQRCode();
     // Disable download buttons initially
     document.getElementById('download-png').disabled = true;
@@ -250,111 +240,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (mobilePng) mobilePng.disabled = true;
     if (mobileSvg) mobileSvg.disabled = true;
 });
-
-function initializeCtaVariant() {
-    const candidates = [0, 1, 2];
-    const saved = Number(localStorage.getItem(CTA_VARIANT_KEY));
-    if (Number.isInteger(saved) && candidates.includes(saved)) {
-        ctaVariant = saved;
-    } else {
-        ctaVariant = Math.floor(Math.random() * candidates.length);
-        localStorage.setItem(CTA_VARIANT_KEY, String(ctaVariant));
-    }
-
-    applyCtaVariant();
-    trackCtaMetric('impressions');
-}
-
-function applyCtaVariant() {
-    const cta = document.querySelector('.hero-actions .btn-primary');
-    if (!cta) {
-        return;
-    }
-
-    const keyMap = ['hero.cta.primary.variant1', 'hero.cta.primary.variant2', 'hero.cta.primary.variant3'];
-    const key = keyMap[ctaVariant] || keyMap[0];
-    cta.textContent = t(key);
-}
-
-function restoreCtaMetrics() {
-    try {
-        const raw = localStorage.getItem(CTA_METRICS_KEY);
-        if (!raw) {
-            return;
-        }
-
-        const parsed = JSON.parse(raw);
-        const hasShape = parsed
-            && Array.isArray(parsed.impressions)
-            && Array.isArray(parsed.clicks)
-            && Array.isArray(parsed.conversions)
-            && parsed.impressions.length === 3
-            && parsed.clicks.length === 3
-            && parsed.conversions.length === 3;
-
-        if (hasShape) {
-            ctaMetrics = parsed;
-        }
-    } catch (error) {
-        ctaMetrics = { impressions: [0, 0, 0], clicks: [0, 0, 0], conversions: [0, 0, 0] };
-    }
-}
-
-function persistCtaMetrics() {
-    try {
-        localStorage.setItem(CTA_METRICS_KEY, JSON.stringify(ctaMetrics));
-    } catch (error) {
-        // Ignore storage write errors
-    }
-}
-
-function emitMetricEvent(kind, value) {
-    try {
-        if (typeof window.gtag === 'function') {
-            window.gtag('event', `cta_${kind}`, {
-                event_category: 'engagement',
-                event_label: `variant_${ctaVariant + 1}`,
-                value
-            });
-        }
-
-        const endpoint = localStorage.getItem(METRICS_ENDPOINT_KEY);
-        if (endpoint && navigator.sendBeacon) {
-            const payload = JSON.stringify({ kind, value, variant: ctaVariant + 1, timestamp: Date.now() });
-            navigator.sendBeacon(endpoint, payload);
-        }
-    } catch (error) {
-        // Ignore analytics transport errors
-    }
-}
-
-function trackCtaMetric(kind) {
-    if (!ctaMetrics[kind] || typeof ctaMetrics[kind][ctaVariant] !== 'number') {
-        return;
-    }
-
-    ctaMetrics[kind][ctaVariant] += 1;
-    persistCtaMetrics();
-    emitMetricEvent(kind, ctaMetrics[kind][ctaVariant]);
-    renderCtaAnalytics();
-}
-
-function renderCtaAnalytics() {
-    const impressions = ctaMetrics.impressions[ctaVariant] || 0;
-    const clicks = ctaMetrics.clicks[ctaVariant] || 0;
-    const conversions = ctaMetrics.conversions[ctaVariant] || 0;
-    const rate = impressions > 0 ? Math.round((conversions / impressions) * 1000) / 10 : 0;
-
-    const impressionsEl = document.getElementById('analytics-impressions');
-    const clicksEl = document.getElementById('analytics-clicks');
-    const conversionsEl = document.getElementById('analytics-conversions');
-    const rateEl = document.getElementById('analytics-rate');
-
-    if (impressionsEl) impressionsEl.textContent = String(impressions);
-    if (clicksEl) clicksEl.textContent = String(clicks);
-    if (conversionsEl) conversionsEl.textContent = String(conversions);
-    if (rateEl) rateEl.textContent = `${rate}%`;
-}
 
 function applyDesignPreset(presetKey) {
     const preset = DESIGN_PRESETS[presetKey];
@@ -486,32 +371,6 @@ function restoreHistoryView() {
     if (sortEl) {
         sortEl.value = historySort;
     }
-}
-
-function renderPresetMarket() {
-    const container = document.querySelector('.preset-market-grid');
-    const filterEl = document.getElementById('preset-market-filter');
-    const sortEl = document.getElementById('preset-market-sort');
-    if (!container) {
-        return;
-    }
-
-    const filter = filterEl?.value || 'all';
-    const sort = sortEl?.value || 'popular';
-    const items = Array.from(container.querySelectorAll('.preset-market-item'));
-
-    items
-        .sort((a, b) => {
-            if (sort === 'newest') {
-                return Number(b.dataset.order || 0) - Number(a.dataset.order || 0);
-            }
-            return Number(b.dataset.popularity || 0) - Number(a.dataset.popularity || 0);
-        })
-        .forEach((item) => {
-            const match = filter === 'all' || item.dataset.category === filter;
-            item.hidden = !match;
-            container.appendChild(item);
-        });
 }
 
 function applyLastPreset() {
@@ -682,144 +541,12 @@ function renderHistoryPins() {
     });
 }
 
-function evaluateScanQuality() {
-    const list = document.getElementById('quality-list');
-    const actions = document.getElementById('quality-actions');
-    const scoreEl = document.getElementById('quality-score');
-    const recommendationEl = document.getElementById('quality-recommendation');
-    const contrastBar = document.getElementById('quality-break-contrast');
-    const logoBar = document.getElementById('quality-break-logo');
-    const structureBar = document.getElementById('quality-break-structure');
-    if (!list) {
-        return;
-    }
-
-    if (!lastGeneratedContent) {
-        list.innerHTML = '';
-        const li = document.createElement('li');
-        li.textContent = t('quality.default');
-        list.appendChild(li);
-        if (actions) actions.innerHTML = '';
-        if (scoreEl) scoreEl.textContent = '--';
-        if (recommendationEl) recommendationEl.textContent = t('quality.recommendation.default');
-        if (contrastBar) contrastBar.style.width = '0%';
-        if (logoBar) logoBar.style.width = '0%';
-        if (structureBar) structureBar.style.width = '0%';
-        return;
-    }
-
-    const dotsColor = document.getElementById('dots-color')?.value || '#000000';
-    const backgroundColor = document.getElementById('background-color')?.value || '#ffffff';
-    const luminance = (hex) => {
-        const value = hex.replace('#', '');
-        const chunk = value.length === 3
-            ? value.split('').map((c) => c + c).join('')
-            : value;
-        const [r, g, b] = [chunk.slice(0, 2), chunk.slice(2, 4), chunk.slice(4, 6)].map((v) => parseInt(v, 16) / 255);
-        const convert = (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
-        return 0.2126 * convert(r) + 0.7152 * convert(g) + 0.0722 * convert(b);
-    };
-
-    const l1 = luminance(dotsColor);
-    const l2 = luminance(backgroundColor);
-    const contrast = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-
-    const warnings = [];
-    const actionButtons = [];
-    let score = 100;
-    let contrastScore = 100;
-    let logoScore = logoImage ? (logoScale > 0.25 ? 58 : 82) : 100;
-    const structureScore = 88;
-    let recommendationKey = 'quality.recommendation.good';
-
-    if (contrast < 4.5) {
-        warnings.push({ key: 'quality.warn.contrast', warning: true });
-        actionButtons.push({ action: 'contrast', labelKey: 'quality.fix.contrast' });
-        score -= 38;
-        contrastScore = Math.round((contrast / 4.5) * 100);
-        recommendationKey = 'quality.recommendation.contrast';
-    }
-    if (logoImage) {
-        warnings.push({ key: 'quality.warn.logo', warning: true });
-        score -= logoScale > 0.25 ? 24 : 12;
-        if (logoScale > 0.25) {
-            actionButtons.push({ action: 'logo', labelKey: 'quality.fix.logo' });
-            recommendationKey = recommendationKey === 'quality.recommendation.contrast'
-                ? 'quality.recommendation.multi'
-                : 'quality.recommendation.logo';
-        }
-    }
-    if (warnings.length === 0) {
-        warnings.push({ key: 'quality.ok', warning: false });
-    }
-
-    score = Math.max(25, Math.min(100, Math.round(score)));
-    contrastScore = Math.max(25, Math.min(100, contrastScore));
-    logoScore = Math.max(32, Math.min(100, logoScore));
-
-    list.innerHTML = '';
-    warnings.forEach((entry) => {
-        const li = document.createElement('li');
-        li.className = entry.warning ? 'quality-item-warning' : 'quality-item-ok';
-        li.textContent = t(entry.key);
-        list.appendChild(li);
-    });
-
-    if (scoreEl) {
-        scoreEl.textContent = `${score}/100`;
-    }
-
-    if (recommendationEl) {
-        recommendationEl.textContent = t(recommendationKey);
-    }
-
-    if (contrastBar) contrastBar.style.width = `${contrastScore}%`;
-    if (logoBar) logoBar.style.width = `${logoScore}%`;
-    if (structureBar) structureBar.style.width = `${structureScore}%`;
-
-    if (actions) {
-        actions.innerHTML = '';
-        actionButtons.forEach((entry) => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'quality-fix-btn';
-            button.dataset.action = entry.action;
-            button.textContent = t(entry.labelKey);
-            actions.appendChild(button);
-        });
-    }
-}
-
-function applyQualityFix(action) {
-    if (action === 'contrast') {
-        const dots = document.getElementById('dots-color');
-        const background = document.getElementById('background-color');
-        if (dots) dots.value = '#10243f';
-        if (background) background.value = '#ffffff';
-        markPresetSelection();
-        saveRecentSettings();
-        generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
-        showNotification(t('quality.fix.applied.contrast'), 'success');
-        return;
-    }
-
-    if (action === 'logo' && logoImage) {
-        logoScale = 0.24;
-        generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
-        showNotification(t('quality.fix.applied.logo'), 'success');
-    }
-}
-
 // Initialize all event listeners
 function initializeEventListeners() {
     document.addEventListener('languageChanged', (event) => {
         normalizeCountryOptionLabels(event.detail.language);
-        applyCtaVariant();
         renderGenerationHistory();
         renderHistoryPins();
-        renderPresetMarket();
-        renderCtaAnalytics();
-        evaluateScanQuality();
     });
 
     // Type selector buttons
@@ -878,49 +605,12 @@ function initializeEventListeners() {
         });
     }
 
-    const fillExampleButton = document.getElementById('preview-fill-example');
-    if (fillExampleButton) {
-        fillExampleButton.addEventListener('click', fillExampleContent);
-    }
-
-    const heroExampleButton = document.getElementById('hero-example-btn');
-    if (heroExampleButton) {
-        heroExampleButton.addEventListener('click', () => {
-            fillExampleContent();
-            document.getElementById('workspace')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-    }
-
-    const primaryHeroCta = document.querySelector('.hero-actions .btn-primary');
-    if (primaryHeroCta) {
-        primaryHeroCta.addEventListener('click', () => {
-            trackCtaMetric('clicks');
-            ctaPendingConversion = true;
-        });
-    }
-
     const presetButtons = document.querySelectorAll('.preset-btn');
     presetButtons.forEach((button) => {
         button.addEventListener('click', () => {
             applyDesignPreset(button.dataset.preset);
         });
     });
-
-    const marketPresetButtons = document.querySelectorAll('.preset-market-item');
-    marketPresetButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            applyDesignPreset(button.dataset.preset);
-        });
-    });
-
-    const marketFilter = document.getElementById('preset-market-filter');
-    const marketSort = document.getElementById('preset-market-sort');
-    if (marketFilter) {
-        marketFilter.addEventListener('change', renderPresetMarket);
-    }
-    if (marketSort) {
-        marketSort.addEventListener('change', renderPresetMarket);
-    }
 
     const customPresetButtons = document.querySelectorAll('.custom-preset-btn');
     customPresetButtons.forEach((button) => {
@@ -1035,21 +725,6 @@ function initializeEventListeners() {
         });
     }
 
-    const qualityActions = document.getElementById('quality-actions');
-    if (qualityActions) {
-        qualityActions.addEventListener('click', (event) => {
-            const target = event.target;
-            if (!(target instanceof HTMLElement)) {
-                return;
-            }
-            const action = target.dataset.action;
-            if (!action) {
-                return;
-            }
-            applyQualityFix(action);
-        });
-    }
-
     // Logo upload
     document.getElementById('logo-upload').addEventListener('change', handleLogoUpload);
 
@@ -1112,15 +787,6 @@ function initializeEventListeners() {
         const countryGroup = document.getElementById('tel-country-group');
         countryGroup.style.display = this.checked ? 'block' : 'none';
     });
-}
-
-function togglePreviewExampleButton(visible) {
-    const fillButton = document.getElementById('preview-fill-example');
-    if (!fillButton) {
-        return;
-    }
-
-    fillButton.classList.toggle('is-hidden', !visible);
 }
 
 function setPreviewEmptyState(isEmpty) {
@@ -1191,49 +857,13 @@ function restoreRecentSettings() {
     }
 }
 
-function fillExampleContent() {
-    if (currentType === 'url') {
-        document.getElementById('url-input').value = 'https://www.sn0wman.kr';
-    }
-
-    if (currentType === 'text') {
-        document.getElementById('text-input').value = 'Scan this code to view a quick demo message.';
-    }
-
-    if (currentType === 'vcard') {
-        document.getElementById('vcard-fullname').value = 'Hong Gil Dong';
-        document.getElementById('vcard-tel').value = '01012345678';
-        document.getElementById('vcard-email').value = 'hello@example.com';
-        document.getElementById('vcard-org').value = 'Quon Team';
-    }
-
-    if (currentType === 'email') {
-        document.getElementById('email-to').value = 'hello@example.com';
-        document.getElementById('email-subject').value = 'Quick hello from Quon';
-        document.getElementById('email-body').value = 'Hi! This is a sample email QR code.';
-    }
-
-    if (currentType === 'tel') {
-        document.getElementById('tel-number').value = '01012345678';
-    }
-
-    if (currentType === 'wifi') {
-        document.getElementById('wifi-ssid').value = 'Quon_WiFi';
-        document.getElementById('wifi-password').value = 'sample-password';
-    }
-
-    generateQRCode();
-    showNotification(t('message.success.prefilled'), 'success');
-}
-
-function updatePreviewStatus(messageKey, showFillAction = false) {
+function updatePreviewStatus(messageKey) {
     const statusElement = document.getElementById('preview-status');
     if (!statusElement) {
         return;
     }
 
     statusElement.textContent = t(messageKey);
-    togglePreviewExampleButton(showFillAction);
 }
 
 function clearValidationErrors() {
@@ -1343,13 +973,11 @@ function handleLogoUpload(e) {
             logoImage = event.target.result;
             logoScale = 0.4;
             generateQRCode();
-            evaluateScanQuality();
         };
         reader.readAsDataURL(file);
     } else {
         logoImage = null;
         generateQRCode();
-        evaluateScanQuality();
     }
 }
 
@@ -1565,9 +1193,8 @@ function createInitialQRCode() {
     const container = document.getElementById('qr-code-container');
     container.innerHTML = '<div class="empty-state"><div class="icon">📱</div><p>' + t('message.empty') + '</p></div>';
     setPreviewEmptyState(true);
-    updatePreviewStatus('message.empty', true);
+    updatePreviewStatus('message.empty');
     updatePreviewZoomLabel();
-    evaluateScanQuality();
 }
 
 function persistGenerationHistory() {
@@ -2001,7 +1628,6 @@ function showNotification(message, type = 'error') {
 function generateQRCode(options = {}) {
     const silent = Boolean(options.silent);
     const focusDownload = options.focusDownload !== false;
-    const countConversion = options.countConversion !== false && !silent;
     const recordHistory = options.recordHistory !== false;
     const onSuccess = typeof options.onSuccess === 'function' ? options.onSuccess : null;
 
@@ -2023,7 +1649,7 @@ function generateQRCode(options = {}) {
     }
 
     if (!content) {
-        updatePreviewStatus('message.error.empty', true);
+        updatePreviewStatus('message.error.empty');
         if (!silent) {
             showNotification(t('message.error.empty'));
         }
@@ -2060,15 +1686,10 @@ function generateQRCode(options = {}) {
                 downloadPngButton.focus({ preventScroll: true });
             }
 
-            updatePreviewStatus('message.success.generated', false);
+            updatePreviewStatus('message.success.generated');
             if (recordHistory) {
                 addGenerationHistoryItem(content);
             }
-            if (countConversion && ctaPendingConversion) {
-                trackCtaMetric('conversions');
-                ctaPendingConversion = false;
-            }
-            evaluateScanQuality();
             if (!silent) {
                 showNotification(t('message.success.generated'), 'success');
             }
@@ -2076,7 +1697,7 @@ function generateQRCode(options = {}) {
                 onSuccess();
             }
         } catch (error) {
-            updatePreviewStatus('message.error.network', true);
+            updatePreviewStatus('message.error.network');
             if (!silent) {
                 showNotification(t('message.error.network'));
             }

@@ -53,13 +53,13 @@ window.en = {
     'nav.workspace': 'Workspace',
     'nav.faq': 'FAQ',
     'nav.privacy': 'Privacy',
+    'tab.create': 'Create',
+    'tab.design': 'Design',
+    'tab.export': 'Export',
+    'tab.history': 'History',
     'hero.kicker': 'Professional QR workflow',
     'hero.title': 'Create polished QR assets in seconds',
     'hero.subtitle': 'Generate secure QR codes for links, contacts, Wi-Fi, email, and more. Fine-tune style, preview instantly, and export production-ready files.',
-    'hero.cta.primary': 'Start Creating',
-    'hero.cta.primary.variant1': 'Start Creating',
-    'hero.cta.primary.variant2': 'Build Your QR Now',
-    'hero.cta.primary.variant3': 'Create First QR',
     'hero.cta.secondary': 'Try Sample',
     'hero.stat.scan': 'Scan Ready',
     'hero.stat.style': '6 Presets',
@@ -194,7 +194,6 @@ window.en = {
     'button.share': 'Share',
     'button.last_preset': 'Last Preset',
     'button.more': 'More',
-    'button.fill.example': 'Fill Example',
 
     // Accessibility labels
     'a11y.skip': 'Skip to workspace',
@@ -251,26 +250,6 @@ window.en = {
     'cases.c3.title': 'Portfolio sharing',
     'cases.c3.body': 'Attach polished QR cards to resumes, booths, and printed kits.',
 
-    // Scan quality
-    'quality.title': 'Scan quality check',
-    'quality.score.label': 'Quality score',
-    'quality.breakdown.contrast': 'Contrast',
-    'quality.breakdown.logo': 'Logo safety',
-    'quality.breakdown.structure': 'Structure',
-    'quality.recommendation.default': 'Generate a QR code to get recommendations.',
-    'quality.recommendation.good': 'Great balance. You can publish this QR confidently.',
-    'quality.recommendation.contrast': 'Increase contrast first for faster scanning.',
-    'quality.recommendation.logo': 'Reduce logo impact to improve scan reliability.',
-    'quality.recommendation.multi': 'Improve contrast and logo size for the best result.',
-    'quality.default': 'Generate a QR code to review scan quality guidance.',
-    'quality.warn.contrast': 'Low contrast detected. Increase foreground/background contrast.',
-    'quality.warn.logo': 'Logo detected. Keep center logo compact for reliable scanning.',
-    'quality.ok': 'Good balance. Current settings should scan reliably.',
-    'quality.fix.contrast': 'Apply contrast-safe colors',
-    'quality.fix.logo': 'Reduce logo impact',
-    'quality.fix.applied.contrast': 'Applied contrast-safe color set',
-    'quality.fix.applied.logo': 'Reduced logo impact for scan stability',
-
     // Share
     'share.title': 'QR from Quon',
     'share.text': 'Shared from Quon QR generator',
@@ -291,7 +270,6 @@ window.en = {
     'message.error.fixFields': 'Please check required fields',
     'message.error.wifi': 'Please enter the Wi-Fi network name',
     'message.success.generated': 'QR code generated successfully',
-    'message.success.prefilled': 'Sample content filled automatically',
     
     // Footer
     'footer.made': 'Made with ❤️ by',
