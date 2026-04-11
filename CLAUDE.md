@@ -1,59 +1,80 @@
 # CLAUDE.md
 
-이 파일은 Claude Code (claude.ai/code)가 이 저장소에서 작업할 때 참고하는 가이드입니다.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## 프로젝트 개요
+## Project
 
-Quon은 GitHub Pages(qrcode.sn0wman.kr)에서 호스팅되는 무료 맞춤형 QR 코드 생성기 웹앱입니다. **빌드 도구, 번들러, 프레임워크 없는 순수 정적 사이트**로, 바닐라 HTML/CSS/JavaScript와 CDN으로 로드하는 qr-code-styling 라이브러리로 구성되어 있습니다.
+Quon is a free custom QR code generator hosted at **quon.xiu.kr** via GitHub Pages. It is a **pure static site with no build step, no bundler, no framework** — just vanilla HTML/CSS/JS plus the `qr-code-styling` v1.5.0 library loaded from a CDN.
 
-## 개발 환경
+## Dev
 
-빌드 과정 없음. `index.html`을 브라우저에서 열거나 정적 파일 서버로 실행:
+There is nothing to build. Serve the directory statically:
 
 ```bash
 npx serve .
-# 또는
+# or
 python -m http.server 8000
 ```
 
-GitHub Pages로 배포 (CNAME 설정 완료). CI/CD 파이프라인 없음.
+No CI, no tests, no linter. Deployed via GitHub Pages — commits to `main` publish automatically. The custom domain is configured through GitHub's repo settings (no `CNAME` file in-tree).
 
-## 아키텍처
+## Architecture
 
-**4개 핵심 파일로 구성된 싱글 페이지 앱:**
+Four core files drive the whole app:
 
-| 파일 | 역할 |
-|------|------|
-| `index.html` | 시맨틱 마크업, 3단 반응형 레이아웃 (입력 \| 미리보기 \| 디자인) |
-| `script.js` | 모든 앱 로직 (~2200줄): QR 생성, 유효성 검사, 상태 관리, 히스토리, 프리셋, A/B 테스트 |
-| `styles.css` | CSS 커스텀 프로퍼티 기반 스타일링, 다크 테마 (#51A273 에메랄드 그린 포인트), 글래스모피즘 |
-| `i18n.js` | 동적 언어 파일 로딩 기반 다국어 시스템 |
+| File | Role |
+|---|---|
+| `index.html` | Semantic markup. Left panel uses a **tabbed interface** (Content / Design / History / Presets) — not a multi-column layout. |
+| `script.js` | ~1850 lines. QR generation, validation, state, history/pins, custom presets. |
+| `styles.css` | CSS custom properties, dark **Obsidian Emerald** theme (`--accent: #1aad6c`), glassmorphism, atmospheric glow layers. |
+| `i18n.js` + `locales/{en,ko}.js` | Async language loader. Each locale file exposes a global (e.g. `window.en`). |
 
-**로케일 디렉토리:** `locales/en.js`, `locales/ko.js` — 스크립트로 비동기 로드되는 번역 파일. 각 파일은 전역 변수(예: `window.en`)로 700개 이상의 키-값 쌍을 내보냄.
+`adblock-detector.js` detects ad blockers and shows a graceful localized prompt instead of blank ad slots.
 
-**QR 타입 시스템:** 6가지 타입 — `url`, `text`, `vcard`, `email`, `tel`, `wifi`. 각 타입은 HTML에 전용 폼 섹션(`#form-url`, `#form-text` 등)이 있으며, `currentType` 전역 변수로 전환. 타입별 유효성 검사와 콘텐츠 포맷팅은 `script.js`에 구현.
+### QR type system
 
-**상태 관리:** 런타임 상태는 전역 변수 + localStorage(`quon_` 접두사 키 11개)로 영속화. 모든 localStorage 접근은 용량 초과 대비 try-catch로 감쌈. 주요 상태: 디자인 설정, 임시저장 입력값, 생성 히스토리(최근 5개), 고정 항목(최대 2개), 커스텀 프리셋(3슬롯), 언어 설정.
+Six types share one code path: `url`, `text`, `vcard`, `email`, `tel`, `wifi`. Each has its own `#form-<type>` section in the HTML. `currentType` (global) selects the active form. Per-type content formatting and validation live in `script.js`.
 
-**디자인 시스템:** 내장 프리셋 6개 + 사용자 저장 커스텀 프리셋 3슬롯. 점 스타일, 모서리 스타일, 색상, 중앙 로고(스케일 조절 가능) 커스터마이징 지원.
+- **vCard**: RFC 2426 compliant, iOS-friendly. Non-ASCII characters use quoted-printable encoding.
+- **Wi-Fi**: ISO/IEC 18004 Annex F syntax with special-char escaping.
 
-**내보내기:** `qrCode.download()`로 PNG/SVG 다운로드, 파일명 형식 `qrcode-[타입]-[타임스탬프].[확장자]`.
+### State + persistence
 
-## 다국어(i18n) — 새 언어 추가
+Runtime state is plain globals. Persistence is localStorage with a `quon_` prefix. Every read/write is wrapped in try/catch because quota errors are expected. Keys currently in use:
 
-1. `locales/en.js`를 `locales/[언어코드].js`로 복사
-2. 모든 값을 번역 (키는 동일하게 유지)
-3. `i18n.js`의 `SUPPORTED_LANGUAGES` 배열에 언어 코드 추가
-4. 선택적으로 `detectLanguage()`에 브라우저 감지 로직 추가
+```
+quon_design_panel_state   quon_recent_settings   quon_draft_inputs
+quon_generation_history   quon_history_pins      quon_custom_presets
+quon_history_view         quon_last_preset       quon_language
+```
 
-DOM 요소는 3가지 데이터 속성 사용: `data-i18n` (textContent), `data-i18n-aria` (aria-label), `data-i18n-title` (title). `t(key)` 함수는 번역값을 반환하며 영어로 폴백.
+History keeps the last 5 generations, with 2 pinnable slots. Custom presets occupy 3 user slots in addition to 6 built-in design presets.
 
-## 주요 패턴
+### Export
 
-- **런타임 npm 의존성 없음** — qr-code-styling v1.5.0은 CDN으로 로드
-- **이벤트 기반 DOM 업데이트** — 가상 DOM이나 반응성 시스템 없음
-- **이중 언어 코드베이스** — README와 UI가 영어/한국어 지원
-- **광고 연동** — Google AdSense + 광고 차단 감지(`adblock-detector.js`), 차단 시 우아하게 폴백
-- **A/B 테스트** — CTA 버튼 3가지 변형, localStorage로 지표 추적
-- **vCard 출력** — RFC 2426 준수, iOS 호환, 비ASCII 문자는 quoted-printable 인코딩
-- **Wi-Fi QR** — ISO/IEC 18004:2015 준수, 특수문자 이스케이핑 처리
+`qrCode.download()` drives PNG/SVG export. Filenames follow `qrcode-<type>-<timestamp>.<ext>`.
+
+## i18n — adding a language
+
+1. Copy `locales/en.js` to `locales/<code>.js` and translate values (keep keys identical).
+2. Add the code to `SUPPORTED_LANGUAGES` in `i18n.js`.
+3. Optionally extend `detectLanguage()` for custom browser mapping.
+
+DOM elements opt in via three data attributes: `data-i18n` (textContent), `data-i18n-aria` (aria-label), `data-i18n-title` (title). `t(key)` returns the translated string and falls back to English if missing.
+
+## Conventions
+
+- **No npm runtime deps.** Keep external code CDN-loaded; never introduce a bundler.
+- **Event-driven DOM updates.** There is no virtual DOM or reactivity layer — mutate the DOM directly and call the relevant `render*` function.
+- **Bilingual UI, English code.** All identifiers, comments, and commit messages are English; user-facing copy lives only in `locales/*.js`.
+- **Google AdSense + gtag.js** are wired in `index.html`. Ad-block fallback is handled by `adblock-detector.js`.
+- **SEO assets** (`robots.txt`, `sitemap.xml`, `og-image.png`, icon PNGs, JSON-LD in `<head>`) reference `https://quon.xiu.kr/`. Update all of them together if the domain changes.
+
+## Things that used to exist (don't re-add)
+
+These features were intentionally removed and should not be rebuilt absent a new requirement:
+
+- **Scan quality checker** (`evaluateScanQuality`, `quality.*` i18n keys, `#quality-check` DOM).
+- **Preset marketplace** (`renderPresetMarket`, `.preset-market-*` styles).
+- **CTA A/B testing** (`ctaVariant`, `trackCtaMetric`, `hero.cta.primary.variant*`).
+- **"Fill Example" button** (`fillExampleContent`, `button.fill.example`).
