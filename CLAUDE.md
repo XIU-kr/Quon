@@ -24,7 +24,7 @@ CI, 테스트, 린터 없음. `main` 브랜치 커밋이 GitHub Pages로 자동 
 
 | 파일 | 역할 |
 |---|---|
-| `index.html` | 시맨틱 마크업. 왼쪽 패널은 **탭 인터페이스**(Content / Design / History / Presets) — 다단 레이아웃이 아님. |
+| `index.html` | 시맨틱 마크업. 왼쪽 패널은 **탭 인터페이스**(Create / Design / Export / History) — 다단 레이아웃이 아님. |
 | `script.js` | ~1850줄. QR 생성, 유효성 검사, 상태 관리, 히스토리/핀, 커스텀 프리셋. |
 | `styles.css` | CSS 커스텀 프로퍼티, **Obsidian Emerald** 다크 테마(`--accent: #1aad6c`), 글래스모피즘, 앳머스피어 글로우 레이어. |
 | `i18n.js` + `locales/{en,ko}.js` | 비동기 언어 로더. 각 로케일 파일은 전역 변수로 노출(예: `window.en`). |
@@ -54,6 +54,16 @@ quon_history_view         quon_last_preset       quon_language
 
 `qrCode.download()`로 PNG/SVG 내보내기. 파일명 형식: `qrcode-<타입>-<타임스탬프>.<확장자>`.
 
+### SEO 레이어
+
+이 사이트는 비주얼 디자인과 별개로 **크롤러용 정적 콘텐츠 레이어**를 갖고 있습니다. 시각적으로 보이지 않지만 절대 삭제하면 안 됩니다:
+
+- **`<main>` 내부의 `.sr-only` 섹션** — H1 + 한/영 설명 단락. 스크린 리더와 검색 크롤러가 페이지 의도를 이해하는 유일한 경로. 제거하면 H1이 사라지고 한국어 키워드 커버리지가 무너짐.
+- **`<body>` 시작부의 `<noscript>`** — JS 비활성 크롤러/환경용 최소 폴백. 인라인 스타일로 자체 완결.
+- **`<head>`의 JSON-LD 3블록** — `WebApplication`(앱 메타), `FAQPage`(6 Q&A), `HowTo`(4단계). 리치 결과 노출용.
+- **`404.html`** — GitHub Pages가 자동으로 사용하는 브랜드 404 페이지. `noindex`.
+- **`naver-site-verification` 메타 태그** — 네이버 서치어드바이저 소유권 확인용.
+
 ## i18n — 새 언어 추가
 
 1. `locales/en.js`를 `locales/<코드>.js`로 복사 후 값만 번역 (키는 동일하게 유지).
@@ -68,7 +78,7 @@ DOM 요소는 3가지 데이터 속성으로 i18n에 참여: `data-i18n`(textCon
 - **이벤트 기반 DOM 업데이트.** 가상 DOM이나 반응성 시스템 없음 — DOM을 직접 조작하고 해당 `render*` 함수를 호출.
 - **UI는 이중 언어, 코드는 영어.** 모든 식별자, 주석, 커밋 메시지는 영어. 사용자 노출 문구는 `locales/*.js`에만 존재.
 - **Google AdSense + gtag.js**는 `index.html`에 연결되어 있음. 광고 차단 폴백은 `adblock-detector.js`가 담당.
-- **SEO 에셋**(`robots.txt`, `sitemap.xml`, `og-image.png`, 아이콘 PNG들, `<head>` 내 JSON-LD)은 `https://quon.xiu.kr/`를 참조. 도메인이 바뀌면 이것들을 함께 업데이트해야 함.
+- **SEO 에셋**(`robots.txt`, `sitemap.xml` + `lastmod`, `og-image.png`, 아이콘 PNG들, `<head>` 내 JSON-LD 3블록, `404.html`의 절대 경로, `<main>`의 `.sr-only` 인트로)은 모두 `https://quon.xiu.kr/`를 참조. 도메인이 바뀌면 이것들을 함께 업데이트하고 **네이버 서치어드바이저/GSC/빙에서 소유 확인 태그도 재발급** 받아야 함.
 
 ## 과거에 존재했던 것들 (재추가 금지)
 
