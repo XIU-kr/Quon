@@ -98,19 +98,16 @@ const ogSvg = `<?xml version="1.0" encoding="UTF-8"?>
   </g>
 
   <g font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif">
-    <text x="380" y="232" font-size="22" font-weight="500" fill="#8a8aa6" letter-spacing="6">
-      ◆  QR STUDIO · v1.5
-    </text>
-    <text x="380" y="360" font-size="132" font-weight="800" fill="url(#titleGold)" letter-spacing="-4">
+    <text x="380" y="320" font-size="132" font-weight="800" fill="url(#titleGold)" letter-spacing="-4">
       Quon
     </text>
-    <text x="380" y="420" font-size="34" font-weight="600" fill="#e4e4ec" letter-spacing="-0.5">
+    <text x="380" y="380" font-size="34" font-weight="600" fill="#e4e4ec" letter-spacing="-0.5">
       Free Custom QR Code Generator
     </text>
-    <text x="380" y="465" font-size="24" font-weight="400" fill="#8a8aa6">
-      URL · vCard · Wi-Fi · Email · Phone · Text — 100% in your browser
+    <text x="380" y="425" font-size="24" font-weight="400" fill="#8a8aa6">
+      URL · vCard · Wi-Fi · Email · Phone · Text
     </text>
-    <text x="380" y="535" font-size="20" font-weight="500" fill="#d4a016" letter-spacing="2">
+    <text x="380" y="495" font-size="20" font-weight="500" fill="#d4a016" letter-spacing="2">
       quon.xiu.kr
     </text>
   </g>
