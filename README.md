@@ -63,12 +63,6 @@ rendered in the browser; your data never leaves the device.
 3. (Optional) Open the **Design** tab to adjust colors, logo, and dot shapes
 4. Hit **Generate**, then download as **PNG** or **SVG**
 
-## Design
-
-**Obsidian Gold** dark theme — shares design tokens with its sister site
-[xiu.kr](https://xiu.kr). Gold accent (`#d4a016`), Syne × Outfit × Fira Code
-typography, grid + radial-glow backdrop, dashed orbit motif.
-
 ## License
 
 [MIT License](LICENSE) © XIU
