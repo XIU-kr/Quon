@@ -2,71 +2,73 @@
 
 **Free Custom QR Code Generator** — [quon.xiu.kr](https://quon.xiu.kr)
 
-브라우저에서 즉시 만드는 맞춤형 QR 코드 스튜디오.
-가입 없음 · 업로드 없음 · 100% 로컬 생성.
+A browser-based QR code studio. No signup, no upload, 100% local generation.
 
 ![Quon](assets/images/og-image.png)
 
 ---
 
-## 한눈에 보기
+## Overview
 
-Quon은 URL·vCard·Wi-Fi 등 6가지 타입을 지원하는 다크 테마 QR 코드 생성기입니다.
-내용을 입력하고 원하는 디자인을 고른 뒤, 한 번의 클릭으로 고해상도 PNG 또는 SVG를 받아보세요.
-모든 생성은 브라우저에서만 일어나며, 데이터는 서버로 전송되지 않습니다.
+Quon is a dark-themed QR code generator that supports six content types —
+URL, text, vCard, email, phone, and Wi-Fi. Enter your content, pick a design,
+and download a high-resolution PNG or SVG in a single tap. Every QR is
+rendered in the browser; your data never leaves the device.
 
-## 주요 기능
+## Features
 
-### 6가지 QR 타입
+### Six QR types
 
-| 타입 | 용도 | 특기사항 |
+| Type | Use case | Notes |
 |---|---|---|
-| **URL** | 웹사이트 · 랜딩 페이지 | 국제화 도메인 지원 |
-| **텍스트** | 메모 · 문구 | 최대 ~2KB 원문 |
-| **vCard** | 연락처 | RFC 2426 준수, iOS 호환, 비ASCII quoted-printable |
-| **이메일** | 수신자 + 제목 + 본문 | mailto 문법 |
-| **전화** | 국제 국가코드 선택 | tel: 스키마 |
-| **Wi-Fi** | SSID + 암호 + 암호화 방식 | ISO/IEC 18004 Annex F, 특수문자 이스케이핑 |
+| **URL** | Websites · landing pages | Internationalized domain support |
+| **Text** | Notes · snippets | Up to ~2 KB of raw content |
+| **vCard** | Contact cards | RFC 2426, iOS compatible, non-ASCII quoted-printable |
+| **Email** | Recipient + subject + body | mailto syntax |
+| **Phone** | International dial codes | tel: scheme |
+| **Wi-Fi** | SSID + password + security | ISO/IEC 18004 Annex F, special-char escaping |
 
-### 맞춤 디자인
+### Custom design
 
-- 내장 디자인 프리셋 6종 + 사용자 슬롯 3개
-- 도트 · 코너 · 배경 색상 개별 조정
-- 중앙 로고 삽입 (PNG / JPG 업로드)
-- 도트 모양 5종, 코너 스타일 3종
+- 6 built-in design presets + 3 user preset slots
+- Independent control over dot, corner, and background colors
+- Center logo overlay (PNG / JPG upload)
+- 5 dot shapes, 3 corner styles
 
-### 내보내기 & 히스토리
+### Export & history
 
-- 원탭 **PNG / SVG** 다운로드
-- 파일명 자동 생성: `qrcode-<타입>-<타임스탬프>.<확장자>`
-- 최근 생성 5개 자동 기록 + 즐겨찾기 고정 슬롯 2개
-- 히스토리 검색 · 필터 · 정렬
-- 데이터는 브라우저 `localStorage`에 보관 — 기기 밖으로 나가지 않음
+- One-tap **PNG / SVG** download
+- Auto-generated filenames: `qrcode-<type>-<timestamp>.<ext>`
+- Last 5 generations auto-tracked + 2 pinned favorite slots
+- Search, filter, and sort your history
+- All state persisted in browser `localStorage` — never leaves the device
 
-### 프라이버시 & 성능
+### Privacy & performance
 
-- 모든 QR 생성은 **브라우저 로컬** (서버 전송 0 바이트)
-- 초경량 정적 사이트 — 빌드 번들 없음
-- Lighthouse 고점수 (SEO · Performance · Accessibility)
+- QR generation runs **entirely in the browser** (zero bytes sent to any server)
+- Lightweight static site — no bundler, no build step
+- Strong Lighthouse scores across SEO, performance, and accessibility
 
-### 다국어 · 접근성
+### Internationalization & accessibility
 
-- 한국어 / 영어 자동 감지 및 수동 전환
-- `prefers-reduced-motion` 존중
-- 키보드 네비게이션 전면 지원
-- 스크린 리더 친화적 마크업
+- Korean / English with auto-detection and manual switch
+- Respects `prefers-reduced-motion`
+- Full keyboard navigation
+- Screen-reader friendly markup
 
-## 사용법
+## How to use
 
-1. 상단 **타입** 탭에서 QR 종류 선택
-2. 내용 입력
-3. (선택) **Design** 탭에서 색상 · 로고 · 도트 모양 조정
-4. **Generate** 버튼 → **PNG** 또는 **SVG** 다운로드
+1. Choose a QR **type** from the top tab bar
+2. Enter your content
+3. (Optional) Open the **Design** tab to adjust colors, logo, and dot shapes
+4. Hit **Generate**, then download as **PNG** or **SVG**
 
-## 디자인
+## Design
 
-**Obsidian Gold** 다크 테마 — 자매 사이트 [xiu.kr](https://xiu.kr)과 동일한 디자인 토큰을 공유합니다. 골드 액센트(`#d4a016`), Syne × Outfit × Fira Code 타이포그래피, 그리드 + 라디얼 글로우 레이어, 점선 오빗 모티프.
+**Obsidian Gold** dark theme — shares design tokens with its sister site
+[xiu.kr](https://xiu.kr). Gold accent (`#d4a016`), Syne × Outfit × Fira Code
+typography, grid + radial-glow backdrop, dashed orbit motif.
 
-## 라이선스
+## License
 
 [MIT License](LICENSE) © XIU
