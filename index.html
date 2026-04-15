@@ -8,7 +8,7 @@
     <meta name="keywords" content="qr코드 생성기, qr코드 만들기, 무료 qr코드, 와이파이 qr코드, 명함 qr코드, vcard qr, 링크 qr, 이메일 qr, 전화번호 qr, qr 코드 생성, 맞춤형 qr코드, qr 코드 만드는 법, QR code generator, free QR code, custom QR code, vCard QR, Wi-Fi QR, URL QR code, Quon">
     <meta name="author" content="XIU">
     <meta name="robots" content="index, follow, max-image-preview:large">
-    <meta name="theme-color" content="#1aad6c">
+    <meta name="theme-color" content="#d4a016">
     <meta name="naver-site-verification" content="8cb1611a679a0949348dcedad755a7a05fc55ccb">
     <link rel="canonical" href="https://quon.xiu.kr/">
     <link rel="alternate" hreflang="en" href="https://quon.xiu.kr/">
@@ -21,7 +21,7 @@
     <meta property="og:url" content="https://quon.xiu.kr/">
     <meta property="og:title" content="Quon — Free Custom QR Code Generator">
     <meta property="og:description" content="Create custom QR codes for URLs, vCards, Wi-Fi, email, phone, and text. Free, fast, privacy-first. Customize colors, shapes, and logos.">
-    <meta property="og:image" content="https://quon.xiu.kr/og-image.png">
+    <meta property="og:image" content="https://quon.xiu.kr/assets/images/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -34,7 +34,7 @@
     <meta name="twitter:url" content="https://quon.xiu.kr/">
     <meta name="twitter:title" content="Quon — Free Custom QR Code Generator">
     <meta name="twitter:description" content="Create custom QR codes for URLs, vCards, Wi-Fi, email, phone, and text. Free, fast, privacy-first.">
-    <meta name="twitter:image" content="https://quon.xiu.kr/og-image.png">
+    <meta name="twitter:image" content="https://quon.xiu.kr/assets/images/og-image.png">
     <meta name="twitter:image:alt" content="Quon — Free Custom QR Code Generator">
 
     <!-- JSON-LD Structured Data -->
@@ -50,8 +50,8 @@
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
       "inLanguage": ["en", "ko"],
-      "image": "https://quon.xiu.kr/og-image.png",
-      "screenshot": "https://quon.xiu.kr/og-image.png",
+      "image": "https://quon.xiu.kr/assets/images/og-image.png",
+      "screenshot": "https://quon.xiu.kr/assets/images/og-image.png",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -178,12 +178,13 @@
     }
     </script>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    <link rel="icon" type="image/webp" href="quon.webp">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="preload" as="image" href="quon.webp" type="image/webp">
+    <link rel="icon" type="image/svg+xml" href="assets/images/brand.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/images/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/images/icon-512.png">
+    <link rel="icon" type="image/webp" href="assets/images/quon.webp">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="preload" as="image" href="assets/images/quon.webp" type="image/webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -198,450 +199,531 @@
 
       gtag('config', 'G-MFME4NE56B');
     </script>
-    <link rel="stylesheet" href="styles.css?v=xiu5">
+    <link rel="stylesheet" href="assets/css/styles.css?v=gold1">
 </head>
-<body>
+<body class="grain">
     <a class="skip-link" href="#workspace" data-i18n="a11y.skip">Skip to workspace</a>
     <noscript>
-        <div style="max-width:640px;margin:3rem auto;padding:2rem;border:1px solid #1aad6c;border-radius:12px;background:#0e0e15;color:#e4e4ec;font-family:system-ui,-apple-system,sans-serif;line-height:1.6;">
-            <h1 style="color:#22c478;margin:0 0 1rem;font-size:1.5rem;">Quon — QR 코드 생성기</h1>
+        <div style="max-width:640px;margin:3rem auto;padding:2rem;border:1px solid #d4a016;border-radius:12px;background:#0e0e15;color:#e4e4ec;font-family:system-ui,-apple-system,sans-serif;line-height:1.6;">
+            <h1 style="color:#e8b227;margin:0 0 1rem;font-size:1.5rem;">Quon — QR 코드 생성기</h1>
             <p><strong>JavaScript가 필요합니다.</strong> Quon은 브라우저에서 QR 코드를 즉시 생성하기 위해 JavaScript를 사용합니다. 브라우저 설정에서 JavaScript를 활성화한 후 페이지를 새로고침해 주세요.</p>
             <p style="color:#a8a8c0;font-size:0.9rem;"><strong>This site requires JavaScript.</strong> Quon generates QR codes directly in your browser. Please enable JavaScript and reload the page.</p>
         </div>
     </noscript>
-    <div class="atmosphere" aria-hidden="true">
-        <div class="atmosphere-grid"></div>
-        <div class="atmosphere-glow atmosphere-glow--emerald"></div>
-        <div class="atmosphere-glow atmosphere-glow--teal"></div>
-        <div class="atmosphere-noise"></div>
-    </div>
-    <script src="adblock-detector.js"></script>
 
-    <div class="app-shell">
-        <!-- App Bar -->
-        <header class="app-bar">
-            <a class="brand" href="#" aria-label="Quon Home">
-                <img src="quon.webp" alt="Quon" class="title-logo" fetchpriority="high">
-                <div class="brand-text">
-                    <span class="brand-name" data-i18n="footer.product">Quon</span>
-                    <span class="brand-tagline">Free QR Code Generator</span>
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-grid-lines" aria-hidden="true"></div>
+
+    <script src="assets/js/adblock-detector.js"></script>
+
+    <!-- Site Nav -->
+    <nav class="site-nav" aria-label="Primary">
+        <a class="nav-logo" href="#">Quon</a>
+        <ul class="nav-links">
+            <li><a href="#workspace" data-i18n="nav.create">Create</a></li>
+            <li><a href="#how" data-i18n="nav.how">How it works</a></li>
+            <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="https://xiu.kr" target="_blank" rel="noopener" data-i18n="nav.about">About</a></li>
+        </ul>
+        <div class="nav-end">
+            <select id="language-switcher" class="language-switcher" aria-label="Language">
+                <!-- Dynamically inserted by i18n.js -->
+            </select>
+            <a href="https://xiu.kr/privacy.html" target="_blank" rel="noopener noreferrer" class="nav-privacy" data-i18n="nav.privacy">Privacy</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <p class="section-label" data-i18n="hero.eyebrow">QR GENERATOR · v1.5</p>
+                <h1 class="hero-headline" data-i18n="hero.title">Craft custom QR codes.</h1>
+                <p class="hero-tagline" data-i18n="hero.tagline">Free, fast, privacy-first. Six formats. Six presets. Export PNG or SVG in one tap — no signup, no upload, 100% in your browser.</p>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-num">6</div>
+                        <div class="stat-label" data-i18n="stat.types">TYPES</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">∞</div>
+                        <div class="stat-label" data-i18n="stat.generations">GENERATIONS</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">100%</div>
+                        <div class="stat-label" data-i18n="stat.local">LOCAL</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">PNG/SVG</div>
+                        <div class="stat-label" data-i18n="stat.export">EXPORT</div>
+                    </div>
                 </div>
-            </a>
-            <div class="app-bar-end">
-                <div class="language-switcher-container">
-                    <select id="language-switcher" class="language-switcher" aria-label="Language">
-                        <!-- Dynamically inserted by i18n.js -->
-                    </select>
-                </div>
-                <a href="https://xiu.kr/privacy.html" target="_blank" rel="noopener noreferrer" class="app-bar-link" data-i18n="nav.privacy">Privacy</a>
             </div>
-        </header>
+        </section>
 
-        <!-- Main App Body -->
-        <main id="workspace" class="app-body">
-            <!-- SEO/accessibility: static page intro for crawlers & screen readers -->
-            <section class="sr-only" aria-label="About Quon">
-                <h1>Quon — 무료 맞춤형 QR 코드 생성기 · Free Custom QR Code Generator</h1>
-                <p lang="ko">Quon은 URL, 텍스트, 연락처(vCard), 이메일, 전화번호, 와이파이를 위한 무료 QR 코드 생성기입니다. 회원가입 없이 즉시 QR 코드를 만들고, 색상·모양·로고를 자유롭게 커스터마이징해 PNG 또는 SVG로 다운로드할 수 있습니다. 모든 데이터는 브라우저에서 처리되며 서버로 전송되지 않습니다. qr코드 생성기, qr코드 만들기, 무료 qr코드, 와이파이 qr코드, 명함 qr코드, vcard qr, 링크 qr, 이메일 qr, 전화번호 qr 등 다양한 용도를 지원합니다.</p>
-                <p lang="en">Quon is a free QR code generator for URLs, text, contacts (vCard), email, phone numbers, and Wi-Fi networks. Create QR codes instantly with no signup, customize colors, shapes, and logos, and export as PNG or SVG. All processing happens in your browser — nothing is sent to a server. Privacy-first, open, and works on any device.</p>
-            </section>
+        <!-- WORKSPACE -->
+        <section id="workspace" class="workspace">
+            <div class="workspace-grid">
+                <div class="workspace-control">
+                    <nav class="tab-bar" role="tablist" aria-label="Main navigation">
+                        <button class="tab-btn active" data-tab="create" role="tab" aria-selected="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            <span data-i18n="tab.create">Create</span>
+                        </button>
+                        <button class="tab-btn" data-tab="design" role="tab" aria-selected="false">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg>
+                            <span data-i18n="tab.design">Design</span>
+                        </button>
+                        <button class="tab-btn" data-tab="export" role="tab" aria-selected="false">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <span data-i18n="tab.export">Export</span>
+                        </button>
+                        <button class="tab-btn" data-tab="history" role="tab" aria-selected="false">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span data-i18n="tab.history">History</span>
+                        </button>
+                    </nav>
 
-            <!-- Left: Content Tabs -->
-            <div class="app-content">
-                <nav class="tab-bar" role="tablist" aria-label="Main navigation">
-                    <button class="tab-btn active" data-tab="create" role="tab" aria-selected="true">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                        <span data-i18n="tab.create">Create</span>
-                    </button>
-                    <button class="tab-btn" data-tab="design" role="tab" aria-selected="false">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg>
-                        <span data-i18n="tab.design">Design</span>
-                    </button>
-                    <button class="tab-btn" data-tab="export" role="tab" aria-selected="false">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        <span data-i18n="tab.export">Export</span>
-                    </button>
-                    <button class="tab-btn" data-tab="history" role="tab" aria-selected="false">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        <span data-i18n="tab.history">History</span>
-                    </button>
-                </nav>
+                    <div class="tab-panels">
+                        <!-- ===================== CREATE TAB ===================== -->
+                        <div class="tab-panel active" data-panel="create" role="tabpanel">
+                            <div class="panel-section">
+                                <h2 class="panel-title" data-i18n="section.type">Select Code Type</h2>
+                                <div class="type-selector">
+                                    <button class="type-btn active" data-type="url">
+                                        <span class="icon">🔗</span>
+                                        <span data-i18n="type.url">URL</span>
+                                    </button>
+                                    <button class="type-btn" data-type="text">
+                                        <span class="icon">📝</span>
+                                        <span data-i18n="type.text">Text</span>
+                                    </button>
+                                    <button class="type-btn" data-type="vcard">
+                                        <span class="icon">👤</span>
+                                        <span data-i18n="type.vcard">Contact</span>
+                                    </button>
+                                    <button class="type-btn" data-type="email">
+                                        <span class="icon">✉️</span>
+                                        <span data-i18n="type.email">Email</span>
+                                    </button>
+                                    <button class="type-btn" data-type="tel">
+                                        <span class="icon">📞</span>
+                                        <span data-i18n="type.tel">Phone</span>
+                                    </button>
+                                    <button class="type-btn" data-type="wifi">
+                                        <span class="icon">📶</span>
+                                        <span data-i18n="type.wifi">Wi-Fi</span>
+                                    </button>
+                                </div>
+                            </div>
 
-                <div class="tab-panels">
-                    <!-- ===================== CREATE TAB ===================== -->
-                    <div class="tab-panel active" data-panel="create" role="tabpanel">
-                        <div class="panel-section">
-                            <h2 class="panel-title" data-i18n="section.type">Select Code Type</h2>
-                            <div class="type-selector">
-                                <button class="type-btn active" data-type="url">
-                                    <span class="icon">🔗</span>
-                                    <span data-i18n="type.url">URL</span>
-                                </button>
-                                <button class="type-btn" data-type="text">
-                                    <span class="icon">📝</span>
-                                    <span data-i18n="type.text">Text</span>
-                                </button>
-                                <button class="type-btn" data-type="vcard">
-                                    <span class="icon">👤</span>
-                                    <span data-i18n="type.vcard">Contact</span>
-                                </button>
-                                <button class="type-btn" data-type="email">
-                                    <span class="icon">✉️</span>
-                                    <span data-i18n="type.email">Email</span>
-                                </button>
-                                <button class="type-btn" data-type="tel">
-                                    <span class="icon">📞</span>
-                                    <span data-i18n="type.tel">Phone</span>
-                                </button>
-                                <button class="type-btn" data-type="wifi">
-                                    <span class="icon">📶</span>
-                                    <span data-i18n="type.wifi">Wi-Fi</span>
-                                </button>
+                            <div class="panel-section">
+                                <h2 class="panel-title" data-i18n="section.content">Enter Content</h2>
+
+                                <!-- URL Form -->
+                                <div class="form-container active" id="form-url">
+                                    <div class="form-group">
+                                        <label for="url-input" data-i18n="url.label">URL Address</label>
+                                        <input type="url" id="url-input" data-i18n="url.placeholder" placeholder="https://quon.xiu.kr" class="input-field">
+                                    </div>
+                                </div>
+
+                                <!-- Text Form -->
+                                <div class="form-container" id="form-text">
+                                    <div class="form-group">
+                                        <label for="text-input" data-i18n="text.label">Text Content</label>
+                                        <textarea id="text-input" rows="4" data-i18n="text.placeholder" placeholder="Enter your text here..." class="input-field"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- V-Card Form -->
+                                <div class="form-container" id="form-vcard">
+                                    <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
+                                    <div class="form-group">
+                                        <label for="vcard-fullname"><span data-i18n="vcard.fullname">Full Name</span> <span class="required">*</span></label>
+                                        <input type="text" id="vcard-fullname" data-i18n="vcard.fullname.placeholder" placeholder="John Doe" class="input-field">
+                                        <small data-i18n="vcard.fullname.help">Or enter last and first name separately below</small>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="vcard-lastname" data-i18n="vcard.lastname">Last Name</label>
+                                            <input type="text" id="vcard-lastname" data-i18n="vcard.lastname.placeholder" placeholder="Doe" class="input-field">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="vcard-firstname" data-i18n="vcard.firstname">First Name</label>
+                                            <input type="text" id="vcard-firstname" data-i18n="vcard.firstname.placeholder" placeholder="John" class="input-field">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vcard-tel"><span data-i18n="vcard.tel">Phone Number</span> <span class="required">*</span></label>
+                                        <input type="tel" id="vcard-tel" data-i18n="vcard.tel.placeholder" placeholder="1234567890" class="input-field" required>
+                                    </div>
+                                    <details class="advanced-details">
+                                        <summary>
+                                            <span data-i18n="vcard.country.use">Use country code</span>
+                                            <span class="optional" data-i18n="form.optional">(optional)</span>
+                                        </summary>
+                                        <div class="advanced-details-body">
+                                            <div class="form-group">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" id="vcard-use-country-code">
+                                                    <span data-i18n="vcard.country.use">Use country code</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group" id="vcard-country-group" style="display: none;">
+                                                <label for="vcard-tel-country" data-i18n="vcard.country.select">Select Country</label>
+                                                <select id="vcard-tel-country" class="input-field">
+                                                    <option value="+82" data-i18n="country.kr">South Korea (+82)</option>
+                                                    <option value="+1" data-i18n="country.us">USA/Canada (+1)</option>
+                                                    <option value="+7">Russia/Kazakhstan (+7)</option>
+                                                    <option value="+20">Egypt (+20)</option>
+                                                    <option value="+27">South Africa (+27)</option>
+                                                    <option value="+30">Greece (+30)</option>
+                                                    <option value="+31">Netherlands (+31)</option>
+                                                    <option value="+33">France (+33)</option>
+                                                    <option value="+34">Spain (+34)</option>
+                                                    <option value="+39">Italy (+39)</option>
+                                                    <option value="+44">UK (+44)</option>
+                                                    <option value="+49">Germany (+49)</option>
+                                                    <option value="+55">Brazil (+55)</option>
+                                                    <option value="+61">Australia (+61)</option>
+                                                    <option value="+81">Japan (+81)</option>
+                                                    <option value="+86">China (+86)</option>
+                                                    <option value="+91">India (+91)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </details>
+                                    <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
+                                    <div class="form-group">
+                                        <label for="vcard-org"><span data-i18n="vcard.org">Company/Organization</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                        <input type="text" id="vcard-org" data-i18n="vcard.org.placeholder" placeholder="Company Name" class="input-field">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vcard-email"><span data-i18n="vcard.email">Email</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                        <input type="email" id="vcard-email" data-i18n="vcard.email.placeholder" placeholder="email@example.com" class="input-field">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vcard-url"><span data-i18n="vcard.url">Website</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                        <input type="url" id="vcard-url" data-i18n="vcard.url.placeholder" placeholder="https://quon.xiu.kr" class="input-field">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vcard-address"><span data-i18n="vcard.address">Address</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                        <textarea id="vcard-address" rows="2" data-i18n="vcard.address.placeholder" placeholder="Enter address" class="input-field"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Email Form -->
+                                <div class="form-container" id="form-email">
+                                    <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
+                                    <div class="form-group">
+                                        <label for="email-to"><span data-i18n="email.to">Recipient Email</span> <span class="required">*</span></label>
+                                        <input type="email" id="email-to" data-i18n="email.to.placeholder" placeholder="recipient@example.com" class="input-field" required>
+                                    </div>
+                                    <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
+                                    <div class="form-group">
+                                        <label for="email-subject"><span data-i18n="email.subject">Subject</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                        <input type="text" id="email-subject" data-i18n="email.subject.placeholder" placeholder="Email subject" class="input-field">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email-body"><span data-i18n="email.body">Body</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
+                                        <textarea id="email-body" rows="4" data-i18n="email.body.placeholder" placeholder="Email content..." class="input-field"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Tel Form -->
+                                <div class="form-container" id="form-tel">
+                                    <div class="form-group">
+                                        <label for="tel-number"><span data-i18n="tel.number">Phone Number</span> <span class="required">*</span></label>
+                                        <input type="tel" id="tel-number" data-i18n="tel.number.placeholder" placeholder="1234567890" class="input-field" required>
+                                    </div>
+                                    <details class="advanced-details">
+                                        <summary>
+                                            <span data-i18n="vcard.country.use">Use country code</span>
+                                            <span class="optional" data-i18n="form.optional">(optional)</span>
+                                        </summary>
+                                        <div class="advanced-details-body">
+                                            <div class="form-group">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" id="tel-use-country-code">
+                                                    <span data-i18n="vcard.country.use">Use country code</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group" id="tel-country-group" style="display: none;">
+                                                <label for="tel-country" data-i18n="vcard.country.select">Select Country</label>
+                                                <select id="tel-country" class="input-field"></select>
+                                            </div>
+                                        </div>
+                                    </details>
+                                </div>
+
+                                <!-- Wi-Fi Form -->
+                                <div class="form-container" id="form-wifi">
+                                    <div class="form-group">
+                                        <label for="wifi-ssid" data-i18n="wifi.ssid">Network Name (SSID)</label>
+                                        <input type="text" id="wifi-ssid" data-i18n="wifi.ssid.placeholder" placeholder="MyWiFi" class="input-field">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="wifi-password" data-i18n="wifi.password">Password</label>
+                                        <input type="text" id="wifi-password" data-i18n="wifi.password.placeholder" placeholder="password123" class="input-field">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="wifi-encryption" data-i18n="wifi.encryption">Security Type</label>
+                                        <select id="wifi-encryption" class="input-field">
+                                            <option value="WPA" data-i18n="wifi.encryption.wpa">WPA/WPA2</option>
+                                            <option value="WEP" data-i18n="wifi.encryption.wep">WEP</option>
+                                            <option value="nopass" data-i18n="wifi.encryption.none">None</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="wifi-hidden">
+                                            <span data-i18n="wifi.hidden">Hidden Network</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button id="generate-btn" class="btn-generate" data-i18n="button.generate" data-i18n-aria="a11y.generate">Generate QR Code</button>
+                                <p class="form-hint" data-i18n="hint.generate.shortcut">Tip: Press Ctrl+Enter to generate quickly.</p>
                             </div>
                         </div>
 
-                        <div class="panel-section">
-                            <h2 class="panel-title" data-i18n="section.content">Enter Content</h2>
-
-                            <!-- URL Form -->
-                            <div class="form-container active" id="form-url">
-                                <div class="form-group">
-                                    <label for="url-input" data-i18n="url.label">URL Address</label>
-                                    <input type="url" id="url-input" data-i18n="url.placeholder" placeholder="https://quon.xiu.kr" class="input-field">
+                        <!-- ===================== DESIGN TAB ===================== -->
+                        <div class="tab-panel" data-panel="design" role="tabpanel">
+                            <div class="panel-section">
+                                <div class="panel-title-row">
+                                    <h2 class="panel-title" data-i18n="section.design">Customize Design</h2>
+                                    <button type="button" id="design-reset-btn" class="btn-sm" data-i18n="design.reset">Reset</button>
                                 </div>
                             </div>
 
-                            <!-- Text Form -->
-                            <div class="form-container" id="form-text">
-                                <div class="form-group">
-                                    <label for="text-input" data-i18n="text.label">Text Content</label>
-                                    <textarea id="text-input" rows="4" data-i18n="text.placeholder" placeholder="Enter your text here..." class="input-field"></textarea>
-                                </div>
-                            </div>
-
-                            <!-- V-Card Form -->
-                            <div class="form-container" id="form-vcard">
-                                <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
-                                <div class="form-group">
-                                    <label for="vcard-fullname"><span data-i18n="vcard.fullname">Full Name</span> <span class="required">*</span></label>
-                                    <input type="text" id="vcard-fullname" data-i18n="vcard.fullname.placeholder" placeholder="John Doe" class="input-field">
-                                    <small data-i18n="vcard.fullname.help">Or enter last and first name separately below</small>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="vcard-lastname" data-i18n="vcard.lastname">Last Name</label>
-                                        <input type="text" id="vcard-lastname" data-i18n="vcard.lastname.placeholder" placeholder="Doe" class="input-field">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="vcard-firstname" data-i18n="vcard.firstname">First Name</label>
-                                        <input type="text" id="vcard-firstname" data-i18n="vcard.firstname.placeholder" placeholder="John" class="input-field">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vcard-tel"><span data-i18n="vcard.tel">Phone Number</span> <span class="required">*</span></label>
-                                    <input type="tel" id="vcard-tel" data-i18n="vcard.tel.placeholder" placeholder="1234567890" class="input-field" required>
-                                </div>
-                                <details class="advanced-details">
-                                    <summary>
-                                        <span data-i18n="vcard.country.use">Use country code</span>
-                                        <span class="optional" data-i18n="form.optional">(optional)</span>
-                                    </summary>
-                                    <div class="advanced-details-body">
+                            <div class="panel-section">
+                                <details class="design-group" open data-group="shape">
+                                    <summary data-i18n="design.group.shape">Shape</summary>
+                                    <div class="design-group-body">
                                         <div class="form-group">
-                                            <label class="checkbox-label">
-                                                <input type="checkbox" id="vcard-use-country-code">
-                                                <span data-i18n="vcard.country.use">Use country code</span>
-                                            </label>
+                                            <label for="dots-type" data-i18n="design.dots.type">Dot Style</label>
+                                            <select id="dots-type" class="input-field">
+                                                <option value="rounded" data-i18n="design.dots.rounded">Rounded Square</option>
+                                                <option value="dots" data-i18n="design.dots.dots">Dots</option>
+                                                <option value="classy" data-i18n="design.dots.classy">Classy</option>
+                                                <option value="classy-rounded" data-i18n="design.dots.classy-rounded">Classy Rounded</option>
+                                                <option value="square" data-i18n="design.dots.square">Square</option>
+                                                <option value="extra-rounded" data-i18n="design.dots.extra-rounded">Extra Rounded</option>
+                                            </select>
                                         </div>
-                                        <div class="form-group" id="vcard-country-group" style="display: none;">
-                                            <label for="vcard-tel-country" data-i18n="vcard.country.select">Select Country</label>
-                                            <select id="vcard-tel-country" class="input-field">
-                                                <option value="+82" data-i18n="country.kr">South Korea (+82)</option>
-                                                <option value="+1" data-i18n="country.us">USA/Canada (+1)</option>
-                                                <option value="+7">Russia/Kazakhstan (+7)</option>
-                                                <option value="+20">Egypt (+20)</option>
-                                                <option value="+27">South Africa (+27)</option>
-                                                <option value="+30">Greece (+30)</option>
-                                                <option value="+31">Netherlands (+31)</option>
-                                                <option value="+33">France (+33)</option>
-                                                <option value="+34">Spain (+34)</option>
-                                                <option value="+39">Italy (+39)</option>
-                                                <option value="+44">UK (+44)</option>
-                                                <option value="+49">Germany (+49)</option>
-                                                <option value="+55">Brazil (+55)</option>
-                                                <option value="+61">Australia (+61)</option>
-                                                <option value="+81">Japan (+81)</option>
-                                                <option value="+86">China (+86)</option>
-                                                <option value="+91">India (+91)</option>
+                                        <div class="form-group">
+                                            <label for="corner-square-type" data-i18n="design.corner.square">Corner Square Style</label>
+                                            <select id="corner-square-type" class="input-field">
+                                                <option value="dot" data-i18n="design.corner.square.dot">Dot</option>
+                                                <option value="square" data-i18n="design.corner.square.square">Square</option>
+                                                <option value="extra-rounded" data-i18n="design.corner.square.extra-rounded">Extra Rounded</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="corner-dot-type" data-i18n="design.corner.dot">Corner Dot Style</label>
+                                            <select id="corner-dot-type" class="input-field">
+                                                <option value="dot" data-i18n="design.corner.dot.dot">Dot</option>
+                                                <option value="square" data-i18n="design.corner.dot.square">Square</option>
                                             </select>
                                         </div>
                                     </div>
                                 </details>
-                                <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
-                                <div class="form-group">
-                                    <label for="vcard-org"><span data-i18n="vcard.org">Company/Organization</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                    <input type="text" id="vcard-org" data-i18n="vcard.org.placeholder" placeholder="Company Name" class="input-field">
-                                </div>
-                                <div class="form-group">
-                                    <label for="vcard-email"><span data-i18n="vcard.email">Email</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                    <input type="email" id="vcard-email" data-i18n="vcard.email.placeholder" placeholder="email@example.com" class="input-field">
-                                </div>
-                                <div class="form-group">
-                                    <label for="vcard-url"><span data-i18n="vcard.url">Website</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                    <input type="url" id="vcard-url" data-i18n="vcard.url.placeholder" placeholder="https://quon.xiu.kr" class="input-field">
-                                </div>
-                                <div class="form-group">
-                                    <label for="vcard-address"><span data-i18n="vcard.address">Address</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                    <textarea id="vcard-address" rows="2" data-i18n="vcard.address.placeholder" placeholder="Enter address" class="input-field"></textarea>
-                                </div>
-                            </div>
 
-                            <!-- Email Form -->
-                            <div class="form-container" id="form-email">
-                                <div class="form-section-title" data-i18n="vcard.required">Required Fields</div>
-                                <div class="form-group">
-                                    <label for="email-to"><span data-i18n="email.to">Recipient Email</span> <span class="required">*</span></label>
-                                    <input type="email" id="email-to" data-i18n="email.to.placeholder" placeholder="recipient@example.com" class="input-field" required>
-                                </div>
-                                <div class="form-section-title" data-i18n="vcard.optional">Optional Fields</div>
-                                <div class="form-group">
-                                    <label for="email-subject"><span data-i18n="email.subject">Subject</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                    <input type="text" id="email-subject" data-i18n="email.subject.placeholder" placeholder="Email subject" class="input-field">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email-body"><span data-i18n="email.body">Body</span> <span class="optional" data-i18n="form.optional">(optional)</span></label>
-                                    <textarea id="email-body" rows="4" data-i18n="email.body.placeholder" placeholder="Email content..." class="input-field"></textarea>
-                                </div>
-                            </div>
-
-                            <!-- Tel Form -->
-                            <div class="form-container" id="form-tel">
-                                <div class="form-group">
-                                    <label for="tel-number"><span data-i18n="tel.number">Phone Number</span> <span class="required">*</span></label>
-                                    <input type="tel" id="tel-number" data-i18n="tel.number.placeholder" placeholder="1234567890" class="input-field" required>
-                                </div>
-                                <details class="advanced-details">
-                                    <summary>
-                                        <span data-i18n="vcard.country.use">Use country code</span>
-                                        <span class="optional" data-i18n="form.optional">(optional)</span>
-                                    </summary>
-                                    <div class="advanced-details-body">
-                                        <div class="form-group">
-                                            <label class="checkbox-label">
-                                                <input type="checkbox" id="tel-use-country-code">
-                                                <span data-i18n="vcard.country.use">Use country code</span>
-                                            </label>
+                                <details class="design-group" data-group="color">
+                                    <summary data-i18n="design.group.color">Color</summary>
+                                    <div class="design-group-body">
+                                        <div class="color-row">
+                                            <div class="form-group">
+                                                <label for="dots-color" data-i18n="design.color.dots">Code Color</label>
+                                                <input type="color" id="dots-color" value="#d4a016" class="color-input">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="background-color" data-i18n="design.color.background">Background Color</label>
+                                                <input type="color" id="background-color" value="#ffffff" class="color-input">
+                                            </div>
                                         </div>
-                                        <div class="form-group" id="tel-country-group" style="display: none;">
-                                            <label for="tel-country" data-i18n="vcard.country.select">Select Country</label>
-                                            <select id="tel-country" class="input-field"></select>
+                                    </div>
+                                </details>
+
+                                <details class="design-group" data-group="logo">
+                                    <summary data-i18n="design.group.logo">Logo</summary>
+                                    <div class="design-group-body">
+                                        <div class="form-group">
+                                            <label for="logo-upload" data-i18n="design.logo">Logo Image (optional)</label>
+                                            <input type="file" id="logo-upload" accept="image/*" class="input-field">
+                                            <small data-i18n="design.logo.help">Upload a logo to place in the center of the code</small>
                                         </div>
                                     </div>
                                 </details>
                             </div>
+                        </div>
 
-                            <!-- Wi-Fi Form -->
-                            <div class="form-container" id="form-wifi">
-                                <div class="form-group">
-                                    <label for="wifi-ssid" data-i18n="wifi.ssid">Network Name (SSID)</label>
-                                    <input type="text" id="wifi-ssid" data-i18n="wifi.ssid.placeholder" placeholder="MyWiFi" class="input-field">
+                        <!-- ===================== EXPORT TAB ===================== -->
+                        <div class="tab-panel" data-panel="export" role="tabpanel">
+                            <div class="panel-section">
+                                <h2 class="panel-title" data-i18n="tab.export">Export</h2>
+                                <div class="export-actions">
+                                    <button id="download-png" class="btn-export" disabled data-i18n="button.download.png" data-i18n-aria="a11y.download.png">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                        Download PNG
+                                    </button>
+                                    <button id="download-svg" class="btn-export btn-export--outline" disabled data-i18n="button.download.svg" data-i18n-aria="a11y.download.svg">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                        Download SVG
+                                    </button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="wifi-password" data-i18n="wifi.password">Password</label>
-                                    <input type="text" id="wifi-password" data-i18n="wifi.password.placeholder" placeholder="password123" class="input-field">
+                            </div>
+                        </div>
+
+                        <!-- ===================== HISTORY TAB ===================== -->
+                        <div class="tab-panel" data-panel="history" role="tabpanel">
+                            <div class="panel-section">
+                                <div class="panel-title-row">
+                                    <h2 class="panel-title" data-i18n="history.title">Recent generations</h2>
+                                    <button type="button" id="clear-history-btn" class="btn-sm btn-sm--danger" data-i18n="history.clear">Clear</button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="wifi-encryption" data-i18n="wifi.encryption">Security Type</label>
-                                    <select id="wifi-encryption" class="input-field">
-                                        <option value="WPA" data-i18n="wifi.encryption.wpa">WPA/WPA2</option>
-                                        <option value="WEP" data-i18n="wifi.encryption.wep">WEP</option>
-                                        <option value="nopass" data-i18n="wifi.encryption.none">None</option>
+                                <p class="history-hint" data-i18n="history.hint">Reuse your latest QR setups instantly.</p>
+                                <div class="history-toolbar">
+                                    <input id="history-search" class="input-field input-sm" type="search" data-i18n="history.search.placeholder" placeholder="Search history">
+                                    <select id="history-filter" class="select-sm">
+                                        <option value="all" data-i18n="history.filter.all">All tags</option>
+                                        <option value="general" data-i18n="history.tag.general">General</option>
+                                        <option value="business" data-i18n="history.tag.business">Business</option>
+                                        <option value="event" data-i18n="history.tag.event">Event</option>
+                                        <option value="wifi" data-i18n="history.tag.wifi">Wi-Fi</option>
+                                    </select>
+                                    <select id="history-sort" class="select-sm">
+                                        <option value="recent" data-i18n="history.sort.recent">Recent first</option>
+                                        <option value="favorite" data-i18n="history.sort.favorite">Favorites first</option>
+                                        <option value="oldest" data-i18n="history.sort.oldest">Oldest first</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" id="wifi-hidden">
-                                        <span data-i18n="wifi.hidden">Hidden Network</span>
-                                    </label>
+                                <div class="history-pins" id="history-pins">
+                                    <button type="button" class="pin-slot" data-slot="0">
+                                        <span class="pin-label" data-i18n="history.pin.1">Pinned Slot 1</span>
+                                        <span class="pin-empty" data-i18n="history.pin.empty">Empty</span>
+                                    </button>
+                                    <button type="button" class="pin-slot" data-slot="1">
+                                        <span class="pin-label" data-i18n="history.pin.2">Pinned Slot 2</span>
+                                        <span class="pin-empty" data-i18n="history.pin.empty">Empty</span>
+                                    </button>
                                 </div>
+                                <ul id="recent-history-list" class="history-list">
+                                    <li class="history-empty" data-i18n="history.empty">No history yet. Generate your first QR.</li>
+                                </ul>
                             </div>
-
-                            <button id="generate-btn" class="btn-generate" data-i18n="button.generate" data-i18n-aria="a11y.generate">Generate QR Code</button>
-                            <p class="form-hint" data-i18n="hint.generate.shortcut">Tip: Press Ctrl+Enter to generate quickly.</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- ===================== DESIGN TAB ===================== -->
-                    <div class="tab-panel" data-panel="design" role="tabpanel">
-                        <div class="panel-section">
-                            <div class="panel-title-row">
-                                <h2 class="panel-title" data-i18n="section.design">Customize Design</h2>
-                                <button type="button" id="design-reset-btn" class="btn-sm" data-i18n="design.reset">Reset</button>
+                <aside class="workspace-preview">
+                    <div class="preview-card">
+                        <div class="preview-stage">
+                            <div class="hero-image-glow" aria-hidden="true"></div>
+                            <div class="hero-orbit" aria-hidden="true"><span class="hero-orbit-dot"></span></div>
+                            <div class="preview-canvas-shell">
+                                <div id="qr-code-container"></div>
                             </div>
-
                         </div>
-
-                        <div class="panel-section">
-                            <details class="design-group" open data-group="shape">
-                                <summary data-i18n="design.group.shape">Shape</summary>
-                                <div class="design-group-body">
-                                    <div class="form-group">
-                                        <label for="dots-type" data-i18n="design.dots.type">Dot Style</label>
-                                        <select id="dots-type" class="input-field">
-                                            <option value="rounded" data-i18n="design.dots.rounded">Rounded Square</option>
-                                            <option value="dots" data-i18n="design.dots.dots">Dots</option>
-                                            <option value="classy" data-i18n="design.dots.classy">Classy</option>
-                                            <option value="classy-rounded" data-i18n="design.dots.classy-rounded">Classy Rounded</option>
-                                            <option value="square" data-i18n="design.dots.square">Square</option>
-                                            <option value="extra-rounded" data-i18n="design.dots.extra-rounded">Extra Rounded</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="corner-square-type" data-i18n="design.corner.square">Corner Square Style</label>
-                                        <select id="corner-square-type" class="input-field">
-                                            <option value="dot" data-i18n="design.corner.square.dot">Dot</option>
-                                            <option value="square" data-i18n="design.corner.square.square">Square</option>
-                                            <option value="extra-rounded" data-i18n="design.corner.square.extra-rounded">Extra Rounded</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="corner-dot-type" data-i18n="design.corner.dot">Corner Dot Style</label>
-                                        <select id="corner-dot-type" class="input-field">
-                                            <option value="dot" data-i18n="design.corner.dot.dot">Dot</option>
-                                            <option value="square" data-i18n="design.corner.dot.square">Square</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </details>
-
-                            <details class="design-group" data-group="color">
-                                <summary data-i18n="design.group.color">Color</summary>
-                                <div class="design-group-body">
-                                    <div class="color-row">
-                                        <div class="form-group">
-                                            <label for="dots-color" data-i18n="design.color.dots">Code Color</label>
-                                            <input type="color" id="dots-color" value="#51A273" class="color-input">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="background-color" data-i18n="design.color.background">Background Color</label>
-                                            <input type="color" id="background-color" value="#ffffff" class="color-input">
-                                        </div>
-                                    </div>
-                                </div>
-                            </details>
-
-                            <details class="design-group" data-group="logo">
-                                <summary data-i18n="design.group.logo">Logo</summary>
-                                <div class="design-group-body">
-                                    <div class="form-group">
-                                        <label for="logo-upload" data-i18n="design.logo">Logo Image (optional)</label>
-                                        <input type="file" id="logo-upload" accept="image/*" class="input-field">
-                                        <small data-i18n="design.logo.help">Upload a logo to place in the center of the code</small>
-                                    </div>
-                                </div>
-                            </details>
+                        <p id="preview-status" class="preview-status" aria-live="polite" data-i18n="message.empty">Enter content and click "Generate"</p>
+                        <div class="preview-zoom-controls">
+                            <button type="button" id="preview-zoom-out" class="btn-icon" data-i18n-aria="a11y.zoom.out">−</button>
+                            <span id="preview-zoom-level">100%</span>
+                            <button type="button" id="preview-zoom-in" class="btn-icon" data-i18n-aria="a11y.zoom.in">+</button>
+                            <button type="button" id="preview-zoom-reset" class="btn-icon" data-i18n-aria="a11y.zoom.reset" aria-label="Reset zoom">↺</button>
                         </div>
                     </div>
+                </aside>
+            </div>
+        </section>
 
-                    <!-- ===================== EXPORT TAB ===================== -->
-                    <div class="tab-panel" data-panel="export" role="tabpanel">
-                        <div class="panel-section">
-                            <h2 class="panel-title" data-i18n="tab.export">Export</h2>
-                            <div class="export-actions">
-                                <button id="download-png" class="btn-export" disabled data-i18n="button.download.png" data-i18n-aria="a11y.download.png">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                    Download PNG
-                                </button>
-                                <button id="download-svg" class="btn-export btn-export--outline" disabled data-i18n="button.download.svg" data-i18n-aria="a11y.download.svg">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                    Download SVG
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- ===================== HISTORY TAB ===================== -->
-                    <div class="tab-panel" data-panel="history" role="tabpanel">
-                        <div class="panel-section">
-                            <div class="panel-title-row">
-                                <h2 class="panel-title" data-i18n="history.title">Recent generations</h2>
-                                <button type="button" id="clear-history-btn" class="btn-sm btn-sm--danger" data-i18n="history.clear">Clear</button>
-                            </div>
-                            <p class="history-hint" data-i18n="history.hint">Reuse your latest QR setups instantly.</p>
-                            <div class="history-toolbar">
-                                <input id="history-search" class="input-field input-sm" type="search" data-i18n="history.search.placeholder" placeholder="Search history">
-                                <select id="history-filter" class="select-sm">
-                                    <option value="all" data-i18n="history.filter.all">All tags</option>
-                                    <option value="general" data-i18n="history.tag.general">General</option>
-                                    <option value="business" data-i18n="history.tag.business">Business</option>
-                                    <option value="event" data-i18n="history.tag.event">Event</option>
-                                    <option value="wifi" data-i18n="history.tag.wifi">Wi-Fi</option>
-                                </select>
-                                <select id="history-sort" class="select-sm">
-                                    <option value="recent" data-i18n="history.sort.recent">Recent first</option>
-                                    <option value="favorite" data-i18n="history.sort.favorite">Favorites first</option>
-                                    <option value="oldest" data-i18n="history.sort.oldest">Oldest first</option>
-                                </select>
-                            </div>
-                            <div class="history-pins" id="history-pins">
-                                <button type="button" class="pin-slot" data-slot="0">
-                                    <span class="pin-label" data-i18n="history.pin.1">Pinned Slot 1</span>
-                                    <span class="pin-empty" data-i18n="history.pin.empty">Empty</span>
-                                </button>
-                                <button type="button" class="pin-slot" data-slot="1">
-                                    <span class="pin-label" data-i18n="history.pin.2">Pinned Slot 2</span>
-                                    <span class="pin-empty" data-i18n="history.pin.empty">Empty</span>
-                                </button>
-                            </div>
-                            <ul id="recent-history-list" class="history-list">
-                                <li class="history-empty" data-i18n="history.empty">No history yet. Generate your first QR.</li>
-                            </ul>
-                        </div>
-                    </div>
+        <!-- HOW IT WORKS -->
+        <section id="how" class="how-it-works reveal">
+            <p class="section-label" data-i18n="how.eyebrow">HOW IT WORKS</p>
+            <h2 class="section-title" data-i18n="how.title">Three steps, zero friction.</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card reveal reveal-delay-1">
+                    <div class="step-num">01</div>
+                    <h3 class="step-title" data-i18n="how.step1.title">Pick a type</h3>
+                    <p class="step-desc" data-i18n="how.step1.desc">Choose URL, text, contact (vCard), email, phone, or Wi-Fi. Six formats cover almost every QR use case.</p>
+                </div>
+                <div class="highlight-card reveal reveal-delay-2">
+                    <div class="step-num">02</div>
+                    <h3 class="step-title" data-i18n="how.step2.title">Style it</h3>
+                    <p class="step-desc" data-i18n="how.step2.desc">Tune colors, dot shapes, and corner styles. Drop a logo into the center. Apply one of six built-in presets in a click.</p>
+                </div>
+                <div class="highlight-card reveal reveal-delay-3">
+                    <div class="step-num">03</div>
+                    <h3 class="step-title" data-i18n="how.step3.title">Export</h3>
+                    <p class="step-desc" data-i18n="how.step3.desc">Download PNG for screens or SVG for print. Everything happens locally — nothing ever leaves your browser.</p>
                 </div>
             </div>
-
-            <!-- Right: Preview Sidebar -->
-            <aside class="app-preview">
-                <div class="preview-card">
-                    <div class="preview-stage">
-                        <div class="preview-canvas-shell">
-                            <div id="qr-code-container"></div>
-                        </div>
-                    </div>
-                    <p id="preview-status" class="preview-status" aria-live="polite" data-i18n="message.empty">Enter content and click "Generate"</p>
-                    <div class="preview-zoom-controls">
-                        <button type="button" id="preview-zoom-out" class="btn-icon" data-i18n-aria="a11y.zoom.out">-</button>
-                        <span id="preview-zoom-level">100%</span>
-                        <button type="button" id="preview-zoom-in" class="btn-icon" data-i18n-aria="a11y.zoom.in">+</button>
-                        <button type="button" id="preview-zoom-reset" class="btn-icon" data-i18n-aria="a11y.zoom.reset" aria-label="Reset zoom">↺</button>
-                    </div>
-                </div>
-            </aside>
-        </main>
+        </section>
 
         <!-- Bottom Ad Banner -->
         <div class="ad-banner">
             <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4697521862423903" data-ad-slot="1341071907" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
         </div>
 
-        <!-- Mobile Action Bar -->
-        <div class="mobile-action-bar" aria-label="Quick actions">
-            <button type="button" id="mobile-generate" class="mobile-action primary" data-i18n="button.generate">Generate</button>
-            <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">PNG</button>
-            <button type="button" id="mobile-share" class="mobile-action" data-i18n="button.share">Share</button>
-            <button type="button" id="mobile-more-toggle" class="mobile-action" data-i18n="button.more" aria-expanded="false" aria-controls="mobile-more-panel">More</button>
-            <div id="mobile-more-panel" class="mobile-more-panel" hidden>
-                <button type="button" id="mobile-download-svg" class="mobile-more-btn" data-i18n="button.download.svg">Download SVG</button>
-                <button type="button" id="mobile-last-preset" class="mobile-more-btn" data-i18n="button.last_preset">Last Preset</button>
+        <!-- FAQ -->
+        <section id="faq" class="faq reveal">
+            <p class="section-label" data-i18n="faq.eyebrow">FAQ</p>
+            <h2 class="section-title" data-i18n="faq.title">Questions &amp; answers</h2>
+            <div class="faq-list">
+                <details>
+                    <summary data-i18n="faq.q1.q">Is Quon free?</summary>
+                    <div class="faq-answer" data-i18n="faq.q1.a">Yes — Quon is completely free. No signup, no payment, unlimited generations and downloads.</div>
+                </details>
+                <details>
+                    <summary data-i18n="faq.q2.q">What kinds of QR codes can I make?</summary>
+                    <div class="faq-answer" data-i18n="faq.q2.a">URL, plain text, contact (vCard), email, phone, and Wi-Fi — six types that cover business cards, Wi-Fi sharing, link sharing, and more.</div>
+                </details>
+                <details>
+                    <summary data-i18n="faq.q3.q">Can I add a logo?</summary>
+                    <div class="faq-answer" data-i18n="faq.q3.a">Yes. You can place a logo image in the center and adjust its size. Error-correction level is managed automatically to keep scans reliable.</div>
+                </details>
+                <details>
+                    <summary data-i18n="faq.q4.q">Where is my data stored?</summary>
+                    <div class="faq-answer" data-i18n="faq.q4.a">All QR codes are generated in your browser and never sent to any server. Recent history lives only in your localStorage.</div>
+                </details>
+                <details>
+                    <summary data-i18n="faq.q5.q">Which file formats can I download?</summary>
+                    <div class="faq-answer" data-i18n="faq.q5.a">PNG (raster) or SVG (vector). SVG is best for print; PNG is best for web and apps.</div>
+                </details>
+                <details>
+                    <summary data-i18n="faq.q6.q">Can I use Quon commercially?</summary>
+                    <div class="faq-answer" data-i18n="faq.q6.a">Yes. The QR codes you generate are yours — use them on business cards, marketing collateral, signage, packaging, anywhere.</div>
+                </details>
             </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="footer-brand">Quon · <span data-i18n="footer.tagline">Free QR Code Generator</span></p>
+        <p class="footer-links">
+            <a href="https://xiu.kr" target="_blank" rel="noopener">xiu.kr</a> ·
+            <a href="https://xiu.kr/privacy.html" target="_blank" rel="noopener" data-i18n="nav.privacy">Privacy</a> ·
+            <a href="/sitemap.xml">Sitemap</a>
+        </p>
+    </footer>
+
+    <!-- Mobile Action Bar -->
+    <div class="mobile-action-bar" aria-label="Quick actions">
+        <button type="button" id="mobile-generate" class="mobile-action primary" data-i18n="button.generate">Generate</button>
+        <button type="button" id="mobile-download-png" class="mobile-action" data-i18n="button.download.png">PNG</button>
+        <button type="button" id="mobile-share" class="mobile-action" data-i18n="button.share">Share</button>
+        <button type="button" id="mobile-more-toggle" class="mobile-action" data-i18n="button.more" aria-expanded="false" aria-controls="mobile-more-panel">More</button>
+        <div id="mobile-more-panel" class="mobile-more-panel" hidden>
+            <button type="button" id="mobile-download-svg" class="mobile-more-btn" data-i18n="button.download.svg">Download SVG</button>
+            <button type="button" id="mobile-last-preset" class="mobile-more-btn" data-i18n="button.last_preset">Last Preset</button>
         </div>
     </div>
 
-    <!-- Tab Switching -->
+    <!-- Tab Switching + Nav scroll + Reveal-on-scroll -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Tab switching
         var tabBtns = document.querySelectorAll('.tab-btn');
         var tabPanels = document.querySelectorAll('.tab-panel');
         tabBtns.forEach(function(btn) {
@@ -654,11 +736,37 @@
                 if (panel) panel.classList.add('active');
             });
         });
+
+        // Nav scroll-reactive
+        var nav = document.querySelector('.site-nav');
+        if (nav) {
+            var onScroll = function() {
+                if (window.scrollY > 24) nav.classList.add('scrolled');
+                else nav.classList.remove('scrolled');
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        }
+
+        // Reveal-on-scroll
+        if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+            document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+        } else {
+            document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
+        }
     });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-    <script src="i18n.js"></script>
-    <script src="script.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>

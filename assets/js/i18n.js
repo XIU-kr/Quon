@@ -38,7 +38,7 @@ async function loadLanguage(lang) {
     try {
         // Dynamically load the language file
         const script = document.createElement('script');
-        script.src = `locales/${lang}.js`;
+        script.src = `assets/locales/${lang}.js`;
         
         // Wait for the script to load
         await new Promise((resolve, reject) => {
@@ -53,7 +53,7 @@ async function loadLanguage(lang) {
                     reject(new Error(`Language data for "${lang}" not found after loading script`));
                 }
             };
-            script.onerror = () => reject(new Error(`Failed to load language file: locales/${lang}.js`));
+            script.onerror = () => reject(new Error(`Failed to load language file: assets/locales/${lang}.js`));
             document.head.appendChild(script);
         });
         

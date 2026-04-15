@@ -291,7 +291,51 @@ window.en = {
     'lang.name.en': 'English',
     'lang.name.ko': '한국어',
     'lang.select': 'Language',
-    'hint.generate.shortcut': 'Tip: Press Ctrl+Enter to generate quickly.'
+    'hint.generate.shortcut': 'Tip: Press Ctrl+Enter to generate quickly.',
+
+    // Nav
+    'nav.create': 'Create',
+    'nav.how': 'How it works',
+    'nav.faq': 'FAQ',
+    'nav.about': 'About',
+
+    // Hero
+    'hero.eyebrow': '◇ QR GENERATOR · v1.5',
+    'hero.title': 'Craft custom QR codes.',
+    'hero.tagline': 'Free, fast, privacy-first. Six formats. Six presets. Export PNG or SVG in one tap — no signup, no upload, 100% in your browser.',
+    'stat.types': 'TYPES',
+    'stat.generations': 'GENERATIONS',
+    'stat.local': 'LOCAL',
+    'stat.export': 'EXPORT',
+
+    // How it works
+    'how.eyebrow': 'HOW IT WORKS',
+    'how.title': 'Three steps, zero friction.',
+    'how.step1.title': 'Pick a type',
+    'how.step1.desc': 'Choose URL, text, contact (vCard), email, phone, or Wi-Fi. Six formats cover almost every QR use case.',
+    'how.step2.title': 'Style it',
+    'how.step2.desc': 'Tune colors, dot shapes, and corner styles. Drop a logo into the center. Apply one of six built-in presets in a click.',
+    'how.step3.title': 'Export',
+    'how.step3.desc': 'Download PNG for screens or SVG for print. Everything happens locally — nothing ever leaves your browser.',
+
+    // FAQ
+    'faq.eyebrow': 'FAQ',
+    'faq.title': 'Questions & answers',
+    'faq.q1.q': 'Is Quon free?',
+    'faq.q1.a': 'Yes — Quon is completely free. No signup, no payment, unlimited generations and downloads.',
+    'faq.q2.q': 'What kinds of QR codes can I make?',
+    'faq.q2.a': 'URL, plain text, contact (vCard), email, phone, and Wi-Fi — six types that cover business cards, Wi-Fi sharing, link sharing, and more.',
+    'faq.q3.q': 'Can I add a logo to the QR code?',
+    'faq.q3.a': 'Yes. You can place a logo image in the center and adjust its size. Error-correction level is managed automatically to keep scans reliable.',
+    'faq.q4.q': 'Where is my data stored?',
+    'faq.q4.a': 'All QR codes are generated in your browser and never sent to any server. Recent history lives only in your localStorage.',
+    'faq.q5.q': 'Which file formats can I download?',
+    'faq.q5.a': 'PNG (raster) or SVG (vector). SVG is best for print; PNG is best for web and apps.',
+    'faq.q6.q': 'Can I use Quon commercially?',
+    'faq.q6.a': 'Yes. The QR codes you generate are yours — use them on business cards, marketing collateral, signage, packaging, anywhere.',
+
+    // Footer
+    'footer.tagline': 'Free QR Code Generator'
 };
 
 // Also export for module systems (if available)

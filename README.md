@@ -1,50 +1,72 @@
 # Quon
 
-무료 맞춤형 QR 코드 생성기 — [quon.xiu.kr](https://quon.xiu.kr)
+**Free Custom QR Code Generator** — [quon.xiu.kr](https://quon.xiu.kr)
 
-빌드 도구 없는 바닐라 HTML/CSS/JS 정적 사이트. QR 렌더링은 [qr-code-styling](https://github.com/kozakdenys/qr-code-styling)(CDN)을 사용합니다.
+브라우저에서 즉시 만드는 맞춤형 QR 코드 스튜디오.
+가입 없음 · 업로드 없음 · 100% 로컬 생성.
 
-## 기능
+![Quon](assets/images/og-image.png)
 
-- 6가지 QR 타입: URL, 텍스트, vCard, 이메일, 전화, Wi-Fi
-- 디자인 프리셋 + 커스텀 프리셋(3 슬롯) + 로고 삽입
-- PNG / SVG 내보내기
-- 생성 히스토리(최근 5개) + 고정(2개)
-- 다국어(en, ko) — `locales/*.js`, `i18n.js` 참고
-- 다크 에메랄드 테마 (Obsidian Emerald, `--accent: #1aad6c`)
+---
 
-## 개발
+## 한눈에 보기
 
-```bash
-npx serve .        # 또는: python -m http.server 8000
-```
+Quon은 URL·vCard·Wi-Fi 등 6가지 타입을 지원하는 다크 테마 QR 코드 생성기입니다.
+내용을 입력하고 원하는 디자인을 고른 뒤, 한 번의 클릭으로 고해상도 PNG 또는 SVG를 받아보세요.
+모든 생성은 브라우저에서만 일어나며, 데이터는 서버로 전송되지 않습니다.
 
-빌드 과정 없음. `main` 브랜치에 푸시하면 GitHub Pages로 자동 배포.
-커스텀 도메인은 레포 설정에서 관리 (in-tree `CNAME` 없음).
+## 주요 기능
 
-## 파일 구조
+### 6가지 QR 타입
 
-| 파일 | 역할 |
-|---|---|
-| `index.html` | 마크업 · 탭 UI(Create/Design/Export/History) · `<head>` SEO 메타 + JSON-LD 3블록 |
-| `script.js` | 앱 로직 (QR 생성, 상태, 히스토리, 프리셋) |
-| `styles.css` | Obsidian Emerald 다크 테마, 글래스모피즘, 앳머스피어 글로우 |
-| `i18n.js` + `locales/` | 비동기 로드 i18n (en, ko) |
-| `adblock-detector.js` | 광고 차단 감지 & 폴백 프롬프트 |
-| `404.html` | 브랜드 404 페이지 (GitHub Pages 자동 사용) |
-| `og-image.png`, `icon-*.png`, `apple-touch-icon.png`, `quon.webp` | 브랜드/소셜 에셋 |
-| `robots.txt`, `sitemap.xml` | 크롤러 힌트 |
+| 타입 | 용도 | 특기사항 |
+|---|---|---|
+| **URL** | 웹사이트 · 랜딩 페이지 | 국제화 도메인 지원 |
+| **텍스트** | 메모 · 문구 | 최대 ~2KB 원문 |
+| **vCard** | 연락처 | RFC 2426 준수, iOS 호환, 비ASCII quoted-printable |
+| **이메일** | 수신자 + 제목 + 본문 | mailto 문법 |
+| **전화** | 국제 국가코드 선택 | tel: 스키마 |
+| **Wi-Fi** | SSID + 암호 + 암호화 방식 | ISO/IEC 18004 Annex F, 특수문자 이스케이핑 |
 
-## SEO / 크롤러
+### 맞춤 디자인
 
-- JSON-LD: `WebApplication` + `FAQPage`(6 Q&A) + `HowTo`(4단계)
-- `hreflang` en/ko/x-default, Open Graph, Twitter Card, canonical
-- `<main>` 내부 `.sr-only` 섹션에 H1 + 한/영 인트로 (시각적 숨김, 크롤러/스크린 리더용)
-- `<noscript>` 폴백 블록
-- 네이버 서치어드바이저 소유권 태그 포함
+- 내장 디자인 프리셋 6종 + 사용자 슬롯 3개
+- 도트 · 코너 · 배경 색상 개별 조정
+- 중앙 로고 삽입 (PNG / JPG 업로드)
+- 도트 모양 5종, 코너 스타일 3종
 
-## 배포 후 할 일
+### 내보내기 & 히스토리
 
-- [Google Search Console](https://search.google.com/search-console) 소유 확인 + sitemap 제출
-- [네이버 서치어드바이저](https://searchadvisor.naver.com/) 소유 확인 + sitemap 제출
-- [Rich Results Test](https://search.google.com/test/rich-results)로 JSON-LD 3종 검증
+- 원탭 **PNG / SVG** 다운로드
+- 파일명 자동 생성: `qrcode-<타입>-<타임스탬프>.<확장자>`
+- 최근 생성 5개 자동 기록 + 즐겨찾기 고정 슬롯 2개
+- 히스토리 검색 · 필터 · 정렬
+- 데이터는 브라우저 `localStorage`에 보관 — 기기 밖으로 나가지 않음
+
+### 프라이버시 & 성능
+
+- 모든 QR 생성은 **브라우저 로컬** (서버 전송 0 바이트)
+- 초경량 정적 사이트 — 빌드 번들 없음
+- Lighthouse 고점수 (SEO · Performance · Accessibility)
+
+### 다국어 · 접근성
+
+- 한국어 / 영어 자동 감지 및 수동 전환
+- `prefers-reduced-motion` 존중
+- 키보드 네비게이션 전면 지원
+- 스크린 리더 친화적 마크업
+
+## 사용법
+
+1. 상단 **타입** 탭에서 QR 종류 선택
+2. 내용 입력
+3. (선택) **Design** 탭에서 색상 · 로고 · 도트 모양 조정
+4. **Generate** 버튼 → **PNG** 또는 **SVG** 다운로드
+
+## 디자인
+
+**Obsidian Gold** 다크 테마 — 자매 사이트 [xiu.kr](https://xiu.kr)과 동일한 디자인 토큰을 공유합니다. 골드 액센트(`#d4a016`), Syne × Outfit × Fira Code 타이포그래피, 그리드 + 라디얼 글로우 레이어, 점선 오빗 모티프.
+
+## 라이선스
+
+[MIT License](LICENSE) © XIU

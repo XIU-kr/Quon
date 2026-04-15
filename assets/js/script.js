@@ -32,7 +32,7 @@ const DEFAULT_DESIGN_SETTINGS = {
     dotsType: 'rounded',
     cornerSquareType: 'dot',
     cornerDotType: 'dot',
-    dotsColor: '#51A273',
+    dotsColor: '#d4a016',
     backgroundColor: '#ffffff'
 };
 

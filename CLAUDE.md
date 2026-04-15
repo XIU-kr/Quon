@@ -25,15 +25,17 @@ CI, 테스트, 린터 없음. `main` 브랜치 커밋이 GitHub Pages로 자동 
 | 파일 | 역할 |
 |---|---|
 | `index.html` | 시맨틱 마크업. 왼쪽 패널은 **탭 인터페이스**(Create / Design / Export / History) — 다단 레이아웃이 아님. |
-| `script.js` | ~1850줄. QR 생성, 유효성 검사, 상태 관리, 히스토리/핀, 커스텀 프리셋. |
-| `styles.css` | CSS 커스텀 프로퍼티, **Obsidian Emerald** 다크 테마(`--accent: #1aad6c`), 글래스모피즘, 앳머스피어 글로우 레이어. |
-| `i18n.js` + `locales/{en,ko}.js` | 비동기 언어 로더. 각 로케일 파일은 전역 변수로 노출(예: `window.en`). |
+| `assets/js/script.js` | ~1850줄. QR 생성, 유효성 검사, 상태 관리, 히스토리/핀, 커스텀 프리셋. |
+| `assets/css/styles.css` | CSS 커스텀 프로퍼티, **Obsidian Gold** 다크 테마(`--accent: #d4a016`, 자매 사이트 xiu.kr과 토큰 동기화), hero 그리드 + dual radial 글로우 + 점선 오빗 레이어. |
+| `assets/js/i18n.js` + `assets/locales/{en,ko}.js` | 비동기 언어 로더. 각 로케일 파일은 전역 변수로 노출(예: `window.en`). |
 
-`adblock-detector.js`는 광고 차단기를 감지해서 빈 광고 슬롯 대신 현지화된 우아한 프롬프트를 표시합니다.
+루트에는 `index.html`, `404.html`, SEO/설정 파일(`CNAME`, `.nojekyll`, `robots.txt`, `sitemap.xml`, `ads.txt`)만 두고, 모든 JS/CSS/이미지/로케일은 `assets/` 하위에 둡니다.
+
+`assets/js/adblock-detector.js`는 광고 차단기를 감지해서 빈 광고 슬롯 대신 현지화된 우아한 프롬프트를 표시합니다.
 
 ### QR 타입 시스템
 
-6가지 타입이 하나의 코드 경로를 공유: `url`, `text`, `vcard`, `email`, `tel`, `wifi`. 각 타입은 HTML에 전용 `#form-<타입>` 섹션을 가지며, `currentType` 전역 변수로 활성 폼을 전환합니다. 타입별 콘텐츠 포맷팅과 유효성 검사는 `script.js`에 구현.
+6가지 타입이 하나의 코드 경로를 공유: `url`, `text`, `vcard`, `email`, `tel`, `wifi`. 각 타입은 HTML에 전용 `#form-<타입>` 섹션을 가지며, `currentType` 전역 변수로 활성 폼을 전환합니다. 타입별 콘텐츠 포맷팅과 유효성 검사는 `assets/js/script.js`에 구현.
 
 - **vCard**: RFC 2426 준수, iOS 호환. 비ASCII 문자는 quoted-printable 인코딩.
 - **Wi-Fi**: ISO/IEC 18004 Annex F 문법, 특수문자 이스케이핑 처리.
@@ -66,8 +68,8 @@ quon_history_view         quon_last_preset       quon_language
 
 ## i18n — 새 언어 추가
 
-1. `locales/en.js`를 `locales/<코드>.js`로 복사 후 값만 번역 (키는 동일하게 유지).
-2. `i18n.js`의 `SUPPORTED_LANGUAGES`에 코드 추가.
+1. `assets/locales/en.js`를 `assets/locales/<코드>.js`로 복사 후 값만 번역 (키는 동일하게 유지).
+2. `assets/js/i18n.js`의 `SUPPORTED_LANGUAGES`에 코드 추가.
 3. 필요 시 `detectLanguage()`에 브라우저 매핑 로직 추가.
 
 DOM 요소는 3가지 데이터 속성으로 i18n에 참여: `data-i18n`(textContent), `data-i18n-aria`(aria-label), `data-i18n-title`(title). `t(key)`는 번역값을 반환하며, 누락 시 영어로 폴백.
@@ -76,9 +78,9 @@ DOM 요소는 3가지 데이터 속성으로 i18n에 참여: `data-i18n`(textCon
 
 - **런타임 npm 의존성 금지.** 외부 코드는 CDN으로만 로드하며, 번들러 도입 금지.
 - **이벤트 기반 DOM 업데이트.** 가상 DOM이나 반응성 시스템 없음 — DOM을 직접 조작하고 해당 `render*` 함수를 호출.
-- **UI는 이중 언어, 코드는 영어.** 모든 식별자, 주석, 커밋 메시지는 영어. 사용자 노출 문구는 `locales/*.js`에만 존재.
-- **Google AdSense + gtag.js**는 `index.html`에 연결되어 있음. 광고 차단 폴백은 `adblock-detector.js`가 담당.
-- **SEO 에셋**(`robots.txt`, `sitemap.xml` + `lastmod`, `og-image.png`, 아이콘 PNG들, `<head>` 내 JSON-LD 3블록, `404.html`의 절대 경로, `<main>`의 `.sr-only` 인트로)은 모두 `https://quon.xiu.kr/`를 참조. 도메인이 바뀌면 이것들을 함께 업데이트하고 **네이버 서치어드바이저/GSC/빙에서 소유 확인 태그도 재발급** 받아야 함.
+- **UI는 이중 언어, 코드는 영어.** 모든 식별자, 주석, 커밋 메시지는 영어. 사용자 노출 문구는 `assets/locales/*.js`에만 존재.
+- **Google AdSense + gtag.js**는 `index.html`에 연결되어 있음. 광고 차단 폴백은 `assets/js/adblock-detector.js`가 담당.
+- **SEO 에셋**(루트의 `robots.txt`, `sitemap.xml` + `lastmod`, `assets/images/og-image.png`, `assets/images/icon-*.png`, `<head>` 내 JSON-LD 3블록, `404.html`의 절대 경로, `<main>`의 `.sr-only` 인트로)은 모두 `https://quon.xiu.kr/`를 참조. 도메인이 바뀌면 이것들을 함께 업데이트하고 **네이버 서치어드바이저/GSC/빙에서 소유 확인 태그도 재발급** 받아야 함.
 
 ## 과거에 존재했던 것들 (재추가 금지)
 

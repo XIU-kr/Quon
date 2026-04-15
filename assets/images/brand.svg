@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Quon">
+  <defs>
+    <linearGradient id="goldFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8b227"/>
+      <stop offset="55%" stop-color="#d4a016"/>
+      <stop offset="100%" stop-color="#b8891a"/>
+    </linearGradient>
+    <linearGradient id="goldStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d4a016"/>
+      <stop offset="100%" stop-color="#b8891a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0%" stop-color="rgba(212,160,22,0.35)"/>
+      <stop offset="100%" stop-color="rgba(212,160,22,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="#07070b"/>
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#glow)"/>
+
+  <!-- subtle grid -->
+  <g stroke="#1e1e30" stroke-width="1" opacity="0.6">
+    <line x1="64" y1="0" x2="64" y2="512"/>
+    <line x1="128" y1="0" x2="128" y2="512"/>
+    <line x1="192" y1="0" x2="192" y2="512"/>
+    <line x1="256" y1="0" x2="256" y2="512"/>
+    <line x1="320" y1="0" x2="320" y2="512"/>
+    <line x1="384" y1="0" x2="384" y2="512"/>
+    <line x1="448" y1="0" x2="448" y2="512"/>
+    <line x1="0" y1="64" x2="512" y2="64"/>
+    <line x1="0" y1="128" x2="512" y2="128"/>
+    <line x1="0" y1="192" x2="512" y2="192"/>
+    <line x1="0" y1="256" x2="512" y2="256"/>
+    <line x1="0" y1="320" x2="512" y2="320"/>
+    <line x1="0" y1="384" x2="512" y2="384"/>
+    <line x1="0" y1="448" x2="512" y2="448"/>
+  </g>
+
+  <!-- QR-style finder squares (top-left, top-right, bottom-left) -->
+  <g fill="url(#goldFill)">
+    <!-- top-left finder -->
+    <rect x="80" y="80" width="76" height="76" rx="14" ry="14" opacity="0.95"/>
+    <rect x="98" y="98" width="40" height="40" rx="6" ry="6" fill="#07070b"/>
+    <rect x="110" y="110" width="16" height="16" rx="3" ry="3" fill="url(#goldFill)"/>
+
+    <!-- top-right finder -->
+    <rect x="356" y="80" width="76" height="76" rx="14" ry="14" opacity="0.95"/>
+    <rect x="374" y="98" width="40" height="40" rx="6" ry="6" fill="#07070b"/>
+    <rect x="386" y="110" width="16" height="16" rx="3" ry="3" fill="url(#goldFill)"/>
+
+    <!-- bottom-left finder -->
+    <rect x="80" y="356" width="76" height="76" rx="14" ry="14" opacity="0.95"/>
+    <rect x="98" y="374" width="40" height="40" rx="6" ry="6" fill="#07070b"/>
+    <rect x="110" y="386" width="16" height="16" rx="3" ry="3" fill="url(#goldFill)"/>
+  </g>
+
+  <!-- central Q glyph -->
+  <g transform="translate(256 256)">
+    <circle cx="0" cy="0" r="84" fill="none" stroke="url(#goldStroke)" stroke-width="22"/>
+    <!-- Q tail -->
+    <line x1="40" y1="44" x2="92" y2="96" stroke="url(#goldStroke)" stroke-width="22" stroke-linecap="round"/>
+  </g>
+</svg>

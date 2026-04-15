@@ -1,0 +1,13 @@
+{
+  "name": "quon-scripts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "One-off build-time utilities (not runtime). Not shipped.",
+  "scripts": {
+    "images": "node regenerate-images.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  }
+}

@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 — Quon</title>
     <meta name="robots" content="noindex, follow">
-    <meta name="theme-color" content="#1aad6c">
-    <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-    <link rel="icon" type="image/webp" href="/quon.webp">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#d4a016">
+    <link rel="icon" type="image/svg+xml" href="/assets/images/brand.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/icon-192.png">
+    <link rel="icon" type="image/webp" href="/assets/images/quon.webp">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -28,27 +29,41 @@
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(circle at 20% 30%, rgba(26, 173, 108, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(45, 212, 168, 0.08) 0%, transparent 50%);
+                radial-gradient(ellipse 60% 50% at 70% 40%, rgba(212, 160, 22, 0.10), transparent 70%),
+                radial-gradient(ellipse 40% 60% at 20% 80%, rgba(45, 212, 168, 0.05), transparent 60%);
+            pointer-events: none;
+        }
+        body::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(#1e1e30 1px, transparent 1px),
+                linear-gradient(90deg, #1e1e30 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.35;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 0%, transparent 70%);
             pointer-events: none;
         }
         main {
             position: relative;
             text-align: center;
             max-width: 480px;
+            z-index: 1;
         }
         .logo {
             width: 96px;
             height: 96px;
             margin: 0 auto 2rem;
             display: block;
-            filter: drop-shadow(0 8px 24px rgba(26, 173, 108, 0.35));
+            filter: drop-shadow(0 8px 24px rgba(212, 160, 22, 0.35));
         }
         .code {
             font-size: 7rem;
             font-weight: 800;
             line-height: 1;
-            background: linear-gradient(135deg, #22c478, #1aad6c);
+            background: linear-gradient(135deg, #e4e4ec 0%, #d4a016 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -75,7 +90,7 @@
             display: inline-block;
             padding: 0.85rem 2rem;
             border-radius: 999px;
-            background: #1aad6c;
+            background: #d4a016;
             color: #07070b;
             font-weight: 700;
             text-decoration: none;
@@ -84,13 +99,13 @@
         }
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(26, 173, 108, 0.4);
+            box-shadow: 0 12px 32px rgba(212, 160, 22, 0.4);
         }
     </style>
 </head>
 <body>
     <main>
-        <img src="/quon.webp" alt="Quon" class="logo">
+        <img src="/assets/images/brand.svg" alt="Quon" class="logo" onerror="this.onerror=null;this.src='/assets/images/quon.webp';">
         <div class="code">404</div>
         <h1>페이지를 찾을 수 없습니다</h1>
         <p>요청하신 페이지가 존재하지 않거나 이동되었습니다.<br>주소를 다시 확인해 주세요.</p>

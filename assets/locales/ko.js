@@ -291,7 +291,51 @@ window.ko = {
     'lang.name.en': 'English',
     'lang.name.ko': '한국어',
     'lang.select': '언어',
-    'hint.generate.shortcut': '팁: Ctrl+Enter로 빠르게 생성할 수 있어요.'
+    'hint.generate.shortcut': '팁: Ctrl+Enter로 빠르게 생성할 수 있어요.',
+
+    // 네비게이션
+    'nav.create': '생성',
+    'nav.how': '사용 방법',
+    'nav.faq': 'FAQ',
+    'nav.about': '소개',
+
+    // 히어로
+    'hero.eyebrow': '◇ QR 코드 생성기 · v1.5',
+    'hero.title': '당신만의 QR을 디자인하세요.',
+    'hero.tagline': '무료, 빠름, 프라이버시 우선. 6가지 포맷, 6가지 프리셋. PNG·SVG 원탭 내보내기 — 가입 없음, 업로드 없음, 100% 브라우저 로컬.',
+    'stat.types': '타입',
+    'stat.generations': '생성 횟수',
+    'stat.local': '로컬',
+    'stat.export': '내보내기',
+
+    // 사용 방법
+    'how.eyebrow': '사용 방법',
+    'how.title': '세 단계, 마찰 없음.',
+    'how.step1.title': '타입 선택',
+    'how.step1.desc': 'URL, 텍스트, 연락처(vCard), 이메일, 전화번호, 와이파이 중에서 선택하세요. 6가지 포맷이 거의 모든 QR 활용을 커버합니다.',
+    'how.step2.title': '디자인',
+    'how.step2.desc': '색상, 도트 모양, 모서리 스타일을 조정하고 중앙에 로고를 넣어보세요. 6가지 내장 프리셋도 한 번의 클릭으로 적용됩니다.',
+    'how.step3.title': '내보내기',
+    'how.step3.desc': '화면용은 PNG, 인쇄용은 SVG. 모든 처리는 로컬에서 — 어떤 데이터도 브라우저를 떠나지 않습니다.',
+
+    // FAQ
+    'faq.eyebrow': '자주 묻는 질문',
+    'faq.title': '궁금한 점이 있으신가요?',
+    'faq.q1.q': 'Quon은 무료인가요?',
+    'faq.q1.a': '네, Quon은 완전히 무료입니다. 회원가입이나 결제 없이 무제한으로 QR 코드를 생성하고 다운로드할 수 있습니다.',
+    'faq.q2.q': '어떤 종류의 QR 코드를 만들 수 있나요?',
+    'faq.q2.a': 'URL(링크), 일반 텍스트, 연락처(vCard), 이메일, 전화번호, 와이파이 접속 정보 등 6가지 타입을 지원합니다. 명함 QR, 와이파이 공유 QR, 링크 QR 등 다양한 용도로 활용할 수 있습니다.',
+    'faq.q3.q': 'QR 코드에 로고를 넣을 수 있나요?',
+    'faq.q3.a': '네, 중앙에 로고 이미지를 삽입할 수 있으며 크기 조절도 가능합니다. 스캔 안정성을 위해 오류 정정 레벨이 자동으로 관리됩니다.',
+    'faq.q4.q': '생성한 QR 코드는 어디에 저장되나요?',
+    'faq.q4.a': '모든 QR 코드는 사용자의 브라우저에서만 생성되며 서버로 전송되지 않습니다. 최근 생성 이력은 로컬 저장소(localStorage)에만 저장되어 개인정보가 안전합니다.',
+    'faq.q5.q': '어떤 파일 형식으로 다운로드할 수 있나요?',
+    'faq.q5.a': 'PNG(래스터) 또는 SVG(벡터) 형식으로 다운로드할 수 있습니다. 인쇄물에는 SVG가, 웹/앱에는 PNG가 적합합니다.',
+    'faq.q6.q': '상업적 용도로 사용할 수 있나요?',
+    'faq.q6.a': '네, 생성한 QR 코드는 개인 용도는 물론 명함, 마케팅 자료, 매장 안내, 제품 포장 등 상업적 용도로도 자유롭게 사용할 수 있습니다.',
+
+    // 푸터
+    'footer.tagline': '무료 QR 코드 생성기'
 };
 
 // Also export for module systems (if available)
