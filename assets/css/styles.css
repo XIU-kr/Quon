@@ -343,6 +343,7 @@ main {
   line-height: 0.95;
   letter-spacing: -0.04em;
   margin: 0 0 1.5rem;
+  white-space: pre-line;
   background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
   -webkit-background-clip: text;
   background-clip: text;

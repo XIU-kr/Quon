@@ -300,8 +300,8 @@ window.en = {
     'nav.about': 'About',
 
     // Hero
-    'hero.eyebrow': '◇ QR GENERATOR · v1.5',
-    'hero.title': 'Craft custom QR codes.',
+    'hero.eyebrow': '◇ QR GENERATOR',
+    'hero.title': 'Quon -\nQR Code Generator',
     'hero.tagline': 'Free, fast, privacy-first. Six formats. Six presets. Export PNG or SVG in one tap — no signup, no upload, 100% in your browser.',
     'stat.types': 'TYPES',
     'stat.generations': 'GENERATIONS',

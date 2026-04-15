@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트
 
-Quon은 GitHub Pages(**quon.xiu.kr**)로 호스팅되는 무료 맞춤형 QR 코드 생성기입니다. **빌드 도구, 번들러, 프레임워크 없는 순수 정적 사이트**로, 바닐라 HTML/CSS/JS와 CDN으로 로드하는 `qr-code-styling` v1.5.0 라이브러리로 동작합니다.
+Quon은 GitHub Pages(**quon.xiu.kr**)로 호스팅되는 무료 맞춤형 QR 코드 생성기입니다. **빌드 도구, 번들러, 프레임워크 없는 순수 정적 사이트**로, 바닐라 HTML/CSS/JS와 CDN으로 로드하는 `qr-code-styling` 라이브러리로 동작합니다.
 
 ## 개발
 

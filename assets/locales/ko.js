@@ -300,8 +300,8 @@ window.ko = {
     'nav.about': '소개',
 
     // 히어로
-    'hero.eyebrow': '◇ QR 코드 생성기 · v1.5',
-    'hero.title': '당신만의 QR을 디자인하세요.',
+    'hero.eyebrow': '◇ QR 코드 생성기',
+    'hero.title': 'Quon -\nQR 코드 생성기',
     'hero.tagline': '무료, 빠름, 프라이버시 우선. 6가지 포맷, 6가지 프리셋. PNG·SVG 원탭 내보내기 — 가입 없음, 업로드 없음, 100% 브라우저 로컬.',
     'stat.types': '타입',
     'stat.generations': '생성 횟수',
