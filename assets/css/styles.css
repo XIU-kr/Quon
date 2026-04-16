@@ -233,11 +233,10 @@ body {
   background: var(--accent);
   transition: width 0.3s var(--ease-out);
 }
-.nav-links a:hover {
+.nav-links a:where(:hover, :focus-visible) {
   color: var(--text);
 }
-.nav-links a:hover::after,
-.nav-links a:focus-visible::after {
+.nav-links a:where(:hover, :focus-visible)::after {
   width: 100%;
 }
 .nav-end {
@@ -285,7 +284,7 @@ body {
   text-decoration: none;
   transition: color 0.25s var(--ease-out);
 }
-.nav-privacy:hover { color: var(--accent); }
+.nav-privacy:where(:hover, :focus-visible) { color: var(--accent); }
 
 /* ============================================================
    Section labels & headings
@@ -424,6 +423,7 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  min-height: 44px;
   padding: 0.6rem 1.1rem;
   background: transparent;
   border: 1px solid var(--border);
@@ -438,7 +438,7 @@ main {
   transition: all 0.25s var(--ease-out);
 }
 .tab-btn svg { width: 14px; height: 14px; }
-.tab-btn:hover {
+.tab-btn:where(:hover, :focus-visible) {
   border-color: var(--accent-dim);
   color: var(--accent);
 }
@@ -482,7 +482,7 @@ main {
 /* ── type selector (filter pills) ── */
 .type-selector {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 0.6rem;
 }
 .type-btn {
@@ -490,6 +490,7 @@ main {
   align-items: center;
   justify-content: center;
   gap: 0.55rem;
+  min-height: 44px;
   padding: 0.75rem 1rem;
   background: transparent;
   border: 1px solid var(--border);
@@ -504,7 +505,7 @@ main {
   transition: all 0.25s var(--ease-out);
 }
 .type-btn .icon { font-size: 1rem; line-height: 1; filter: saturate(0.85); }
-.type-btn:hover {
+.type-btn:where(:hover, :focus-visible) {
   border-color: var(--accent-dim);
   color: var(--accent);
 }
@@ -576,7 +577,8 @@ main {
   padding: 0.75rem 0.95rem;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  /* 16px minimum prevents iOS Safari focus auto-zoom. */
+  font-size: 1rem;
   line-height: 1.5;
   transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), background 0.2s var(--ease-out);
 }
@@ -608,7 +610,8 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
 
 .input-sm {
   padding: 0.55rem 0.75rem;
-  font-size: 0.85rem;
+  /* 16px minimum prevents iOS Safari focus auto-zoom. */
+  font-size: 1rem;
 }
 .select-sm {
   background: var(--bg-surface);
@@ -636,6 +639,8 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.25rem 0;
   font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--text);
@@ -646,8 +651,8 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
 .checkbox-label input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border: 1px solid var(--border-strong);
   border-radius: 4px;
   background: var(--bg-surface);
@@ -662,7 +667,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
 .checkbox-label input[type="checkbox"]:checked::after {
   content: '';
   position: absolute;
-  inset: 3px;
+  inset: 4px;
   background: var(--bg);
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%);
 }
@@ -682,7 +687,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   padding: 4px;
   transition: border-color 0.2s var(--ease-out);
 }
-.color-input:hover { border-color: var(--accent); }
+.color-input:where(:hover, :focus-visible) { border-color: var(--accent); }
 .color-input::-webkit-color-swatch-wrapper { padding: 0; }
 .color-input::-webkit-color-swatch { border: none; border-radius: 6px; }
 
@@ -735,7 +740,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   background: var(--bg-surface);
   transition: border-color 0.2s var(--ease-out);
 }
-.design-group:hover { border-color: var(--border-strong); }
+.design-group:where(:hover, :focus-within) { border-color: var(--border-strong); }
 .design-group > summary {
   cursor: pointer;
   font-family: var(--font-mono);
@@ -786,7 +791,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   cursor: pointer;
   transition: all 0.25s var(--ease-out);
 }
-.btn-generate:hover {
+.btn-generate:where(:hover, :focus-visible) {
   background: var(--accent-bright);
   box-shadow: 0 0 30px var(--accent-glow-strong);
   transform: translateY(-1px);
@@ -816,12 +821,12 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   cursor: pointer;
   transition: all 0.2s var(--ease-out);
 }
-.btn-sm:hover {
+.btn-sm:where(:hover, :focus-visible) {
   border-color: var(--accent);
   color: var(--accent);
 }
 .btn-sm--danger { color: var(--danger); border-color: rgba(239, 90, 107, 0.3); }
-.btn-sm--danger:hover { border-color: var(--danger); color: var(--danger); }
+.btn-sm--danger:where(:hover, :focus-visible) { border-color: var(--danger); color: var(--danger); }
 
 .btn-export {
   display: inline-flex;
@@ -841,7 +846,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   cursor: pointer;
   transition: all 0.25s var(--ease-out);
 }
-.btn-export:hover:not(:disabled) {
+.btn-export:where(:hover, :focus-visible):not(:disabled) {
   background: var(--accent-bright);
   box-shadow: 0 0 24px var(--accent-glow-strong);
 }
@@ -855,7 +860,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   color: var(--accent);
   border: 1px solid var(--accent);
 }
-.btn-export--outline:hover:not(:disabled) {
+.btn-export--outline:where(:hover, :focus-visible):not(:disabled) {
   background: var(--accent-glow);
   color: var(--accent);
 }
@@ -871,8 +876,8 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
 }
 
 .btn-icon {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -884,7 +889,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   cursor: pointer;
   transition: all 0.2s var(--ease-out);
 }
-.btn-icon:hover {
+.btn-icon:where(:hover, :focus-visible) {
   border-color: var(--accent);
   color: var(--accent);
   background: var(--accent-glow);
@@ -912,10 +917,10 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   cursor: pointer;
   transition: all 0.25s var(--ease-out);
 }
-.preset-btn:hover,
-.custom-preset-btn:hover,
-.pin-slot:hover,
-.history-list li:not(.history-empty):hover {
+.preset-btn:where(:hover, :focus-visible),
+.custom-preset-btn:where(:hover, :focus-visible),
+.pin-slot:where(:hover, :focus-visible),
+.history-list li:not(.history-empty):where(:hover, :focus-visible) {
   border-color: var(--accent-dim);
   background: var(--bg-card-hover);
   transform: translateX(4px);
@@ -959,7 +964,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   gap: 0.6rem;
   margin: 1rem 0 0.5rem;
 }
-.history-toolbar .input-sm { flex: 1 1 180px; min-width: 0; }
+.history-toolbar .input-sm { flex: 1 1 140px; min-width: 0; }
 .history-list {
   list-style: none;
   margin: 0;
@@ -1179,7 +1184,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   padding: 1.1rem 1.4rem;
   transition: border-color 0.25s var(--ease-out);
 }
-.faq-list details:hover { border-color: var(--accent-dim); }
+.faq-list details:where(:hover, :focus-within) { border-color: var(--accent-dim); }
 .faq-list details[open] { border-color: var(--accent); }
 .faq-list summary {
   cursor: pointer;
@@ -1271,7 +1276,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   margin: 0 0.35rem;
   transition: color 0.2s var(--ease-out);
 }
-.footer-links a:hover { color: var(--accent); }
+.footer-links a:where(:hover, :focus-visible) { color: var(--accent); }
 
 /* ============================================================
    Bottom ad banner
@@ -1302,11 +1307,12 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
 }
 .mobile-action {
   flex: 1;
+  min-height: 44px;
   background: transparent;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   color: var(--text);
-  padding: 0.6rem 0.4rem;
+  padding: 0.85rem 0.4rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.06em;
@@ -1320,7 +1326,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   border-color: var(--accent);
   font-weight: 700;
 }
-.mobile-action:not(.primary):hover { border-color: var(--accent); color: var(--accent); }
+.mobile-action:not(.primary):where(:hover, :focus-visible) { border-color: var(--accent); color: var(--accent); }
 .mobile-more-panel {
   position: absolute;
   bottom: 100%;
@@ -1347,7 +1353,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   cursor: pointer;
   transition: all 0.2s var(--ease-out);
 }
-.mobile-more-btn:hover { border-color: var(--accent); color: var(--accent); }
+.mobile-more-btn:where(:hover, :focus-visible) { border-color: var(--accent); color: var(--accent); }
 
 /* ============================================================
    Reveal-on-scroll
@@ -1415,6 +1421,28 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ============================================================
+   Dynamic viewport height (dvh) override.
+   Keeps `vh` rules above as the fallback for older browsers
+   (Safari < 15.4), while modern engines use `dvh` to avoid
+   reflow when the iOS Safari address bar hides/shows.
+   ============================================================ */
+@supports (height: 100dvh) {
+  html, body { min-height: 100dvh; }
+  .hero {
+    padding: clamp(7rem, 14dvh, 10rem) clamp(1.25rem, 5vw, 4rem) clamp(3rem, 6dvh, 4rem);
+  }
+  .workspace {
+    padding: clamp(2rem, 4dvh, 3rem) clamp(1.25rem, 5vw, 4rem) clamp(4rem, 8dvh, 6rem);
+  }
+  .how-it-works {
+    padding: clamp(4rem, 8dvh, 6rem) clamp(1.25rem, 5vw, 4rem);
+  }
+  .faq {
+    padding: clamp(3rem, 6dvh, 5rem) clamp(1.25rem, 5vw, 4rem) clamp(4rem, 8dvh, 6rem);
+  }
 }
 
 /* ============================================================
