@@ -191,9 +191,6 @@ window.en = {
     'button.generating': 'Generating...',
     'button.download.png': 'Download PNG',
     'button.download.svg': 'Download SVG',
-    'button.share': 'Share',
-    'button.last_preset': 'Last Preset',
-    'button.more': 'More',
 
     // Accessibility labels
     'a11y.skip': 'Skip to workspace',
@@ -250,15 +247,6 @@ window.en = {
     'cases.c3.title': 'Portfolio sharing',
     'cases.c3.body': 'Attach polished QR cards to resumes, booths, and printed kits.',
 
-    // Share
-    'share.title': 'QR from Quon',
-    'share.text': 'Shared from Quon QR generator',
-    'share.success': 'Shared successfully',
-    'share.copied': 'Copied QR content to clipboard',
-    'share.no_content': 'Generate a QR code first before sharing',
-    'share.failed': 'Share failed on this device',
-    'preset.last.empty': 'No previous preset found yet',
-    
     // Messages
     'message.empty': 'Enter content and click "Generate QR Code"',
     'message.error.empty': 'Please enter the content for the QR code',

@@ -230,15 +230,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     renderGenerationHistory();
     renderHistoryPins();
     refreshCustomPresetButtons();
-    updateMobileLastPresetButton();
     createInitialQRCode();
     // Disable download buttons initially
     document.getElementById('download-png').disabled = true;
     document.getElementById('download-svg').disabled = true;
-    const mobilePng = document.getElementById('mobile-download-png');
-    const mobileSvg = document.getElementById('mobile-download-svg');
-    if (mobilePng) mobilePng.disabled = true;
-    if (mobileSvg) mobileSvg.disabled = true;
 });
 
 function applyDesignPreset(presetKey) {
@@ -265,7 +260,6 @@ function applyDesignPreset(presetKey) {
     markPresetSelection(presetKey);
     lastAppliedPresetKey = presetKey;
     persistLastPreset();
-    updateMobileLastPresetButton();
     saveRecentSettings();
     generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
     showNotification(t('preset.applied'), 'success');
@@ -326,14 +320,6 @@ function restoreLastPreset() {
     }
 }
 
-function updateMobileLastPresetButton() {
-    const button = document.getElementById('mobile-last-preset');
-    if (!button) {
-        return;
-    }
-    button.disabled = !lastAppliedPresetKey;
-}
-
 function persistHistoryView() {
     try {
         localStorage.setItem(HISTORY_VIEW_KEY, JSON.stringify({ filter: historyFilter, query: historyQuery, sort: historySort }));
@@ -371,21 +357,6 @@ function restoreHistoryView() {
     if (sortEl) {
         sortEl.value = historySort;
     }
-}
-
-function applyLastPreset() {
-    if (!lastAppliedPresetKey) {
-        showNotification(t('preset.last.empty'));
-        return;
-    }
-
-    if (lastAppliedPresetKey.startsWith('custom:')) {
-        const slot = lastAppliedPresetKey.split(':')[1];
-        applyCustomPreset(slot);
-        return;
-    }
-
-    applyDesignPreset(lastAppliedPresetKey);
 }
 
 function resetDesignToDefault() {
@@ -483,7 +454,6 @@ function applyCustomPreset(slot) {
     markPresetSelection();
     lastAppliedPresetKey = `custom:${slot}`;
     persistLastPreset();
-    updateMobileLastPresetButton();
     saveRecentSettings();
     generateQRCode({ silent: true, focusDownload: false, recordHistory: false });
     showNotification(t('preset.custom.applied'), 'success');
@@ -660,70 +630,6 @@ function initializeEventListeners() {
     // Download buttons
     document.getElementById('download-png').addEventListener('click', () => downloadQR('png'));
     document.getElementById('download-svg').addEventListener('click', () => downloadQR('svg'));
-
-    const mobileGenerate = document.getElementById('mobile-generate');
-    if (mobileGenerate) {
-        mobileGenerate.addEventListener('click', () => generateQRCode());
-    }
-
-    const mobileDownloadPng = document.getElementById('mobile-download-png');
-    if (mobileDownloadPng) {
-        mobileDownloadPng.addEventListener('click', () => downloadQR('png'));
-    }
-
-    const mobileDownloadSvg = document.getElementById('mobile-download-svg');
-    if (mobileDownloadSvg) {
-        mobileDownloadSvg.addEventListener('click', () => {
-            downloadQR('svg');
-            const panel = document.getElementById('mobile-more-panel');
-            if (panel) panel.hidden = true;
-        });
-    }
-
-    const mobileShare = document.getElementById('mobile-share');
-    if (mobileShare) {
-        mobileShare.addEventListener('click', shareCurrentQr);
-    }
-
-    const mobileLastPreset = document.getElementById('mobile-last-preset');
-    if (mobileLastPreset) {
-        mobileLastPreset.addEventListener('click', () => {
-            applyLastPreset();
-            const panel = document.getElementById('mobile-more-panel');
-            if (panel) panel.hidden = true;
-        });
-    }
-
-    const mobileMoreToggle = document.getElementById('mobile-more-toggle');
-    const mobileMorePanel = document.getElementById('mobile-more-panel');
-    if (mobileMoreToggle && mobileMorePanel) {
-        mobileMoreToggle.addEventListener('click', () => {
-            mobileMorePanel.hidden = !mobileMorePanel.hidden;
-            mobileMoreToggle.setAttribute('aria-expanded', String(!mobileMorePanel.hidden));
-        });
-
-        document.addEventListener('click', (event) => {
-            const target = event.target;
-            if (!(target instanceof HTMLElement)) {
-                return;
-            }
-            if (mobileMorePanel.hidden) {
-                return;
-            }
-            if (target.id === 'mobile-more-toggle' || mobileMorePanel.contains(target)) {
-                return;
-            }
-            mobileMorePanel.hidden = true;
-            mobileMoreToggle.setAttribute('aria-expanded', 'false');
-        });
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && !mobileMorePanel.hidden) {
-                mobileMorePanel.hidden = true;
-                mobileMoreToggle.setAttribute('aria-expanded', 'false');
-            }
-        });
-    }
 
     // Logo upload
     document.getElementById('logo-upload').addEventListener('change', handleLogoUpload);
@@ -1678,10 +1584,6 @@ function generateQRCode(options = {}) {
             const downloadSvgButton = document.getElementById('download-svg');
             downloadPngButton.disabled = false;
             downloadSvgButton.disabled = false;
-            const mobilePng = document.getElementById('mobile-download-png');
-            const mobileSvg = document.getElementById('mobile-download-svg');
-            if (mobilePng) mobilePng.disabled = false;
-            if (mobileSvg) mobileSvg.disabled = false;
             if (focusDownload) {
                 downloadPngButton.focus({ preventScroll: true });
             }
@@ -1705,58 +1607,6 @@ function generateQRCode(options = {}) {
             setGeneratingState(false);
         }
     });
-}
-
-async function shareCurrentQr() {
-    const shareContent = lastGeneratedContent || getQRContent();
-    if (!shareContent) {
-        showNotification(t('share.no_content'));
-        return;
-    }
-
-    const payload = {
-        title: t('share.title'),
-        text: t('share.text')
-    };
-
-    if (shareContent.startsWith('http://') || shareContent.startsWith('https://')) {
-        payload.url = shareContent;
-    } else {
-        payload.text = `${t('share.text')}\n${shareContent}`;
-    }
-
-    try {
-        if (navigator.share) {
-            const canvas = document.querySelector('#qr-code-container canvas');
-            if (canvas && navigator.canShare) {
-                const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
-                if (blob) {
-                    const file = new File([blob], `quon-${Date.now()}.png`, { type: 'image/png' });
-                    const filePayload = { ...payload, files: [file] };
-                    if (navigator.canShare(filePayload)) {
-                        await navigator.share(filePayload);
-                        showNotification(t('share.success'), 'success');
-                        return;
-                    }
-                }
-            }
-
-            await navigator.share(payload);
-            showNotification(t('share.success'), 'success');
-            return;
-        }
-
-        if (navigator.clipboard?.writeText) {
-            await navigator.clipboard.writeText(shareContent);
-            showNotification(t('share.copied'), 'success');
-            return;
-        }
-    } catch (error) {
-        showNotification(t('share.failed'));
-        return;
-    }
-
-    showNotification(t('share.failed'));
 }
 
 // Download QR code

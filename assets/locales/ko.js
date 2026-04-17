@@ -191,9 +191,6 @@ window.ko = {
     'button.generating': '생성 중...',
     'button.download.png': 'PNG 다운로드',
     'button.download.svg': 'SVG 다운로드',
-    'button.share': '공유',
-    'button.last_preset': '최근 프리셋',
-    'button.more': '더보기',
 
     // Accessibility labels
     'a11y.skip': '작업공간으로 건너뛰기',
@@ -250,15 +247,6 @@ window.ko = {
     'cases.c3.title': '포트폴리오 공유',
     'cases.c3.body': '이력서, 부스, 인쇄물에 완성도 높은 QR 카드를 연결하세요.',
 
-    // Share
-    'share.title': 'Quon QR 공유',
-    'share.text': 'Quon QR 생성기에서 공유되었습니다',
-    'share.success': '공유 완료',
-    'share.copied': 'QR 내용이 클립보드에 복사되었습니다',
-    'share.no_content': '공유하려면 먼저 QR을 생성해주세요',
-    'share.failed': '이 기기에서 공유에 실패했습니다',
-    'preset.last.empty': '아직 적용한 프리셋이 없습니다',
-    
     // Messages
     'message.empty': '내용을 입력하고 "QR 코드 만들기"를 눌러주세요',
     'message.error.empty': 'QR 코드에 담을 내용을 입력해주세요',
