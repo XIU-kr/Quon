@@ -1,7 +1,7 @@
 /* ============================================================
    Quon — Obsidian Gold Edition
    Visual sibling of xiu.kr. Gold accent (#d4a016) + teal (#2dd4a8),
-   Syne display + Outfit body + Fira Code mono, layered grid + glow.
+   Space Grotesk display + Outfit body + Fira Code mono, layered grid + glow.
    Class vocabulary kept stable for script.js DOM hooks.
    ============================================================ */
 
@@ -68,7 +68,7 @@
   --shadow-glow: 0 0 24px var(--accent-glow-strong), 0 0 48px var(--accent-glow);
 
   /* ── type stacks ── */
-  --font-display: "Syne", "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
+  --font-display: "Space Grotesk", "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
   --font-body:    "Outfit", "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", -apple-system, sans-serif;
   --font-mono:    "Fira Code", "Pretendard Variable", "SFMono-Regular", "JetBrains Mono", monospace;
 
@@ -190,7 +190,7 @@ body {
 }
 .nav-logo {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 1.35rem;
   letter-spacing: -0.02em;
   color: var(--accent);
@@ -337,10 +337,10 @@ main {
 }
 .hero-headline {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(3rem, 8vw, 6.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
+  font-weight: 700;
+  font-size: clamp(2.75rem, 7vw, 5.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
   margin: 0 0 1.5rem;
   white-space: pre-line;
   background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);

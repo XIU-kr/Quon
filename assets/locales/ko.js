@@ -294,7 +294,7 @@ window.ko = {
 
     // 히어로
     'hero.eyebrow': '◇ QR 코드 생성기',
-    'hero.title': 'Quon -\nQR 코드 생성기',
+    'hero.title': '예쁜 QR 코드,\n몇 초면 완성.',
     'hero.tagline': 'URL·와이파이·명함 등 6가지 타입을 지원해요. 색상과 모양을 원하는 대로 꾸미고 PNG·SVG로 바로 내보내세요.',
     'stat.types': '타입',
     'stat.generations': '생성 횟수',

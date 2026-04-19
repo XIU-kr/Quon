@@ -294,7 +294,7 @@ window.en = {
 
     // Hero
     'hero.eyebrow': '◇ QR GENERATOR',
-    'hero.title': 'Quon -\nQR Code Generator',
+    'hero.title': 'Beautiful QR codes,\nmade in seconds.',
     'hero.tagline': 'Make QR codes for URLs, Wi-Fi, contacts, and more. Tweak the colors and shapes, then export as PNG or SVG in one tap.',
     'stat.types': 'TYPES',
     'stat.generations': 'GENERATIONS',
