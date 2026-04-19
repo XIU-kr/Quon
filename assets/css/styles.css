@@ -1106,6 +1106,7 @@ select.input-field option { background: var(--bg-card); color: var(--text); }
   isolation: isolate;
 }
 .preview-stage.is-empty .preview-canvas-shell {
+  background: transparent;
   border: 1px dashed var(--border-strong);
 }
 
