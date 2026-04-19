@@ -289,7 +289,6 @@ window.ko = {
 
     // 네비게이션
     'nav.create': '생성',
-    'nav.how': '사용 방법',
     'nav.faq': 'FAQ',
     'nav.about': '소개',
 
@@ -301,16 +300,6 @@ window.ko = {
     'stat.generations': '생성 횟수',
     'stat.local': '로컬',
     'stat.export': '내보내기',
-
-    // 사용 방법
-    'how.eyebrow': '사용 방법',
-    'how.title': '세 단계, 마찰 없음.',
-    'how.step1.title': '타입 선택',
-    'how.step1.desc': 'URL, 텍스트, 연락처(vCard), 이메일, 전화번호, 와이파이 중에서 선택하세요. 6가지 포맷이 거의 모든 QR 활용을 커버합니다.',
-    'how.step2.title': '디자인',
-    'how.step2.desc': '색상, 도트 모양, 모서리 스타일을 조정하고 중앙에 로고를 넣어보세요. 6가지 내장 프리셋도 한 번의 클릭으로 적용됩니다.',
-    'how.step3.title': '내보내기',
-    'how.step3.desc': '화면용은 PNG, 인쇄용은 SVG. 모든 처리는 로컬에서 — 어떤 데이터도 브라우저를 떠나지 않습니다.',
 
     // FAQ
     'faq.eyebrow': '자주 묻는 질문',

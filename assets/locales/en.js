@@ -289,7 +289,6 @@ window.en = {
 
     // Nav
     'nav.create': 'Create',
-    'nav.how': 'How it works',
     'nav.faq': 'FAQ',
     'nav.about': 'About',
 
@@ -301,16 +300,6 @@ window.en = {
     'stat.generations': 'GENERATIONS',
     'stat.local': 'LOCAL',
     'stat.export': 'EXPORT',
-
-    // How it works
-    'how.eyebrow': 'HOW IT WORKS',
-    'how.title': 'Three steps, zero friction.',
-    'how.step1.title': 'Pick a type',
-    'how.step1.desc': 'Choose URL, text, contact (vCard), email, phone, or Wi-Fi. Six formats cover almost every QR use case.',
-    'how.step2.title': 'Style it',
-    'how.step2.desc': 'Tune colors, dot shapes, and corner styles. Drop a logo into the center. Apply one of six built-in presets in a click.',
-    'how.step3.title': 'Export',
-    'how.step3.desc': 'Download PNG for screens or SVG for print. Everything happens locally — nothing ever leaves your browser.',
 
     // FAQ
     'faq.eyebrow': 'FAQ',
