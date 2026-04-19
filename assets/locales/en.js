@@ -11,6 +11,12 @@ window.en = {
     'type.email': 'Email',
     'type.tel': 'Phone',
     'type.wifi': 'Wi-Fi',
+    'type.url.desc': 'Links, pages, menus',
+    'type.text.desc': 'Any ~2KB of text',
+    'type.vcard.desc': 'A contact card',
+    'type.email.desc': 'Prefilled mailto',
+    'type.tel.desc': 'Tap-to-call number',
+    'type.wifi.desc': 'SSID + password',
     
     // Section titles
     'section.type': 'Select Code Type',

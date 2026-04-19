@@ -11,6 +11,12 @@ window.ko = {
     'type.email': '이메일',
     'type.tel': '전화',
     'type.wifi': '와이파이',
+    'type.url.desc': '링크·페이지·메뉴',
+    'type.text.desc': '최대 2KB의 자유 텍스트',
+    'type.vcard.desc': '연락처 카드',
+    'type.email.desc': '수신자가 미리 채워진 메일',
+    'type.tel.desc': '원탭 전화 걸기',
+    'type.wifi.desc': 'SSID와 비밀번호',
     
     // Section titles
     'section.type': '코드 종류 선택',
