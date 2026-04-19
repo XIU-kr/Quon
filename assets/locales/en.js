@@ -296,7 +296,7 @@ window.en = {
     // Hero
     'hero.eyebrow': '◇ QR GENERATOR',
     'hero.title': 'Quon -\nQR Code Generator',
-    'hero.tagline': 'Free, fast, privacy-first. Six formats. Six presets. Export PNG or SVG in one tap — no signup, no upload, 100% in your browser.',
+    'hero.tagline': 'Make QR codes for URLs, Wi-Fi, contacts, and more. Tweak the colors and shapes, then export as PNG or SVG in one tap.',
     'stat.types': 'TYPES',
     'stat.generations': 'GENERATIONS',
     'stat.local': 'LOCAL',
