@@ -33,7 +33,7 @@ rendered in the browser; your data never leaves the device.
 - 6 built-in design presets + 3 user preset slots
 - Independent control over dot, corner, and background colors
 - Center logo overlay (PNG / JPG upload)
-- 5 dot shapes, 3 corner styles
+- 6 dot shapes, 3 corner-square styles, 2 corner-dot styles
 
 ### Export & history
 
@@ -58,10 +58,10 @@ rendered in the browser; your data never leaves the device.
 
 ## How to use
 
-1. Choose a QR **type** from the top tab bar
-2. Enter your content
-3. (Optional) Open the **Design** tab to adjust colors, logo, and dot shapes
-4. Hit **Generate**, then download as **PNG** or **SVG**
+1. On the **Create** tab, pick a type card — URL, text, vCard, email, phone, or Wi-Fi
+2. Fill in the form for that type
+3. (Optional) Switch to the **Design** tab to tweak colors, dot shape, corner style, and logo
+4. Hit **Generate**, then download as **PNG** or **SVG** from the **Export** tab
 
 ## License
 
